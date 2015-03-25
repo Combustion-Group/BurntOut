@@ -1,0 +1,225 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#454545" >
+
+    <ImageView
+        android:id="@+id/ap_item_vtype"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitXY" />
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+		<!-- 
+       <ImageButton
+           android:id="@+id/edit_button"
+           android:layout_width="50dp"
+           android:layout_height="50dp"
+           android:background="#00000000"
+           android:onClick="goAway"
+           android:scaleType="centerInside"
+           android:src="@drawable/x" />
+		-->
+       <TextView
+           android:id="@+id/labelone"
+           android:layout_width="279dp"
+           android:layout_height="wrap_content"
+             android:layout_gravity="center"
+           android:layout_marginTop="10dp"
+           android:text="Notifications"
+           android:textColor="#ffffff" />
+            
+            <RelativeLayout
+                android:id="@+id/pnholder"
+                android:layout_width="300dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/corner_edit"
+                android:layout_height="40dp" >
+
+                <TextView
+                    android:id="@+id/deleteCarModel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="Push Notifications"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#ffffff"
+                    android:textSize="12sp" />
+
+                <Switch
+                    android:id="@+id/pushnotificationsswitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="" />
+
+            
+            </RelativeLayout>
+            <!-- 
+                     <RelativeLayout
+                android:id="@+id/fnholder"
+                android:layout_width="300dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/corner_edit"
+                android:layout_height="40dp" >
+			
+                <TextView
+                    android:id="@+id/tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Facebook Notifications"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#ffffff"
+                    android:textSize="12sp" />
+
+  		  
+          <Switch
+                    android:id="@+id/facebooknotificationsswitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="" />
+         
+            </RelativeLayout>
+            -->
+               <TextView
+                   android:id="@+id/l3"
+                   android:layout_width="251dp"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentTop="true"
+                   android:layout_gravity="center"
+               
+                   android:layout_marginTop="10dp"
+                   android:text="Burnt Out Info"
+                   android:textColor="#ffffff" />
+
+               <Button
+                   android:id="@+id/editinfobutton"
+                   android:layout_gravity="center"
+                  android:onClick="goToEditProfile"
+                   android:layout_width="292dp"
+                   android:textColor="#ffffff"
+                   android:gravity="left|center"
+                   android:layout_marginTop="5dp"
+                   android:textSize="12sp"
+                   android:background="@drawable/settings_button"
+                   android:layout_height="40dp"
+                   android:text="Edit Info" />
+                     
+                     
+               <TextView
+                   android:id="@+id/labeltwo"
+                   android:layout_width="251dp"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentTop="true"
+                   android:layout_gravity="center"
+               
+                   android:layout_marginTop="10dp"
+                   android:text="Vehicles"
+                   android:textColor="#ffffff" />
+
+               <Button
+                   android:id="@+id/editvehicle"
+                   android:layout_gravity="center"
+                  
+                   android:layout_width="292dp"
+                   android:textColor="#ffffff"
+                   android:gravity="left|center"
+                   android:layout_marginTop="5dp"
+                   android:textSize="12sp"
+                   android:background="@drawable/settings_button"
+                   android:layout_height="40dp"
+                   android:text="Edit Vehicles"
+                   android:onClick="gotoDelete"
+                    />
+
+               <TextView
+                   android:id="@+id/labelthree"
+                   android:layout_width="268dp"
+                   android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                   android:layout_marginTop="10dp"
+                   android:text="Combustion Innovation"
+                   android:textColor="#ffffff" />
+                    
+                      <Button
+                          android:id="@+id/privacyb"
+                          android:layout_width="292dp"
+                          android:layout_height="40dp"
+                          android:layout_gravity="center"
+                          android:layout_marginTop="5dp"
+                          android:background="@drawable/settings_button"
+                          android:gravity="left|center"
+                          android:onClick="privacyWasPressed"
+                          android:text="Privacy"
+                          android:textColor="#ffffff"
+                          android:textSize="12sp" />
+
+                             <Button
+                                 android:id="@+id/termsb"
+                                 android:layout_width="292dp"
+                                 android:layout_height="40dp"
+                                 android:layout_gravity="center"
+                                 android:layout_marginTop="8dp"
+                                 android:background="@drawable/settings_button"
+                                 android:gravity="left|center"
+                                 android:onClick="termsWasPressed"
+                                 android:text="Terms Of Service"
+                                 android:textColor="#ffffff"
+                                 android:textSize="12sp" />
+
+                                    <Button
+                                        android:id="@+id/contactb"
+                                        android:layout_width="292dp"
+                                        android:layout_height="40dp"
+                                        android:layout_gravity="center"
+                                        android:layout_marginTop="8dp"
+                                        android:background="@drawable/settings_button"
+                                        android:gravity="left|center"
+                                        android:onClick="emailCombustion"
+                                        android:text="Contact"
+                                        android:textColor="#ffffff"
+                                        android:textSize="12sp" />
+
+                                    <RelativeLayout
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="fill_parent" >
+
+                                    </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/logoutb"
+        android:layout_width="292dp"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/logout_button"
+        android:onClick="logOut"
+        android:text="SIGN OUT"
+        android:textColor="#ffffff" />
+
+</RelativeLayout>

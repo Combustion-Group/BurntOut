@@ -1,0 +1,82 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#454545"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.burntout.burntout.EditProfileActivity" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/ap_item_vtype"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:src="@drawable/profileplaceholder" />
+
+        <EditText
+            android:id="@+id/editprof_fname"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/corner_edit"
+            android:ems="10"
+            android:singleLine="true"
+            android:text="First Name" >
+
+            <requestFocus />
+        </EditText>
+
+        <EditText
+            android:id="@+id/editprof_lname"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/corner_edit"
+            android:ems="10"
+            android:singleLine="true"
+            android:text="Last Name" />
+
+        <EditText
+            android:id="@+id/editprof_email"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/corner_edit"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:singleLine="true"
+            android:text="email@domain.com" />
+
+        <Button
+            android:id="@+id/editprof_submitbtn"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/addvehiclebutton_2x"
+            android:onClick="submitClick"
+            android:text="SUBMIT" />
+
+        <Button
+            android:id="@+id/editprof_changepwdbtn"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/signoutbutton"
+            android:onClick="changePwdClick"
+            android:text="CHANGE PASSWORD" />
+
+    </LinearLayout>
+
+</RelativeLayout>
