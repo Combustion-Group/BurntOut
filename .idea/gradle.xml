@@ -14,8 +14,15 @@
             <option value="$PROJECT_DIR$/facebookSDK" />
           </set>
         </option>
+        <option name="myModules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/burntOutMove" />
+            <option value="$PROJECT_DIR$/circularImageView" />
+            <option value="$PROJECT_DIR$/facebookSDK" />
+          </set>
+        </option>
       </GradleProjectSettings>
     </option>
   </component>
 </project>
-
