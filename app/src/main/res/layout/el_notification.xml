@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="@color/background_gray">
+
+    <Space
+        android:id="@+id/heading_space"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_widthPercent="20%"
+        app:layout_aspectRatio="100%"/>
+
+    <ScrollView
+        android:id="@+id/report_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_widthPercent="70%"
+        app:layout_marginEndPercent="4%"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@id/heading_space"
+        android:layout_alignBottom="@id/heading_space">
+
+        <TextView
+            android:id="@+id/report"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Firstname L has reported that your lights have burnt out."
+            android:textColor="@android:color/white"/>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/timestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Just Now"
+        android:textStyle="italic"
+        android:textColor="@android:color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/heading_space"
+        android:layout_marginTop="8dp"/>
+
+    <View
+        android:id="@+id/vehicle_background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_widthPercent="25%"
+        app:layout_aspectRatio="100%"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/timestamp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/style_circle_blue"/>
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_widthPercent="80%"
+        app:layout_aspectRatio="400%"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignTop="@id/vehicle_background"
+        android:layout_alignBottom="@id/vehicle_background"
+        android:text="Check it out!"
+        android:paddingEnd="40dp"
+        android:textColor="@android:color/white"
+        android:background="@drawable/style_border_blue_rounded"/>
+
+    <TextView
+        android:id="@+id/plate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PLATE#"
+        android:textColor="@android:color/white"
+        android:layout_alignBottom="@id/vehicle_background"
+        android:layout_alignStart="@id/vehicle_background"
+        android:layout_alignEnd="@id/vehicle_background"
+        android:textAlignment="center"
+        android:layout_marginBottom="8dp"/>
+
+    <ImageView
+        android:id="@+id/vehicle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_widthPercent="12%"
+        app:layout_aspectRatio="100%"
+        app:layout_marginTopPercent="2%"
+        android:layout_alignTop="@id/vehicle_background"
+        android:layout_alignStart="@id/vehicle_background"
+        android:layout_alignEnd="@id/vehicle_background"
+        android:layout_above="@id/plate"
+        android:src="@drawable/image_car_front"/>
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/reportee"
+        android:layout_below="@id/vehicle_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/style_border_blue_rounded"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="16dp">
+
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:layout_aspectRatio="100%"
+            android:src="@drawable/image_icon_avatar"/>
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_marginTop="8dp"
+            app:layout_widthPercent="50%"
+            android:layout_alignParentEnd="true"
+            android:layout_height="wrap_content"
+            android:text="Firstname L"
+            android:textColor="@android:color/white"/>
+
+        <ImageView
+            android:id="@+id/rank_badge"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignStart="@id/name"
+            android:layout_below="@id/name"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/image_icon_ribbon"/>
+
+        <TextView
+            android:id="@+id/rank_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/rank_badge"
+            android:layout_alignTop="@id/rank_badge"
+            android:text="@string/rank_title"
+            android:textColor="@android:color/white"
+            android:textStyle="italic"
+            android:layout_marginStart="4dp"/>
+
+        <TextView
+            android:id="@+id/reported_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reported"
+            android:textColor="@android:color/white"
+            android:layout_marginStart="16dp"
+            android:layout_below="@id/photo"/>
+
+        <TextView
+            android:id="@+id/ranking_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ranking"
+            android:textColor="@android:color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_alignTop="@id/reported_label"/>
+
+        <TextView
+            android:id="@+id/received_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/received"
+            android:textColor="@android:color/white"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:layout_alignTop="@id/reported_label"/>
+
+        <TextView
+            android:id="@+id/reported_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/reported_label"
+            android:layout_alignEnd="@id/reported_label"
+            android:text="0"
+            android:textColor="@android:color/white"
+            android:layout_below="@id/reported_label"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/ranking_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/ranking_label"
+            android:layout_alignEnd="@id/ranking_label"
+            android:text="0"
+            android:textColor="@android:color/white"
+            android:layout_below="@id/ranking_label"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@id/received_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/received_label"
+            android:layout_alignEnd="@id/received_label"
+            android:text="0"
+            android:textColor="@android:color/white"
+            android:layout_below="@id/received_label"
+            android:textAlignment="center"/>
+    </android.support.percent.PercentRelativeLayout>
+
+    <TextView
+        android:layout_below="@id/reportee"
+        android:layout_marginTop="8dp"
+        android:id="@+id/question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/was_this_report_helpful"
+        android:visibility="invisible"
+        android:textColor="@android:color/white"/>
+
+    <Button
+        android:id="@+id/dismiss"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_widthPercent="80%"
+        android:background="@color/button_blue"
+        android:text="@string/dismiss"
+        android:textColor="@android:color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/question"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/no"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_widthPercent="39.75%"
+        android:layout_alignStart="@id/dismiss"
+        android:layout_alignTop="@id/dismiss"
+        android:background="@color/button_blue"
+        android:textColor="@android:color/white"
+        android:visibility="invisible"
+        android:text="@string/no"/>
+
+    <Button
+        android:id="@+id/yes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_widthPercent="39.75%"
+        app:layout_marginStartPercent="0.5%"
+        android:layout_alignTop="@id/no"
+        android:layout_toEndOf="@id/no"
+        android:background="@color/button_blue"
+        android:visibility="invisible"
+        android:textColor="@android:color/white"
+        android:text="@string/yes"/>
+
+    <Button
+        android:id="@+id/line"
+        android:layout_width="0dp"
+        app:layout_widthPercent="0.5%"
+        android:layout_height="0dp"
+        android:layout_alignTop="@id/no"
+        android:layout_alignBottom="@id/no"
+        android:layout_toEndOf="@id/no"
+        android:visibility="invisible"
+        android:background="@android:color/white"/>
+</android.support.percent.PercentRelativeLayout>

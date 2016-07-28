@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_gray">
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/front"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_widthPercent="42%"
+        app:layout_aspectRatio="100%"
+        app:layout_marginStartPercent="4%"
+        app:layout_marginEndPercent="4%">
+
+        <View
+            android:id="@+id/front_0"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="15%"
+            app:layout_aspectRatio="100%"
+            app:layout_marginTopPercent="46%"
+            app:layout_marginStartPercent="5%"
+            android:background="@color/yellow"/>
+
+        <View
+            android:id="@+id/front_1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="14%"
+            app:layout_aspectRatio="100%"
+            app:layout_marginTopPercent="60%"
+            app:layout_marginStartPercent="5%"
+            android:background="@color/yellow"/>
+
+        <View
+            android:id="@+id/front_2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="15%"
+            app:layout_aspectRatio="100%"
+            app:layout_marginTopPercent="46%"
+            app:layout_marginEndPercent="4%"
+            android:layout_alignParentEnd="true"
+            android:background="@color/yellow"/>
+
+        <View
+            android:id="@+id/front_3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="14%"
+            app:layout_aspectRatio="100%"
+            app:layout_marginTopPercent="60%"
+            app:layout_marginEndPercent="4%"
+            android:layout_alignParentEnd="true"
+            android:background="@color/yellow"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/image_car_front"/>
+    </android.support.percent.PercentRelativeLayout>
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/back"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_widthPercent="42%"
+        app:layout_aspectRatio="100%"
+        android:layout_toEndOf="@id/front"
+        app:layout_marginStartPercent="4%">
+
+        <View
+            android:id="@+id/back_0"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="14%"
+            app:layout_aspectRatio="100%"
+            app:layout_marginTopPercent="58%"
+            app:layout_marginStartPercent="2%"
+            android:background="@color/button_red"/>
+
+        <View
+            android:id="@+id/back_1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="15%"
+            app:layout_aspectRatio="100%"
+            app:layout_marginTopPercent="45%"
+            app:layout_marginStartPercent="7.5%"
+            android:background="@color/button_red"/>
+
+        <View
+            android:id="@+id/back_2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="30%"
+            app:layout_aspectRatio="400%"
+            app:layout_marginTopPercent="3%"
+            android:layout_centerHorizontal="true"
+            android:background="@color/button_red"/>
+
+        <View
+            android:id="@+id/back_3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="33%"
+            app:layout_aspectRatio="360%"
+            app:layout_marginTopPercent="73%"
+            app:layout_marginStartPercent="35.5%"
+            android:background="@color/button_red"/>
+
+        <View
+            android:id="@+id/back_4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="15%"
+            app:layout_aspectRatio="100%"
+            app:layout_marginTopPercent="45%"
+            app:layout_marginEndPercent="6%"
+            android:layout_alignParentEnd="true"
+            android:background="@color/button_red"/>
+
+        <View
+            android:id="@+id/back_5"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="14%"
+            app:layout_aspectRatio="100%"
+            app:layout_marginTopPercent="59%"
+            app:layout_marginEndPercent="0%"
+            android:layout_alignParentEnd="true"
+            android:background="@color/button_red"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/image_car_back"/>
+    </android.support.percent.PercentRelativeLayout>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/front"
+        android:layout_alignStart="@id/front"
+        android:layout_alignEnd="@id/front"
+        android:text="@string/front"
+        android:textSize="22sp"
+        android:gravity="center"
+        android:textColor="@android:color/white"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/front"
+        android:layout_alignStart="@id/back"
+        android:layout_alignEnd="@id/back"
+        android:text="@string/back"
+        android:textSize="22sp"
+        android:gravity="center"
+        android:textColor="@android:color/white"/>
+</android.support.percent.PercentRelativeLayout>

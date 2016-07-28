@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Main"
+    android:background="@color/background_gray">
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp"
+            app:layout_aspectRatio="100%"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/image_icon_avatar"/>
+
+        <ImageView
+            android:id="@+id/alerts"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="16%"
+            app:layout_aspectRatio="100%"
+            android:src="@drawable/image_icon_alert"
+            android:layout_alignTop="@id/photo"
+            app:layout_marginStartPercent="30%" />
+
+        <ImageView
+            android:id="@+id/settings"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_toEndOf="@id/photo"
+            android:layout_alignBottom="@id/photo"
+            android:src="@drawable/image_icon_gear_white"/>
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/photo"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:text="FName LName"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"/>
+
+        <LinearLayout
+            android:id="@+id/rank_title_container"
+            android:layout_below="@id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/image_icon_ribbon"/>
+
+            <TextView
+                android:id="@+id/rank_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pedestrian"
+                android:textStyle="italic"
+                android:textSize="16sp"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/reported_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rank_title_container"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
+            android:text="@string/reported"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/ranking_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/reported_label"
+            android:layout_centerHorizontal="true"
+            android:text="@string/ranking"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/received_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/reported_label"
+            android:layout_marginEnd="20dp"
+            android:layout_alignParentEnd="true"
+            android:text="@string/received"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textAlignment="textEnd"/>
+
+        <TextView
+            android:id="@+id/reported_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:layout_below="@id/reported_label"
+            android:layout_alignStart="@id/reported_label"
+            android:layout_alignEnd="@id/reported_label"
+            android:textAlignment="center"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/ranking_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:layout_below="@id/ranking_label"
+            android:layout_alignStart="@id/ranking_label"
+            android:layout_alignEnd="@id/ranking_label"
+            android:textAlignment="center"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/received_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:layout_below="@id/received_label"
+            android:layout_alignStart="@id/received_label"
+            android:layout_alignEnd="@id/received_label"
+            android:textAlignment="center"
+            android:layout_marginTop="10dp"/>
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@android:color/white"
+            android:layout_below="@id/reported_value"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"/>
+
+        <ImageView
+            android:id="@+id/add"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/image_icon_plus_blue"
+            android:layout_below="@id/line"
+            android:layout_alignStart="@id/line"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:id="@+id/my_vehicles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_vehicles"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/line"
+            android:layout_marginTop="40dp"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vehicle_pager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="100%"
+            app:layout_aspectRatio="178%"
+            android:layout_below="@id/my_vehicles" />
+
+        <Button
+            android:id="@+id/report"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/vehicle_pager"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/report_a_burnout"
+            android:textColor="@android:color/white"
+            android:background="@color/facebook_blue"/>
+    </android.support.percent.PercentRelativeLayout>
+</ScrollView>

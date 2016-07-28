@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#40ff69</color>
+    <color name="gray">#2C2A2A</color>
+    <color name="button_green">#00C538</color>
+    <color name="button_green_pressed">#00A732</color>
+    <color name="transparent_black">#32000000</color>
+    <color name="button_black_semi">#80000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="button_blue">#1E5791</color>
+    <color name="button_blue_pressed">#1E508C</color>
+    <color name="button_red">#D90909</color>
+    <color name="button_red_pressed">#D00000</color>
+    <color name="l_blue">#006092</color>
+    <color name="pinstant_green">#126C89</color>
+    <color name="pinstant_green_trans">#92126C89</color>
+    <color name="pinstant_grey">#42424b</color>
+    <color name="bottom_blue">#297993</color>
+
+    <color name="background_gray">#454545</color>
+    <color name="darkgreybar">#222222</color>
+    <color name="dgrey">#202020</color>
+    <color name="facebook_blue">#3b5998</color>
+    <color name="facebook_blue_pressed">#2a406e</color>
+    <color name="lighter_black">#7e7e7e</color>
+    <color name="yellow">#ffe600</color>
+</resources>

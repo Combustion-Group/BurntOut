@@ -1,0 +1,144 @@
+<resources>
+    <string name="app_name">BurntOut</string>
+    <string name="facebook_app_id" translatable="false">797834753569041</string>
+
+    <!--Login Screen-->
+    <string name="SpanishEnglishToggle">Español</string>
+    <string name="EnglishSpanishToggle">Ingles</string>
+
+    <string name="email">Email</string>
+    <string name="don_apos_t_have_an_account">Don\'t have an account?</string>
+    <string name="sign_up_now">SIGN UP NOW!</string>
+    <string name="password">Password</string>
+    <string name="login">LOGIN</string>
+    <string name="log_in_with_facebook">Log in with Facebook</string>
+    <string name="forgot_your_burnt_out_password">Forgot your Burnt Out Password?</string>
+
+    <string name="error_login_facebook">There was an error while trying to login with facebook</string>
+    <string name="error_empty_email">Please enter an email address</string>
+    <string name="error_password_invalid">Please enter a valid password</string>
+    <string name="error_email_password_invalid">Email and password combination does not exist</string>
+
+
+    <!--Main Screen-->
+    <string name="pedestrian">Pedestrian</string>
+    <string name="reported">Reported</string>
+    <string name="ranking">Ranking</string>
+    <string name="received">Received</string>
+    <string name="my_vehicles">My Vehicles</string>
+    <string name="report_a_burnout">REPORT A BURNOUT</string>
+    <!--Success Messages-->
+    <string name="vehicle_edited">Vehicle has been updated</string>
+    <string name="vehicle_deleted">Vehicle deleted</string>
+    <string name="vehicle_not_deleted">An error occurred and the vehicle has not been removed</string>
+    <string name="vehicle_added">Vehicle has been added</string>
+
+
+    <!--Report Screen-->
+    <string name="enter_license_plate_number">Enter License Plate Number:</string>
+    <string name="plate_number">Plate Number</string>
+    <string name="select_what_s_wrong">Select What\'s Wrong:</string>
+    <string name="enter_a_message">Enter a Message (optional)</string>
+    <string name="send_report">Send Report</string>
+
+    <!--Report screen toast messages-->
+    <string name="complete_step2">Please complete step 2</string>
+    <string name="report_submitted">Report submitted</string>
+    <string name="error_submitting_report">Error submitting report, check if the license plate is register with burntout or you try to report to yourself</string>
+    <string name="error_reporting_yourself">Cannot report yourself</string>
+
+    <!--Add Vehicle Screen-->
+    <string name="select_vehicle_type">Select vehicle type.</string>
+    <string name="enter_vehicle_make_and_model">Enter vehicle make and model.</string>
+    <string name="add_vehicle">Add Vehicle</string>
+
+    <!--Settings Screen-->
+    <string name="notifications">Notifications</string>
+    <string name="push_notifications">Push Notifications</string>
+    <string name="edit_info">Edit Info</string>
+    <string name="edit_vehicles">Edit Vehicles</string>
+    <string name="vehicles">Vehicles</string>
+    <string name="privacy">Privacy</string>
+    <string name="terms_of_service">Terms of Service</string>
+    <string name="contact">Contact</string>
+    <string name="sign_out">SIGN OUT</string>
+
+    <string name="front">Front</string>
+    <string name="back">Back</string>
+
+    <!--Settings Profile Edit Screen-->
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="submit">SUBMIT</string>
+    <string name="change_password">CHANGE PASSWORD</string>
+
+    <!--Settings Profile Edit Screen Toast-->
+    <string name="updating_information">Information updated</string>
+
+    <!--Sign Up Screen-->
+    <string name="confirm_password">Confirm Password</string>
+    <string name="create_account">CREATE ACCOUNT</string>
+
+    <!--Sign up Toast messages-->
+    <string name="empty_firstname">First Name field cannot be empty</string>
+    <string name="empty_lastname">Last Name field cannot be empty</string>
+    <string name="empty_password">Password must be at least 6 characters</string>
+    <string name="empty_passwords_dont_match">Passwords do not match</string>
+
+    <string name="sign_up_successful">Sign up successful</string>
+    <string name="email_has_been_used">This is email is already in use</string>
+
+    <!--Change Password Screen-->
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+
+    <string name="invalid_old_password">Current password is not valid, make sure it has more than 6 characters, or is the right one</string>
+    <string name="invalid_new_password">New passsword is not valid, make sure it has more than 6 characters.</string>
+
+    <string name="password_changed">Password changed</string>
+    <string name="error_changing_password">Error changing password</string>
+    <string name="error_while_chaning_password">Error changing password, check your internet conection</string>
+
+    <!--Forgot Password Screen-->
+    <string name="reset_password">RESET PASSWORD</string>
+    <string name="edit_delete_vehicle">Edit/Delete Vehicle</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <!--Fogot Password toast messages-->
+    <string name="password_emailed">Your new password has been emailed</string>
+    <string name="error_password_emailed">There was an error while sending your new password, ensure that your email is valid</string>
+
+    <!--Notification Screen-->
+    <string name="was_this_report_helpful">Was This Report Helpful?</string>
+    <string name="dismiss">DISMISS</string>
+    <string name="no">NO</string>
+    <string name="yes">YES</string>
+    <string name="rank_title">rank title</string>
+    <string name="notifiation_deleted">Notification Deleted</string>
+
+    <!--vehicle pager-->
+
+    <string name="car_model">car model</string>
+
+    <!--edit vehicle screen-->
+    <string name="save_changes">Save Changes</string>
+    <string name="car">Car</string>
+    <string name="bike">Bike</string>
+    <string name="truck">Truck</string>
+    <string name="bus">Bus</string>
+
+
+    <!--Edit Vehicle toast messages-->
+    <string name="error_removing_vehicle">Error removing vehicle</string>
+
+    <string name="license_empty">License plate cannot be empty</string>
+    <string name="car_model_empty">Car model cannot be empty</string>
+    <string name="license_already_register">License Plate already registered</string>
+
+    <!--Error Message-->
+    <string name="error_message_while_saving">An error has just occurred while trying to save changes, make sure to be connected to the internet</string>
+    <string name="error_registrating_account">Error registrating the account</string>
+
+
+</resources>

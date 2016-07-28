@@ -1,0 +1,148 @@
+<resources>
+    <string name="app_name">BurntOut</string>
+    <!--Login Screen-->
+    <string name="SpanishEnglishToggle">English</string>
+    <string name="EnglishSpanishToggle">Ingles</string>
+
+    <string name="don_apos_t_have_an_account">No tienes una cuenta?</string>
+    <string name="sign_up_now">REGISTRESE HAORA!</string>
+
+    <string name="email">Correo Electronico</string>
+    <string name="password">Contraseña</string>
+    <string name="login">INICIAR SESIÓN</string>
+
+    <string name="log_in_with_facebook">Iniciar sesión con Facebook</string>
+    <string name="forgot_your_burnt_out_password">¿Ha olvidado su contraseña de Burnt Out?</string>
+    <!--login errors-->
+    <string name="error_login_facebook">Se ha producido un error al intentar iniciar sesión con Facebook</string>
+    <string name="error_empty_email">Por favor introduzca un correo eléctronico</string>
+    <string name="error_password_invalid">Por favor introduzca una contraseña valida</string>
+    <string name="error_email_password_invalid">Combinacion de correo electronico y contraseña no existe</string>
+
+
+    <!--Main Screen-->
+    <string name="pedestrian">Peaton</string>
+    <string name="reported">Reportado</string>
+    <string name="ranking">Clasificación</string>
+    <string name="received">Recibido</string>
+    <string name="my_vehicles">Mis Vehículos</string>
+    <string name="report_a_burnout">REPORTE FUSIBLE QUEMADO</string>
+    <!--Success Messages-->
+    <string name="vehicle_edited">El vehículo ha sido actualizado</string>
+    <string name="vehicle_deleted">El vehículo ha sido removido</string>
+    <string name="vehicle_not_deleted">Un error occurio y el vehículo no ha  sido removido</string>
+    <string name="vehicle_added">El vehículo ha sido añadido</string>
+
+    <!--Report Screen-->
+    <string name="enter_license_plate_number">Introduzca Matrícula:</string>
+    <string name="plate_number">Número de Matrícula</string>
+    <string name="select_what_s_wrong">Seleccione Lo Que Esta Mal:</string>
+    <string name="enter_a_message">Introduzca un mensaje (opcional):</string>
+    <string name="send_report">Enviar Reporte</string>
+
+    <!--Report screen toast messages-->
+    <string name="complete_step2">Por favor complete el paso 2</string>
+    <string name="report_submitted">El reporte a sido enviado</string>
+    <string name="error_submitting_report">Ha occurido un error enviando el reporte, talves la place indicada no esta registrada en Burntout o uste se esta reportando su propia placa</string>
+    <string name="error_reporting_yourself">No se puede reportar a sí mismo</string>
+
+    <!--Add Vehicle Screen-->
+    <string name="select_vehicle_type">Seleccione el tipo de vehículo:</string>
+    <string name="enter_vehicle_make_and_model">Introduzca marca y el modelo del vehículo:</string>
+    <string name="add_vehicle">Añadir Vehículo</string>
+
+    <!--Settings Screen-->
+    <string name="notifications">Notificaciones</string>
+    <string name="push_notifications">Notificaciones Instantáneas</string>
+    <string name="edit_info">Editar Informacion de perfil</string>
+    <string name="edit_vehicles">Editar Vehículos</string>
+    <string name="vehicles">Vehículos</string>
+    <string name="privacy">Privacidad</string>
+    <string name="terms_of_service">Términos de servicio</string>
+    <string name="contact">Contacto</string>
+    <string name="sign_out">CERRAR SESSION</string>
+
+
+    <string name="front">Frente</string>
+    <string name="back">Detras</string>
+
+    <!--Settings Profile Edit Screen-->
+    <string name="first_name">Nombre</string>
+    <string name="last_name">Apellido</string>
+    <string name="submit">GUARDAR CAMBIOS</string>
+    <string name="change_password">CAMBIAR LA CONTRASEÑA</string>
+
+    <!--Settings Profile Edit Screen Toast-->
+    <string name="updating_information">Información actualizada</string>
+
+
+    <!--Sign Up Screen-->
+    <string name="confirm_password">Confirme su Contraseña</string>
+    <string name="create_account">CREAR CUENTA</string>
+
+    <!--Sign up Toast messages-->
+    <string name="empty_firstname">Nombre no puede estar vacío</string>
+    <string name="empty_lastname">Apellido no puede estar vacío</string>
+    <string name="empty_password">La contraseña debe tener al menos 6 caracteres</string>
+    <string name="empty_passwords_dont_match">Las contraseñas no coinciden</string>
+
+    <string name="sign_up_successful">Registración exitosa</string>
+    <string name="email_has_been_used">Este correo electronico ya ha sido usado</string>
+    <string name="error_registrating_account">There was an error registering the account</string>
+
+    <!--Change Password Screen-->
+    <string name="old_password">Contraseña Actual</string>
+    <string name="new_password">Contraseña Nueva</string>
+
+    <string name="invalid_old_password">Contraseña actual no es valida, asegure que tenga mas the 6 caracteres</string>
+    <string name="invalid_new_password">Contraseña nueva no es valida, asegure que tenga mas the 6 caracteres</string>
+
+    <string name="password_changed">Su contraseña ha sido cambiada</string>
+    <string name="error_changing_password">Se produjo un error mientras se tratava de cambiar su contraseña</string>
+    <string name="error_while_chaning_password">Se produjo un error mientras se tratava de cambiar su contraseña, asegurese de estar conectado al internet</string>
+
+
+    <!--Forgot Password Screen-->
+    <string name="reset_password">RESTABLECER LA CONTRASEÑA</string>
+
+    <!--Fogot Password toast messages-->
+    <string name="password_emailed">Su nueva contraseña ha sido enviada por correo electrónico</string>
+    <string name="error_password_emailed">Ha occurrido un error mientras, se enviava su nueva contraseña asegurese que su correo es valido</string>
+
+    <!--profile vehicle edit prompt-->
+    <string name="edit_delete_vehicle">Editar/Borrar Vehiculo</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Borrar</string>
+    <string name="cancel">Cancelar</string>
+
+    <!--Notification Screen-->
+    <string name="was_this_report_helpful">Fue este informe util?</string>
+    <string name="dismiss">DESCARTAR</string>
+    <string name="no">NO</string>
+    <string name="yes">SI</string>
+    <string name="rank_title">titulo de rango</string>
+
+    <string name="notifiation_deleted">Notificación Borrada</string>
+
+    <!--vehicle pager-->
+    <string name="car_model">modelo del carro</string>
+
+    <!--edit vehicle screen-->
+    <string name="save_changes">Guardar Cambios</string>
+
+    <string name="car">Carro</string>
+    <string name="bike">Motocicleta</string>
+    <string name="truck">Camión</string>
+    <string name="bus">Autobús</string>
+
+    <!--Edit Vehicle toast messages-->
+    <string name="error_removing_vehicle">Error mientras se eliminava el vehículo</string>
+
+    <string name="license_empty">La Matrícula del carro no puede estar vacía</string>
+    <string name="car_model_empty">El Modelo del carro no puede estar vacío</string>
+    <string name="license_already_register">La matrícula ya está registrada</string>
+
+
+    <string name="error_message_while_saving">Un error acaba de ocurrir mientras se guardaban los cambios, asegurese de estar conectado al internet</string>
+
+</resources>

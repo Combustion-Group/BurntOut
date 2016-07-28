@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/background_gray"
+    tools:context="com.combustiongroup.burntout.Settings">
+
+    <Button
+        android:id="@+id/signout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_out"
+        android:textColor="@android:color/white"
+        android:background="@color/button_red"
+        android:layout_alignParentBottom="true"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_above="@id/signout">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/notifications"
+            android:textColor="@android:color/white"/>
+
+        <Switch
+            android:id="@+id/setting_push_notification"
+            android:text="@string/push_notifications"
+            style="@style/TextView.Common"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Burnt Out Info"
+            android:layout_marginTop="16dp"
+            android:textColor="@android:color/white"/>
+
+        <TextView
+            android:id="@+id/info"
+            android:text="@string/edit_info"
+            style="@style/TextView.Common"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/vehicles"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:id="@+id/vehicles"
+            style="@style/TextView.Common"
+            android:text="@string/edit_vehicles"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Combustion Innovation"
+            android:layout_marginTop="16dp"
+            android:textColor="@android:color/white"/>
+
+        <TextView
+            android:id="@+id/privacy"
+            style="@style/TextView.Common"
+            android:text="@string/privacy"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/tos"
+            style="@style/TextView.Common"
+            android:text="@string/terms_of_service"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/contact"
+            style="@style/TextView.Common"
+            android:text="@string/contact"
+            android:layout_marginTop="8dp"/>
+    </LinearLayout>
+</RelativeLayout>
