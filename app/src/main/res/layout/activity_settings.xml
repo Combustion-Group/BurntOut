@@ -51,19 +51,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/vehicles"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="16dp" />
-
-        <TextView
-            android:id="@+id/vehicles"
-            style="@style/TextView.Common"
-            android:text="@string/edit_vehicles"
-            android:layout_marginTop="8dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="Combustion Innovation"
             android:layout_marginTop="16dp"
             android:textColor="@android:color/white"/>
