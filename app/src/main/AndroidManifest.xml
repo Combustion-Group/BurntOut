@@ -29,7 +29,15 @@
         android:theme="@style/AppTheme.NoActionBar">
 
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id" />
-
+        <!-- [START instanceId_listener] -->
+        <service
+            android:name="com.combustiongroup.burntout.MyInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID"/>
+            </intent-filter>
+        </service>
+        <!-- [END instanceId_listener] -->
         <!-- GCM -->
         <receiver
             android:name=".GcmBroadcastReceiver"
@@ -41,8 +49,10 @@
             </intent-filter>
         </receiver>
 
-        <service android:name="com.combustiongroup.burntout.GcmIntentService"/>
-
+        <service
+            android:name="com.combustiongroup.burntout.GcmIntentService"
+            android:exported="false">
+        </service>
 
         <!-- splash -->
         <activity

@@ -34,8 +34,8 @@
     <string name="vehicle_added">El vehículo ha sido añadido</string>
 
     <!--Report Screen-->
-    <string name="enter_license_plate_number">Introduzca Matrícula:</string>
-    <string name="plate_number">Número de Matrícula</string>
+    <string name="enter_license_plate_number">Introduzca Licencia:</string>
+    <string name="plate_number">Número de Licencia</string>
     <string name="select_what_s_wrong">Seleccione Lo Que Esta Mal:</string>
     <string name="enter_a_message">Introduzca un mensaje (opcional):</string>
     <string name="send_report">Enviar Reporte</string>
@@ -138,9 +138,9 @@
     <!--Edit Vehicle toast messages-->
     <string name="error_removing_vehicle">Error mientras se eliminava el vehículo</string>
 
-    <string name="license_empty">La Matrícula del carro no puede estar vacía</string>
+    <string name="license_empty">La Licencia del carro no puede estar vacía</string>
     <string name="car_model_empty">El Modelo del carro no puede estar vacío</string>
-    <string name="license_already_register">La matrícula ya está registrada</string>
+    <string name="license_already_register">La licencia ya está registrada</string>
 
 
     <string name="error_message_while_saving">Un error acaba de ocurrir mientras se guardaban los cambios, asegurese de estar conectado al internet</string>
