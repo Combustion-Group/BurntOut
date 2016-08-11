@@ -61,16 +61,16 @@ public class Report extends AppCompatActivity {
                             R.color.button_red
                     },
                     new String[]{
-                            "Right Headlight",
-                            "Right Fog Light",
-                            "Left Headlight",
-                            "Left Fog Light",
-                            "Left Tail Light",
-                            "Left Brake Light",
-                            "Center Brake Light",
-                            "License Plate Light",
-                            "Right Brake Light",
-                            "Right Tail Light"
+                            "Front Right Headlight",
+                            "Front Right Fog Light",
+                            "Front Left Headlight",
+                            "Front Left Fog Light",
+                            "Back Left Tail Light",
+                            "Back Left Brake Light",
+                            "Back Center Brake Light",
+                            "Back License Plate Light",
+                            "Back Right Brake Light",
+                            "Back Right Tail Light"
                     }),
             new VehicleLights(
                     R.layout.el_bike,
@@ -87,10 +87,10 @@ public class Report extends AppCompatActivity {
                             android.R.color.holo_orange_light
                     },
                     new String[]{
-                            "Headlight",
-                            "Left Turn Signal",
-                            "Brake Light",
-                            "Right Turn Signal"
+                            "Front Headlight",
+                            "Back Left Turn Signal",
+                            "Back Brake Light",
+                            "Back Right Turn Signal"
                     }),
             new VehicleLights(
                     R.layout.el_truck,
@@ -117,15 +117,15 @@ public class Report extends AppCompatActivity {
                             R.color.button_red
                     },
                     new String[]{
-                            "Right Headlight",
-                            "Left Headlight",
-                            "Left Tail Light",
-                            "Left Brake Light",
-                            "Left Marker Light",
-                            "Center Marker Light",
-                            "Right Tail Light",
-                            "Right Brake Light",
-                            "Right Marker Light"
+                            "Front Right Headlight",
+                            "Front Left Headlight",
+                            "Back Left Tail Light",
+                            "Back Left Brake Light",
+                            "Back Left Marker Light",
+                            "Back Center Marker Light",
+                            "Back Right Tail Light",
+                            "Back Right Brake Light",
+                            "Back Right Marker Light"
                     }),
             new VehicleLights(
                     R.layout.el_bus,
@@ -158,18 +158,18 @@ public class Report extends AppCompatActivity {
                             R.color.button_red
                     },
                     new String[]{
-                            "Right Headlight",
-                            "Right Marker Light",
-                            "Left Marker Light",
-                            "Left Headlight",
-                            "Left Brake Light",
-                            "Left Marker Light",
-                            "Left Tail Light",
-                            "Center Marker Light",
-                            "Center Brake Light",
-                            "Right Tail Light",
-                            "Right Marker Light",
-                            "Right Brake Light"
+                            "Front Right Headlight",
+                            "Front Right Marker Light",
+                            "Front Left Marker Light",
+                            "Front Left Headlight",
+                            "Back Left Brake Light",
+                            "Back Left Marker Light",
+                            "Back Left Tail Light",
+                            "Back Center Marker Light",
+                            "Back Center Brake Light",
+                            "Back Right Tail Light",
+                            "Back Right Marker Light",
+                            "Back Right Brake Light"
                     })
     };
 
@@ -301,12 +301,13 @@ public class Report extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
 
-                        Log.w("#app reported: ", response);
 
 //                        String status = Main.getStatusFromSimple(response);
                         ReportResponse res = new ReportResponse(response);
                         if(res.status.equals("one"))
                         {
+                            Log.w("#app status: ", res.status);
+
                             if(res.key)
                             {
                                 Main.userInfo.reported = String.valueOf(Integer.parseInt(Main.userInfo.reported) + 1);

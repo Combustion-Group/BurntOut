@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class NotificationsDialog extends AppCompatActivity {
     public static NotificationsResponseParser notifications;
     ImageView photo;
     View alerts;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +166,7 @@ public class NotificationsDialog extends AppCompatActivity {
                 TextView report = (TextView) rootView.findViewById(R.id.report);
                 photo = (ImageView) rootView.findViewById(R.id.photo);
 
+
                 assert timestamp != null && message != null && plate != null &&
                         name != null && reported != null && received != null
                         && report != null && photo != null;
@@ -194,12 +197,174 @@ public class NotificationsDialog extends AppCompatActivity {
                 rank_title.setText(notifications.notificationsList.get(n).ranking_title);
                 name.setText(notifications.notificationsList.get(n).firstname + " " +
                         notifications.notificationsList.get(n).lastname);
-                reported.setText(Integer.toString(notifications.notificationsList.get(n).reported));
-                received.setText(Integer.toString(notifications.notificationsList.get(n).received));
-                ranking.setText(Integer.toString(notifications.notificationsList.get(n).ranking));
+                reported.setText(notifications.notificationsList.get(n).reported);
+                received.setText(notifications.notificationsList.get(n).received);
+                ranking.setText(notifications.notificationsList.get(n).ranking);
                 report.setText(notifications.notificationsList.get(n).firstname + " " +
                         notifications.notificationsList.get(n).lastname + " has reported that your " +
                         notifications.notificationsList.get(n).lights + " are not working properly.");
+                RelativeLayout vehicleView = (RelativeLayout) rootView.findViewById(R.id.vehicle);
+
+                int vehicleType = Integer.parseInt(notifications.notificationsList.get(n).vehicle_type);
+                switch (vehicleType) {
+                    case 0:
+                        View car = getLayoutInflater().inflate(R.layout.el_car, null);
+                        new VehicleLights(
+                                R.layout.el_car,
+                                new int[]{
+                                        R.id.front_0,
+                                        R.id.front_1,
+                                        R.id.front_2,
+                                        R.id.front_3,
+                                        R.id.back_0,
+                                        R.id.back_1,
+                                        R.id.back_2,
+                                        R.id.back_3,
+                                        R.id.back_4,
+                                        R.id.back_5
+                                },
+                                new int[]{
+                                        R.color.yellow,
+                                        R.color.yellow,
+                                        R.color.yellow,
+                                        R.color.yellow,
+                                        R.color.button_red,
+                                        R.color.button_red,
+                                        R.color.button_red,
+                                        R.color.yellow,
+                                        R.color.button_red,
+                                        R.color.button_red
+                                },
+                                new String[]{
+                                        "Front Right Headlight",
+                                        "Front Right Fog Light",
+                                        "Front Left Headlight",
+                                        "Front Left Fog Light",
+                                        "Back Left Tail Light",
+                                        "Back Left Brake Light",
+                                        "Back Center Brake Light",
+                                        "Back License Plate Light",
+                                        "Back Right Brake Light",
+                                        "Back Right Tail Light"
+                                }).showBurntouts(car, notifications.notificationsList.get(n).lights);
+                        vehicleView.addView(car);
+                        break;
+                    case 1:
+                        View bike = getLayoutInflater().inflate(R.layout.el_bike, null);
+
+                        new VehicleLights(
+                                R.layout.el_bike,
+                                new int[]{
+                                        R.id.front_0,
+                                        R.id.back_0,
+                                        R.id.back_1,
+                                        R.id.back_2
+                                },
+                                new int[]{
+                                        R.color.yellow,
+                                        android.R.color.holo_orange_light,
+                                        R.color.button_red,
+                                        android.R.color.holo_orange_light
+                                },
+                                new String[]{
+                                        "Front Headlight",
+                                        "Back Left Turn Signal",
+                                        "Back Brake Light",
+                                        "Back Right Turn Signal"
+                                }).showBurntouts(bike, notifications.notificationsList.get(n).lights);
+                        vehicleView.addView(bike);
+                        break;
+                    case 2:
+                        View bus = getLayoutInflater().inflate(R.layout.el_bus, null);
+                        new VehicleLights(
+                                R.layout.el_bus,
+                                new int[]{
+                                        R.id.front_0,
+                                        R.id.front_1,
+                                        R.id.front_2,
+                                        R.id.front_3,
+                                        R.id.back_0,
+                                        R.id.back_1,
+                                        R.id.back_2,
+                                        R.id.back_3,
+                                        R.id.back_4,
+                                        R.id.back_5,
+                                        R.id.back_6,
+                                        R.id.back_7
+                                },
+                                new int[]{
+                                        R.color.yellow,
+                                        R.color.yellow,
+                                        R.color.yellow,
+                                        R.color.yellow,
+                                        R.color.button_red,
+                                        R.color.button_red,
+                                        R.color.button_red,
+                                        R.color.button_red,
+                                        R.color.button_red,
+                                        R.color.button_red,
+                                        R.color.button_red,
+                                        R.color.button_red
+                                },
+                                new String[]{
+                                        "Front Right Headlight",
+                                        "Front Right Marker Light",
+                                        "Front Left Marker Light",
+                                        "Front Left Headlight",
+                                        "Back Left Brake Light",
+                                        "Back Left Marker Light",
+                                        "Back Left Tail Light",
+                                        "Back Center Marker Light",
+                                        "Back Center Brake Light",
+                                        "Back Right Tail Light",
+                                        "Back Right Marker Light",
+                                        "Back Right Brake Light"
+                                }).showBurntouts(bus, notifications.notificationsList.get(n).lights);
+
+                        vehicleView.addView(bus);
+                        break;
+                    case 3:
+                        View truck = getLayoutInflater().inflate(R.layout.el_truck, null);
+
+
+                        new VehicleLights(
+                                R.layout.el_truck,
+                                new int[]{
+                                        R.id.front_0,
+                                        R.id.front_1,
+                                        R.id.back_0,
+                                        R.id.back_1,
+                                        R.id.back_2,
+                                        R.id.back_3,
+                                        R.id.back_4,
+                                        R.id.back_5,
+                                        R.id.back_6
+                                },
+                                new int[]{
+                                        R.color.yellow,
+                                        R.color.yellow,
+                                        R.color.button_red,
+                                        R.color.button_red,
+                                        R.color.button_red,
+                                        R.color.button_red,
+                                        R.color.button_red,
+                                        R.color.button_red,
+                                        R.color.button_red
+                                },
+                                new String[]{
+                                        "Front Right Headlight",
+                                        "Front Left Headlight",
+                                        "Back Left Tail Light",
+                                        "Back Left Brake Light",
+                                        "Back Left Marker Light",
+                                        "Back Center Marker Light",
+                                        "Back Right Tail Light",
+                                        "Back Right Brake Light",
+                                        "Back Right Marker Light"
+                                }).showBurntouts(truck, notifications.notificationsList.get(n).lights);
+                        vehicleView.addView(truck);
+                        break;
+                }
 
                 container.addView(rootView);
                 return rootView;
@@ -272,10 +437,12 @@ public class NotificationsDialog extends AppCompatActivity {
                             notification.getString("lights_out"),
                             notification.getString("created"),
                             notification.getString("plate_number"),
-                            notification.getInt("notifier_reported_count"),
-                            notification.getInt("notifier_reporter_count"),
-                            notification.getInt("theranking"),
-                            notification.getInt("notification_id")
+                            notification.getString("notifier_reported_count"),
+                            notification.getString("notifier_reporter_count"),
+                            notification.getString("theranking"),
+                            notification.getString("notification_id"),
+                            notification.getString("vehicle_type")
+
 
                     ));
 
@@ -303,7 +470,7 @@ public class NotificationsDialog extends AppCompatActivity {
                             pager.getAdapter().notifyDataSetChanged();
                             if (notifications.notificationsList.size() == 0) {
                                 finish();
-                                Main.userInfo.check_alerts= true;
+                                Main.userInfo.check_alerts = true;
 
                                 Main.userInfo.dataSetModified = true;
                             }
@@ -323,7 +490,7 @@ public class NotificationsDialog extends AppCompatActivity {
 
                     Map<String, String> params = new HashMap<>();
 
-                    params.put("notification_id", Integer.toString(notificationsList.get(positions).notification_id));
+                    params.put("notification_id", notificationsList.get(positions).notification_id);
                     return params;
                 }
             };
@@ -333,7 +500,61 @@ public class NotificationsDialog extends AppCompatActivity {
 
     }//ProfileResponseParser
 
+    class VehicleLights {
+        int layout;
+        public int[] ids;
+        public int[] colors;
+        public boolean[] active;
+        public String[] issues;
 
+        public VehicleLights(int layout, int[] ids, int[] colors, String[] issues) {
+            this.layout = layout;
+            this.ids = ids;
+            this.colors = colors;
+            this.issues = issues;
+            this.active = new boolean[ids.length];
+            for (int i = 0; i < ids.length; i++) {
+                active[i] = true;
+            }
+        }//Constructor
+
+        public void showBurntouts(View view, String burntouts) {
+            String[] result = burntouts.split(", ");
+
+
+            for (int i = 0; i < active.length; i++) {
+                final int n = i;
+
+                final View l = view.findViewById(this.ids[i]);
+                l.setBackgroundResource(android.R.color.transparent);
+
+                if (l != null) {
+                    Log.w("This is one:", l.toString());
+
+                    if (active[n]) {
+                        for (int s = 0; s < result.length; s++) {
+                            Log.w("These are the lights: ", result[s]);
+                            Log.w("These are the issues: ", issues[i]);
+
+                            if (result[s].equals(issues[i])) {
+                                l.setBackgroundResource(colors[i]);
+
+                            }
+                        }
+
+                    } else {
+                        l.setBackgroundResource(android.R.color.transparent);
+
+                    }
+
+                }
+            }
+
+
+        }
+
+
+    }//VehicleLights
 
 
 }//NotificationsDialog

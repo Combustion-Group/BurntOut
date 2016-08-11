@@ -2,9 +2,7 @@ package com.combustiongroup.burntout;
 
 import android.app.Activity;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
@@ -34,10 +32,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -219,7 +215,6 @@ public class Main extends AppCompatActivity {
         });
 
 
-        sendRegistrationToServer(GcmIntentService.token, getIntent().getStringExtra("email"));
 
 
     }//on create
@@ -589,64 +584,5 @@ public class Main extends AppCompatActivity {
     }//get status from simple
 
 
-
-    /**
-     * Persist registration to third-party servers.
-     * <p>
-     * Modify this method to associate the user's GCM registration token with any server-side account
-     * maintained by your application.
-     *
-     * @param token The new token.
-     */
-    public void sendRegistrationToServer(final String token, final String email) {
-        Log.w("#app", "sending..");
-        Log.w("UserEmail on GCM", email);
-        Log.w("token on GCM", token);
-
-        StringRequest req = new StringRequest(Request.Method.POST, Net.Urls.GooglePushRegister.value,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        Log.w("#app", response);
-                        JSONObject root = null;
-                        try {
-                            root = new JSONObject(response);
-                            String status = root.getString("status");
-                            if (status.equals("one")) {
-                                Log.w("Token", "Token Sent");
-                                Log.w("Token", response);
-
-                            } else if (status.equals("two")) {
-                                Log.w("Token", "Token Not Sent");
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Log.w("Token", "Token Not Sent");
-
-                        }
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        error.printStackTrace();
-                    }
-                }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-
-                params.put("email", email);
-                params.put("regid", token);
-
-                return params;
-            }
-        };
-
-        Net.singleton.addRequest(getApplicationContext(), req);
-    }
 
 }//Main

@@ -30,7 +30,7 @@ public class Settings extends AppCompatActivity {
         View contact = findViewById(R.id.contact);
         View tos = findViewById(R.id.tos);
         View privacy = findViewById(R.id.privacy);
-        View vehicles = findViewById(R.id.vehicles);
+//        View vehicles = findViewById(R.id.vehicles);
         View editInfo = findViewById(R.id.info);
 
         assert      signout != null
@@ -38,7 +38,7 @@ public class Settings extends AppCompatActivity {
                 &&  contact != null
                 &&  tos != null
                 &&  privacy != null
-                &&  vehicles != null
+//                &&  vehicles != null
                 &&  editInfo != null;
 
         signout.setOnClickListener(new View.OnClickListener() {
@@ -84,14 +84,14 @@ public class Settings extends AppCompatActivity {
             }
         });
 
-        vehicles.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent i = new Intent(Settings.this, SettingsEditVehicles.class);
-                startActivity(i);
-            }
-        });
+//        vehicles.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                Intent i = new Intent(Settings.this, SettingsEditVehicles.class);
+//                startActivity(i);
+//            }
+//        });
 
         editInfo.setOnClickListener(new View.OnClickListener() {
             @Override
