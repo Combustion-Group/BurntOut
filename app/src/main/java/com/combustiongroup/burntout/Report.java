@@ -301,6 +301,7 @@ public class Report extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
 
+                        Log.w("Report response", response.toString());
 
 //                        String status = Main.getStatusFromSimple(response);
                         ReportResponse res = new ReportResponse(response);
@@ -345,6 +346,8 @@ public class Report extends AppCompatActivity {
                 params.put("license_plate", plate.getText().toString());
                 params.put("lights_out", details.getText().toString());
                 params.put("special_message", message.getText().toString());
+
+                Log.w("Report sent", params.toString());
 
                 return params;
             }

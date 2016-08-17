@@ -2,8 +2,11 @@ package com.combustiongroup.burntout;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -12,15 +15,18 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -38,6 +44,7 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -72,6 +79,10 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
     final int REQUEST_ACCESS_LOCATION = 1;
 
     CallbackManager callbackManager;
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
+    private TextView mInformationTextView;
+    private boolean isReceiverRegistered;
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,15 +92,13 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
         final ToggleButton toggleLanguage = (ToggleButton) findViewById(R.id.toggleLanguages);
 
         assert toggleLanguage != null;
-        toggleLanguage.setOnClickListener(new View.OnClickListener()
-        {
+        toggleLanguage.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
 
                 Locale current = getResources().getConfiguration().locale;
 
-                if(current.getLanguage().equals("en")){
+                if (current.getLanguage().equals("en")) {
                     String lang = "es";
                     Locale myLocale = new Locale(lang);
                     Resources res = getResources();
@@ -101,7 +110,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
                     finish();
                     startActivity(intent);
                 }
-                if(current.getLanguage().equals("es")){
+                if (current.getLanguage().equals("es")) {
                     String lang = "en";
                     Locale myLocale = new Locale(lang);
                     Resources res = getResources();
@@ -153,8 +162,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
             @Override
             public void onClick(View v) {
 
-                if(preLogin())
-                {
+                if (preLogin()) {
                     login();
                 }
             }
@@ -181,22 +189,16 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
                                 String id = "";
                                 String fname = "";
                                 String lname = "";
-                                try
-                                {
+                                try {
                                     email = object.getString("email");
                                     id = object.getString("id");
                                     fname = object.getString("first_name");
                                     lname = object.getString("last_name");
-                                }
-                                catch(Exception e)
-                                {
+                                } catch (Exception e) {
                                     e.printStackTrace();
-                                }
-                                finally
-                                {
+                                } finally {
                                     Log.w("#app", "user email: " + email);
-                                    if(!email.equals("error"))
-                                    {
+                                    if (!email.equals("error")) {
                                         fbLogin(email, id, fname, lname);
                                     }
                                 }
@@ -222,20 +224,37 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
                 error.printStackTrace();
             }
         });
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                SharedPreferences sharedPreferences =
+                        PreferenceManager.getDefaultSharedPreferences(context);
+                boolean sentToken = sharedPreferences
+                        .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
+                if (sentToken) {
+                } else {
+                }
+            }
+        };
+
+        // Registering BroadcastReceiver
+        registerReceiver();
+
+        if (checkPlayServices()) {
+            // Start IntentService to register this application with GCM.
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+        }
     }//on create
 
-    boolean preLogin()
-    {
+    boolean preLogin() {
         //keyboard slightly obscures toast, gray on gray
         Functions.closeSoftKeyboard(Login.this);
 
-        if(!(email.getText().length() > 0))
-        {
+        if (!(email.getText().length() > 0)) {
             Toast.makeText(Login.this, getString(R.string.error_empty_email), Toast.LENGTH_LONG).show();
             return false;
-        }
-        else if(!(pass.getText().length() > 5))
-        {
+        } else if (!(pass.getText().length() > 5)) {
             Toast.makeText(Login.this, getString(R.string.error_password_invalid), Toast.LENGTH_LONG).show();
             return false;
         }
@@ -243,8 +262,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
         return true;
     }//pre login
 
-    void login()
-    {
+    void login() {
 
 //        Intent load = new Intent(Login.this, Spinner.class);
 //        startActivity(load);
@@ -256,8 +274,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
 
                         Log.w("#app", response);
                         LoginResponse r = new LoginResponse(response);
-                        if(r.status.equals("one"))
-                        {
+                        if (r.status.equals("one")) {
                             //Spinner.refAct.finish();
                             main = new Intent(Login.this, Main.class);
                             main.putExtra("fname", r.fname);
@@ -267,9 +284,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
 
                             Net.singleton.startHeavyTask(Login.this);
                             doSettings();
-                        }
-                        else if(r.status.equals("two"))
-                        {
+                        } else if (r.status.equals("two")) {
                             //Spinner.refAct.finish();
                             Toast.makeText(Login.this, getString(R.string.error_email_password_invalid), Toast.LENGTH_LONG).show();
                         }
@@ -282,8 +297,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
                         error.printStackTrace();
                         //Spinner.refAct.finish();
                     }
-                })
-        {
+                }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
 
@@ -291,17 +305,15 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
 
                 params.put("email", email.getText().toString());
                 params.put("password", pass.getText().toString());
-                params.put("pushkey", GcmIntentService.token);
-
+//                params.put("pushkey", RegistrationIntentService.token);
+                Log.w("Sending Token", RegistrationIntentService.token);
                 return params;
             }
         };
-        //Net.singleton.requestQueue.add(req);
         Net.singleton.addRequest(Login.this, req);
     }//login
 
-    void fbLogin(final String email, final String id, final String fname, final String lname)
-    {
+    void fbLogin(final String email, final String id, final String fname, final String lname) {
         //call to loginFB.php
         StringRequest req = new StringRequest(Request.Method.POST, Net.Urls.FBLogin.value,
                 new Response.Listener<String>() {
@@ -310,8 +322,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
 
                         Log.w("#app", response);
                         LoginResponse r = new LoginResponse(response);
-                        if(r.status.equals("one"))
-                        {
+                        if (r.status.equals("one")) {
                             main = new Intent(Login.this, Main.class);
                             main.putExtra("fname", r.fname);
                             main.putExtra("lname", r.lname);
@@ -329,8 +340,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
 
                         error.printStackTrace();
                     }
-                })
-        {
+                }) {
 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
@@ -350,36 +360,30 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
     }//fbLogin
 
     //user authenticated, geolocation given or denied
-    void enterApp()
-    {
+    void enterApp() {
         Net.singleton.finishHeavyTask();
-        Log.w("#app", "still live requests: "+Net.singleton.liveRequests);
+        Log.w("#app", "still live requests: " + Net.singleton.liveRequests);
         startActivity(main);
         //can't back out to this anyway
         finish();
     }//enter app
 
-    class LoginResponse
-    {
+    class LoginResponse {
         public String status;
         public String fname;
         public String lname;
         public String picture;
         public String email;
 
-        public LoginResponse(String raw)
-        {
-            try
-            {
+        public LoginResponse(String raw) {
+            try {
                 JSONObject root = new JSONObject(raw);
                 status = root.getString("status");
                 fname = root.getString("fname");
                 lname = root.getString("lname");
                 picture = root.getString("picture");
                 email = root.getString("email");
-            }
-            catch(Exception e)
-            {
+            } catch (Exception e) {
                 status = "parse error";
             }
         }//Constructor
@@ -402,8 +406,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
         return bestLocation;
     }
 
-    void doSettings()
-    {
+    void doSettings() {
         gclient = new GoogleApiClient.Builder(Login.this)
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
@@ -412,8 +415,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
         gclient.connect();
     }//do settings
 
-    void doLocationSettings()
-    {
+    void doLocationSettings() {
         LocationRequest accurate = new LocationRequest()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setMaxWaitTime(300);
@@ -427,21 +429,17 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
             public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {
 
                 final Status status = locationSettingsResult.getStatus();
-                switch(status.getStatusCode())
-                {
+                switch (status.getStatusCode()) {
                     case LocationSettingsStatusCodes.SUCCESS:
                         Log.w("#app", "location services enabled");
                         getGeoLocation();
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                        try
-                        {
+                        try {
                             Log.w("#app", "request location service");
                             Net.singleton.finishHeavyTask();
                             status.startResolutionForResult(Login.this, REQUEST_CHECK_SETTINGS);
-                        }
-                        catch(Exception e)
-                        {
+                        } catch (Exception e) {
                             Log.w("#app", "error making request");
                             stopGeoListeners();
                         }
@@ -455,8 +453,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
         });
     }//do location settings
 
-    void getGeoLocation()
-    {
+    void getGeoLocation() {
         lm = (LocationManager) Login.this.getSystemService(Context.LOCATION_SERVICE);
         ll_gps = new LocationListener() {
             @Override
@@ -507,19 +504,16 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
             }
         };
 
-        if(ContextCompat.checkSelfPermission(Login.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-        {
+        if (ContextCompat.checkSelfPermission(Login.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-            if(Net.singleton.liveRequests == 0)
-            {
+            if (Net.singleton.liveRequests == 0) {
                 Net.singleton.startHeavyTask(Login.this);
             }
 
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll_gps);
             lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, ll_net);
 
-            new CountDownTimer(10000, 1000)
-            {
+            new CountDownTimer(10000, 1000) {
 
                 @Override
                 public void onTick(long millisUntilFinished) {
@@ -529,16 +523,13 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
                 @Override
                 public void onFinish() {
 
-                    if(userLocation == null)
-                    {
+                    if (userLocation == null) {
                         userLocation = getLastKnownLocation();
                         stopGeoListeners();
                     }
                 }
             }.start();
-        }
-        else
-        {
+        } else {
             ActivityCompat.requestPermissions(
                     Login.this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -547,21 +538,14 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
         }
     }//get geo location
 
-    void stopGeoListeners() throws SecurityException
-    {
-        try
-        {
+    void stopGeoListeners() throws SecurityException {
+        try {
             lm.removeUpdates(ll_gps);
             lm.removeUpdates(ll_net);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
 
-        }
-        finally
-        {
-            if(userLocation == null)
-            {
+        } finally {
+            if (userLocation == null) {
                 userLocation = new Location("");
                 userLocation.setLatitude(0.0d);
                 userLocation.setLongitude(0.0d);
@@ -571,21 +555,19 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
             main.putExtra("latitude", String.valueOf(userLocation.getLatitude()));
             main.putExtra("longitude", String.valueOf(userLocation.getLongitude()));
 
-            Log.w("#app", "using location "+String.valueOf(userLocation));
+            Log.w("#app", "using location " + String.valueOf(userLocation));
             enterApp();
         }
     }//stop geo listeners
 
     @Override
-    public void onConnected(@Nullable Bundle bundle)
-    {
+    public void onConnected(@Nullable Bundle bundle) {
         Log.w("#app", "connected to play services");
         doLocationSettings();
     }//on connected
 
     @Override
-    public void onConnectionSuspended(int i)
-    {
+    public void onConnectionSuspended(int i) {
 
     }//on connection suspended
 
@@ -599,14 +581,10 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if(requestCode == REQUEST_CHECK_SETTINGS)
-        {
-            if(resultCode == Activity.RESULT_OK)
-            {
+        if (requestCode == REQUEST_CHECK_SETTINGS) {
+            if (resultCode == Activity.RESULT_OK) {
                 getGeoLocation();
-            }
-            else
-            {
+            } else {
                 stopGeoListeners();
             }
         }
@@ -617,16 +595,54 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
-        if(requestCode == REQUEST_ACCESS_LOCATION)
-        {
-            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            {
+        if (requestCode == REQUEST_ACCESS_LOCATION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getGeoLocation();
-            }
-            else
-            {
+            } else {
                 stopGeoListeners();
             }
         }
     }//on request permissions result
+
+    private void registerReceiver(){
+        if(!isReceiverRegistered) {
+            LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                    new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
+            isReceiverRegistered = true;
+        }
+    }
+    /**
+     * Check the device to make sure it has the Google Play Services APK. If
+     * it doesn't, display a dialog that allows users to download the APK from
+     * the Google Play Store or enable it in the device's system settings.
+     */
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i("app", "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        registerReceiver();
+
+    }
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+        isReceiverRegistered = false;
+        super.onPause();
+    }
+
 }//Login

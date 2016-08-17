@@ -56,6 +56,8 @@
             android:layout_alignParentEnd="true"
             android:layout_below="@id/timestamp"
             android:layout_marginTop="8dp"
+            android:paddingTop="25dp"
+            android:paddingLeft="25dp"
             android:background="@drawable/style_circle_blue"/>
 
         <TextView
@@ -88,12 +90,10 @@
             android:id="@+id/vehicle"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_widthPercent="12%"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             app:layout_aspectRatio="100%"
             app:layout_marginTopPercent="2%"
-            android:layout_alignTop="@id/vehicle_background"
             android:layout_alignStart="@id/vehicle_background"
             android:layout_alignEnd="@id/vehicle_background"
             android:layout_above="@id/plate">

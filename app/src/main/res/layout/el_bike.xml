@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.percent.PercentRelativeLayout
+    android:id="@+id/container_vehicle"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background_gray"
     android:layout_width="match_parent"
+    app:layout_aspectRatio="100%"
     android:layout_height="match_parent">
 
     <android.support.percent.PercentRelativeLayout
@@ -76,6 +78,7 @@
     </android.support.percent.PercentRelativeLayout>
 
     <TextView
+        android:id="@+id/lbl_front"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/front"
@@ -87,6 +90,7 @@
         android:textColor="@android:color/white"/>
 
     <TextView
+        android:id="@+id/lbl_back"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/front"

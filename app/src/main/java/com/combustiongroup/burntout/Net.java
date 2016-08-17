@@ -18,11 +18,11 @@ public class Net {
     public int liveRequests = 0;
 
     static final String base = "http://combustioninnovation.com/production/Goodyear/php/";
-    public enum Urls
-    {
-        Login(base+"login.php"),
-        FBLogin(base+"loginFB.php"),
-        Signup(base+"adduser.php"),
+
+    public enum Urls {
+        Login(base + "login.php"),
+        FBLogin(base + "loginFB.php"),
+        Signup(base + "adduser.php"),
         ForgotPassword(base + "forgotPW.php"),
         SetProfileImage(base + "changeprofilepicture.php"),
         EditPreferences(base + "editpreferences.php"),
@@ -39,8 +39,8 @@ public class Net {
         PostTest("http://httpbin.org/post");
 
         public final String value;
-        Urls(String value)
-        {
+
+        Urls(String value) {
             this.value = value;
         }
     }//Urls
@@ -50,8 +50,7 @@ public class Net {
     //cached results of common calls
     public HashMap<String, String> cache = new HashMap<>();
 
-    public void init(Context c)
-    {
+    public void init(Context c) {
 
         requestQueue = Volley.newRequestQueue(c);
 
@@ -64,8 +63,7 @@ public class Net {
                 liveRequests--;
 //                Log.w("#app", "finished - live requests: "+liveRequests);
 
-                if(liveRequests <= 0)
-                {
+                if (liveRequests <= 0) {
 //                    Log.w("#app", "close spinner");
                     liveRequests = 0;
                     Spinner.close();
@@ -74,34 +72,29 @@ public class Net {
         });
     }//init
 
-    public void addRequest(Context c, Request r)
-    {
-        if(liveRequests == 0)
-        {
+    public void addRequest(Context c, Request r) {
+        if (liveRequests == 0) {
             Intent i = new Intent(c, Spinner.class);
             c.startActivity(i);
         }
         liveRequests++;
 //        Log.w("#app", "added - live requests: "+liveRequests);
+
         requestQueue.add(r);
     }//add request
 
     //called when heavy processes unrelated to network activity need to lock the ui
-    public void startHeavyTask(Context c)
-    {
-        if(liveRequests == 0)
-        {
+    public void startHeavyTask(Context c) {
+        if (liveRequests == 0) {
             Intent i = new Intent(c, Spinner.class);
             c.startActivity(i);
         }
         liveRequests++;
     }//start heavy task
 
-    public void finishHeavyTask()
-    {
+    public void finishHeavyTask() {
         liveRequests--;
-        if(liveRequests <= 0)
-        {
+        if (liveRequests <= 0) {
             liveRequests = 0;
             Spinner.close();
         }

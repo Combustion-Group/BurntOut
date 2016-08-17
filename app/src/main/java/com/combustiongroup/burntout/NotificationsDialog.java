@@ -2,6 +2,9 @@ package com.combustiongroup.burntout;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.support.percent.PercentLayoutHelper;
+import android.support.percent.PercentRelativeLayout;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.PagerAdapter;
@@ -384,6 +387,24 @@ public class NotificationsDialog extends AppCompatActivity {
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                View rootView = pager.findViewWithTag("n" + position);
+
+                PercentRelativeLayout container_v = (PercentRelativeLayout) rootView.findViewById(R.id.container_vehicle);
+                container_v.setBackgroundResource(R.drawable.style_circle_blue);
+
+                PercentRelativeLayout front_view = (PercentRelativeLayout) rootView.findViewById(R.id.front);
+                PercentRelativeLayout.LayoutParams params = (PercentRelativeLayout.LayoutParams) front_view.getLayoutParams();
+                PercentLayoutHelper.PercentLayoutInfo info = params.getPercentLayoutInfo();
+                info.heightPercent = 0.90f;
+                info.widthPercent = 0.90f;
+                front_view.requestLayout();
+
+                PercentRelativeLayout back_view = (PercentRelativeLayout) rootView.findViewById(R.id.back);
+                PercentRelativeLayout.LayoutParams params2 = (PercentRelativeLayout.LayoutParams) back_view.getLayoutParams();
+                PercentLayoutHelper.PercentLayoutInfo info2 = params2.getPercentLayoutInfo();
+                info2.heightPercent = 0.90f;
+                info2.widthPercent = 0.90f;
+                back_view.requestLayout();
 
             }
 
@@ -518,9 +539,13 @@ public class NotificationsDialog extends AppCompatActivity {
             }
         }//Constructor
 
-        public void showBurntouts(View view, String burntouts) {
+        public void showBurntouts(final View view, String burntouts) {
             String[] result = burntouts.split(", ");
 
+            TextView lblFront = (TextView) view.findViewById(R.id.lbl_front);
+            lblFront.setVisibility(View.GONE);
+            TextView lblBack = (TextView) view.findViewById(R.id.lbl_back);
+            lblBack.setVisibility(View.GONE);
 
             for (int i = 0; i < active.length; i++) {
                 final int n = i;
@@ -538,7 +563,6 @@ public class NotificationsDialog extends AppCompatActivity {
 
                             if (result[s].equals(issues[i])) {
                                 l.setBackgroundResource(colors[i]);
-
                             }
                         }
 
@@ -546,6 +570,34 @@ public class NotificationsDialog extends AppCompatActivity {
                         l.setBackgroundResource(android.R.color.transparent);
 
                     }
+                    new CountDownTimer(3000000, 2000) {
+                        boolean showFrontBack = true;
+
+                        public void onTick(long millisUntilFinished) {
+                            PercentRelativeLayout front = (PercentRelativeLayout) view.findViewById(R.id.front);
+                            PercentRelativeLayout back = (PercentRelativeLayout) view.findViewById(R.id.back);
+                            PercentRelativeLayout container_v = (PercentRelativeLayout) view.findViewById(R.id.container_vehicle);
+                            container_v.setBackgroundResource(R.drawable.style_circle_blue);
+
+
+                            if (showFrontBack) {
+                                front.setVisibility(View.INVISIBLE);
+                                back.setVisibility(View.VISIBLE);
+
+                                showFrontBack = false;
+                            } else {
+                                back.setVisibility(View.INVISIBLE);
+                                front.setVisibility(View.VISIBLE);
+
+                                showFrontBack = true;
+
+
+                            }
+                        }
+
+                        public void onFinish() {
+                        }
+                    }.start();
 
                 }
             }
