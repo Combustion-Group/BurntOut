@@ -91,6 +91,7 @@ public class Main extends AppCompatActivity {
                 .with(Main.this)
                 .load(getIntent().getStringExtra("picture"))
                 .asBitmap()
+                .placeholder(R.drawable.image_icon_avatar)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
@@ -215,14 +216,12 @@ public class Main extends AppCompatActivity {
         });
 
 
-
-
     }//on create
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        Log.w("#on ActivityResult "," We here");
+        Log.w("#on ActivityResult ", " We here");
         if (requestCode == IntentMedia && resultCode == Activity.RESULT_OK) {
 
             Uri filepath = data.getData();
@@ -582,7 +581,6 @@ public class Main extends AppCompatActivity {
             return "error";
         }
     }//get status from simple
-
 
 
 }//Main

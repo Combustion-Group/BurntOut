@@ -2,6 +2,7 @@ package com.combustiongroup.burntout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -78,7 +79,7 @@ public class Net {
             c.startActivity(i);
         }
         liveRequests++;
-//        Log.w("#app", "added - live requests: "+liveRequests);
+        Log.w("#app", "added - live requests: "+liveRequests);
 
         requestQueue.add(r);
     }//add request

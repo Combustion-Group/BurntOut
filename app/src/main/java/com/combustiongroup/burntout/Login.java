@@ -305,8 +305,11 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
 
                 params.put("email", email.getText().toString());
                 params.put("password", pass.getText().toString());
-//                params.put("pushkey", RegistrationIntentService.token);
+                params.put("device", "Android");
+                params.put("pushkey", RegistrationIntentService.token);
                 Log.w("Sending Token", RegistrationIntentService.token);
+                Log.w("Sending", params.toString());
+
                 return params;
             }
         };

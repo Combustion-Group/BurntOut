@@ -82,9 +82,9 @@ public class MyGcmListenerService extends GcmListenerService {
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.image_icon_logo)
+                .setSmallIcon(R.drawable.image_car_front)
                 .setContentTitle("Burnt Out Notification")
-                .setContentText(message)
+                .setContentText("You have a burnt out!")
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);

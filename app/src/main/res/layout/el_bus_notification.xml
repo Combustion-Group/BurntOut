@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    android:id="@+id/container_vehicle"
+    app:layout_aspectRatio="100%"
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/background_gray">
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/front"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_widthPercent="42%"
+        app:layout_aspectRatio="100%"
+        app:layout_marginStartPercent="4%"
+        app:layout_marginEndPercent="4%">
+
+        <View
+            android:id="@+id/front_0"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="15%"
+            app:layout_aspectRatio="140%"
+            app:layout_marginTopPercent="74%"
+            app:layout_marginStartPercent="17%"
+            android:background="@color/yellow"/>
+
+        <View
+            android:id="@+id/front_1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="7%"
+            app:layout_aspectRatio="100%"
+            app:layout_marginTopPercent="1.5%"
+            app:layout_marginStartPercent="24%"
+            android:background="@android:color/holo_orange_light"/>
+
+        <View
+            android:id="@+id/front_2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="7%"
+            app:layout_aspectRatio="100%"
+            app:layout_marginTopPercent="1.5%"
+            app:layout_marginStartPercent="68%"
+            android:background="@android:color/holo_orange_light"/>
+
+        <View
+            android:id="@+id/front_3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="15%"
+            app:layout_aspectRatio="140%"
+            app:layout_marginTopPercent="74%"
+            app:layout_marginStartPercent="69%"
+            android:background="@color/yellow"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/image_bus_front"/>
+    </android.support.percent.PercentRelativeLayout>
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/back"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_widthPercent="42%"
+        app:layout_aspectRatio="100%"
+        android:layout_toEndOf="@id/front"
+        app:layout_marginStartPercent="4%">
+
+        <View
+            android:id="@+id/back_0"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="10%"
+            app:layout_aspectRatio="100%"
+            app:layout_marginTopPercent="59%"
+            app:layout_marginStartPercent="14%"
+            android:background="@color/button_red"/>
+
+        <View
+            android:id="@+id/back_1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="10%"
+            app:layout_aspectRatio="100%"
+            app:layout_marginTopPercent="7%"
+            app:layout_marginStartPercent="14%"
+            android:background="@color/button_red"/>
+
+        <View
+            android:id="@+id/back_2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="10%"
+            app:layout_aspectRatio="100%"
+            app:layout_marginTopPercent="59%"
+            app:layout_marginStartPercent="24%"
+            android:background="@color/button_red"/>
+
+        <View
+            android:id="@+id/back_3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="30%"
+            app:layout_aspectRatio="350%"
+            app:layout_marginTopPercent="0%"
+            app:layout_marginStartPercent="36%"
+            android:background="@color/button_red"/>
+
+        <View
+            android:id="@+id/back_4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="25%"
+            app:layout_aspectRatio="350%"
+            app:layout_marginTopPercent="47%"
+            app:layout_marginStartPercent="38%"
+            android:background="@color/button_red"/>
+
+        <View
+            android:id="@+id/back_5"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="10%"
+            app:layout_aspectRatio="100%"
+            app:layout_marginTopPercent="59%"
+            app:layout_marginStartPercent="67%"
+            android:background="@color/button_red"/>
+
+        <View
+            android:id="@+id/back_6"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="10%"
+            app:layout_aspectRatio="100%"
+            app:layout_marginTopPercent="7%"
+            app:layout_marginStartPercent="76%"
+            android:background="@color/button_red"/>
+
+        <View
+            android:id="@+id/back_7"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="10%"
+            app:layout_aspectRatio="100%"
+            app:layout_marginTopPercent="59%"
+            app:layout_marginStartPercent="77%"
+            android:background="@color/button_red"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/image_bus_back"/>
+    </android.support.percent.PercentRelativeLayout>
+
+
+</android.support.percent.PercentRelativeLayout>
