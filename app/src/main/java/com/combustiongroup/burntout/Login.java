@@ -35,6 +35,11 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.combustiongroup.burntout.network.STApi;
+import com.combustiongroup.burntout.network.STResponse;
+import com.combustiongroup.burntout.network.dto.request.LoginRequest;
+import com.combustiongroup.burntout.network.dto.response.UserResponse;
+import com.combustiongroup.burntout.util.StringUtils;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -62,12 +67,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+
 public class Login extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     Intent main;
-
-    EditText email;
-    EditText pass;
 
     LocationManager lm;
     LocationListener ll_gps, ll_net;
@@ -79,15 +86,24 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
     final int REQUEST_ACCESS_LOCATION = 1;
 
     CallbackManager callbackManager;
+    @BindView(R.id.email)
+    EditText mEmail;
+    @BindView(R.id.password)
+    EditText mPassword;
+    @BindView(R.id.loginbutton)
+    TextView mLoginButton;
+
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     private TextView mInformationTextView;
     private boolean isReceiverRegistered;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
 
         final ToggleButton toggleLanguage = (ToggleButton) findViewById(R.id.toggleLanguages);
 
@@ -128,12 +144,6 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
 
         LoginManager.getInstance().logOut();
 
-        email = (EditText) findViewById(R.id.email);
-        pass = (EditText) findViewById(R.id.password);
-
-        assert email != null;
-        assert pass != null;
-
         View forgot = findViewById(R.id.forgotpass);
         assert forgot != null;
         forgot.setOnClickListener(new View.OnClickListener() {
@@ -156,17 +166,6 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
             }
         });
 
-        final View login = findViewById(R.id.loginbutton);
-        assert login != null;
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (preLogin()) {
-                    login();
-                }
-            }
-        });
 
         callbackManager = CallbackManager.Factory.create();
         final LoginButton fbLogin = (LoginButton) findViewById(R.id.facebook_login);
@@ -247,73 +246,63 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
         }
     }//on create
 
-    boolean preLogin() {
+    // In this function we validating the login fields: Email and Password.
+    public void loginClicked(View view) {
+        // get values
+        String email = mEmail.getText().toString();
+        String password = mPassword.getText().toString();
+
         //keyboard slightly obscures toast, gray on gray
         Functions.closeSoftKeyboard(Login.this);
 
-        if (!(email.getText().length() > 0)) {
+        // determine validity
+        boolean emailValid = StringUtils.isValidEmailAddress(email);
+        boolean passwordValid = password.length() >= 6;
+
+        if (!emailValid) {
             Toast.makeText(Login.this, getString(R.string.error_empty_email), Toast.LENGTH_LONG).show();
-            return false;
-        } else if (!(pass.getText().length() > 5)) {
+        } else if (!passwordValid) {
             Toast.makeText(Login.this, getString(R.string.error_password_invalid), Toast.LENGTH_LONG).show();
-            return false;
         }
 
-        return true;
-    }//pre login
+        if (emailValid && passwordValid) {
+            login(email, password);
+        }
 
-    void login() {
+    }//loginClicked
 
-//        Intent load = new Intent(Login.this, Spinner.class);
-//        startActivity(load);
+    private void login(String email, String password) {
 
-        StringRequest req = new StringRequest(Request.Method.POST, Net.Urls.Login.value,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        Log.w("#app", response);
-                        LoginResponse r = new LoginResponse(response);
-                        if (r.status.equals("one")) {
-                            //Spinner.refAct.finish();
-                            main = new Intent(Login.this, Main.class);
-                            main.putExtra("fname", r.fname);
-                            main.putExtra("lname", r.lname);
-                            main.putExtra("picture", r.picture);
-                            main.putExtra("email", r.email);
-
-                            Net.singleton.startHeavyTask(Login.this);
-                            doSettings();
-                        } else if (r.status.equals("two")) {
-                            //Spinner.refAct.finish();
-                            Toast.makeText(Login.this, getString(R.string.error_email_password_invalid), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        error.printStackTrace();
-                        //Spinner.refAct.finish();
-                    }
-                }) {
+        STApi.service.login(new LoginRequest(email, password)).enqueue(new Callback<STResponse<UserResponse>>() {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            public void onResponse(Call<STResponse<UserResponse>> call, retrofit2.Response<STResponse<UserResponse>> response) {
+//                STApi.userResponse = response.body().getData();
+//                STApi.status = STApi.userResponse.getStatus();
 
-                Map<String, String> params = new HashMap<>();
+//                if (STApi.status.equals("one")) {
+//                    main = new Intent(Login.this, Main.class);
+//                    main.putExtra("fname", STApi.userResponse.getFname());
+//                    main.putExtra("lname", STApi.userResponse.getLname());
+//                    main.putExtra("picture", STApi.userResponse.getPicture());
+//                    main.putExtra("email", STApi.userResponse.getEmail());
+//                    startActivity(main);
+//
+//                } else if (STApi.status.equals("two")) {
+//                    Toast.makeText(Login.this, getString(R.string.error_email_password_invalid), Toast.LENGTH_LONG).show();
+//                }
 
-                params.put("email", email.getText().toString());
-                params.put("password", pass.getText().toString());
-                params.put("device", "Android");
-                params.put("pushkey", RegistrationIntentService.token);
-                Log.w("Sending Token", RegistrationIntentService.token);
-                Log.w("Sending", params.toString());
-
-                return params;
+                Log.e("LoginActivity", "Logged in!");
+                Log.e("LoginActivity", response.body().getData().toString());
             }
-        };
-        Net.singleton.addRequest(Login.this, req);
+
+            @Override
+            public void onFailure(Call<STResponse<UserResponse>> call, Throwable t) {
+                Log.e("LoginActivity", "Failed to login.");
+                t.printStackTrace();
+            }
+        });
+
+
     }//login
 
     void fbLogin(final String email, final String id, final String fname, final String lname) {
@@ -324,17 +313,16 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
                     public void onResponse(String response) {
 
                         Log.w("#app", response);
-                        LoginResponse r = new LoginResponse(response);
-                        if (r.status.equals("one")) {
-                            main = new Intent(Login.this, Main.class);
-                            main.putExtra("fname", r.fname);
-                            main.putExtra("lname", r.lname);
-                            main.putExtra("picture", r.picture);
-                            main.putExtra("email", r.email);
-
-                            Net.singleton.startHeavyTask(Login.this);
-                            doSettings();
-                        }
+//                        if (r.status.equals("one")) {
+//                            main = new Intent(Login.this, Main.class);
+//                            main.putExtra("fname", r.fname);
+//                            main.putExtra("lname", r.lname);
+//                            main.putExtra("picture", r.picture);
+//                            main.putExtra("email", r.email);
+//
+//                            Net.singleton.startHeavyTask(Login.this);
+//                            doSettings();
+//                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -370,27 +358,6 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
         //can't back out to this anyway
         finish();
     }//enter app
-
-    class LoginResponse {
-        public String status;
-        public String fname;
-        public String lname;
-        public String picture;
-        public String email;
-
-        public LoginResponse(String raw) {
-            try {
-                JSONObject root = new JSONObject(raw);
-                status = root.getString("status");
-                fname = root.getString("fname");
-                lname = root.getString("lname");
-                picture = root.getString("picture");
-                email = root.getString("email");
-            } catch (Exception e) {
-                status = "parse error";
-            }
-        }//Constructor
-    }//LoginResponse
 
     //GEOLOCATION STUFF
 
@@ -607,13 +574,14 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
         }
     }//on request permissions result
 
-    private void registerReceiver(){
-        if(!isReceiverRegistered) {
+    private void registerReceiver() {
+        if (!isReceiverRegistered) {
             LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
                     new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
             isReceiverRegistered = true;
         }
     }
+
     /**
      * Check the device to make sure it has the Google Play Services APK. If
      * it doesn't, display a dialog that allows users to download the APK from
@@ -641,6 +609,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
         registerReceiver();
 
     }
+
     @Override
     protected void onPause() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
