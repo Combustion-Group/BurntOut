@@ -140,5 +140,6 @@
     <string name="error_message_while_saving">An error has just occurred while trying to save changes, make sure to be connected to the internet</string>
     <string name="error_registrating_account">Error registrating the account</string>
 
+    <string name="error_request">There was an error while trying to peform this action make sure you are connected to the internet. Also, our servers might be down for maintance</string>
 
 </resources>

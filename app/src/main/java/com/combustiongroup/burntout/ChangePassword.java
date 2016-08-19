@@ -11,6 +11,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.combustiongroup.burntout.network.BOAPI;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -117,7 +118,7 @@ public class ChangePassword extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
 
-                params.put("email", Main.userInfo.email);
+                params.put("email", BOAPI.userInfo.getEmail());
                 params.put("oldpassword", oldpass.getText().toString());
                 params.put("newpassword", newpass.getText().toString());
 

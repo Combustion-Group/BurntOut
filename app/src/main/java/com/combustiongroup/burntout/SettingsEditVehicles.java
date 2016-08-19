@@ -15,9 +15,13 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.combustiongroup.burntout.network.BOAPI;
+import com.combustiongroup.burntout.network.dto.Vehicle;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.combustiongroup.burntout.network.BOAPI.userVehicles;
 
 public class SettingsEditVehicles extends AppCompatActivity {
 
@@ -35,7 +39,7 @@ public class SettingsEditVehicles extends AppCompatActivity {
         lv.setAdapter(new ArrayAdapter<Vehicle>(
                 SettingsEditVehicles.this,
                 R.layout.el_list_item,
-                Main.userInfo.vehicles
+                BOAPI.userVehicles
         )
         {
 
@@ -51,7 +55,7 @@ public class SettingsEditVehicles extends AppCompatActivity {
                 ImageView image = (ImageView) v.findViewById(R.id.vehicle);
                 if(image != null)
                 {
-                    image.setImageResource(Main.userInfo.vehicles.get(position).resource);
+                    image.setImageResource(userVehicles.get(position).getResource());
                 }
 
                 ImageView delete = (ImageView) v.findViewById(R.id.edit);
@@ -69,13 +73,13 @@ public class SettingsEditVehicles extends AppCompatActivity {
                 TextView model = (TextView) v.findViewById(R.id.model);
                 if(model != null)
                 {
-                    model.setText( Main.userInfo.vehicles.get(position).model );
+                    model.setText(userVehicles.get(position).getCarModel() );
                 }
 
                 TextView plate = (TextView) v.findViewById(R.id.plate);
                 if(plate != null)
                 {
-                    plate.setText( Main.userInfo.vehicles.get(position).plate );
+                    plate.setText(userVehicles.get(position).getPlateNumber() );
                 }
 
                 return v;
@@ -91,8 +95,8 @@ public class SettingsEditVehicles extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
 
-                        Main.userInfo.vehicles.remove(position);
-                        Main.userInfo.dataSetModified = true;
+                        userVehicles.remove(position);
+                        Main.dataSetModified = true;
                         ((ArrayAdapter<Vehicle>) lv.getAdapter()).notifyDataSetChanged();
                     }
                 },
@@ -110,8 +114,8 @@ public class SettingsEditVehicles extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
 
-                params.put("email", Main.userInfo.email);
-                params.put("plate_number", Main.userInfo.vehicles.get(position).plate);
+                params.put("email", BOAPI.userInfo.getEmail());
+                params.put("plate_number", BOAPI.userVehicles.get(position).getPlateNumber());
 
                 return params;
             }

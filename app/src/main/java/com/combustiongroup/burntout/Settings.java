@@ -14,9 +14,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.combustiongroup.burntout.network.BOAPI;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.combustiongroup.burntout.network.BOAPI.userPreferences;
 
 public class Settings extends AppCompatActivity {
 
@@ -102,12 +105,13 @@ public class Settings extends AppCompatActivity {
             }
         });
 
-        pushEnabledSwitch.setChecked(Main.userInfo.pushEnabled);
+        pushEnabledSwitch.setChecked(userPreferences.getPushNotifications().equals("1"));
         pushEnabledSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                Main.userInfo.pushEnabled = isChecked;
+                if (isChecked)
+                    userPreferences.setPushNotifications("1");
                 final String enabled = (isChecked) ? "1" : "0";
                 Log.w("#app", "switch: "+enabled);
                 StringRequest req = new StringRequest(Request.Method.POST, Net.Urls.EditPreferences.value,
@@ -132,7 +136,7 @@ public class Settings extends AppCompatActivity {
 
                         Map<String, String> params = new HashMap<String, String>();
 
-                        params.put("email", Main.userInfo.email);
+                        params.put("email", BOAPI.userInfo.getEmail());
                         params.put("push_notifications", enabled);
 
                         return params;

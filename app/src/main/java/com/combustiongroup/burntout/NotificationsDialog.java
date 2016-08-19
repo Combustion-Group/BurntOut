@@ -24,6 +24,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.combustiongroup.burntout.network.dto.Notifications;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -489,9 +490,9 @@ public class NotificationsDialog extends AppCompatActivity {
                             pager.getAdapter().notifyDataSetChanged();
                             if (notifications.notificationsList.size() == 0) {
                                 finish();
-                                Main.userInfo.check_alerts = true;
+//                                Main.userInfo.check_alerts = true;
 
-                                Main.userInfo.dataSetModified = true;
+                                Main.dataSetModified = true;
                             }
                         }
                     },

@@ -21,7 +21,6 @@ public class Net {
     static final String base = "http://combustioninnovation.com/production/Goodyear/php/";
 
     public enum Urls {
-        Login(base + "login.php"),
         FBLogin(base + "loginFB.php"),
         Signup(base + "adduser.php"),
         ForgotPassword(base + "forgotPW.php"),

@@ -12,6 +12,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.combustiongroup.burntout.network.BOAPI;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,14 +38,14 @@ public class SettingsProfileEdit extends AppCompatActivity {
 
         assert fname != null && lname != null && email != null && submit != null && changePassword != null;
 
-        fname.setText(Main.userInfo.fname);
-        lname.setText(Main.userInfo.lname);
-        email.setText(Main.userInfo.email);
+        fname.setText(BOAPI.userInfo.getUserFname());
+        lname.setText(BOAPI.userInfo.getUserLname());
+        email.setText(BOAPI.userInfo.getEmail());
 
         //test
 //        Main.userInfo.isFB = true;
 
-        if(Main.userInfo.isFB)
+        if(BOAPI.userInfo.getUserFBID().equals("1"))
         {
             email.setVisibility(View.GONE);
             changePassword.setVisibility(View.GONE);
@@ -104,11 +105,11 @@ public class SettingsProfileEdit extends AppCompatActivity {
                         String status = Main.getStatusFromSimple(response);
                         if(status.equals("one"))
                         {
-                            Toast.makeText(SettingsProfileEdit.this, getString(R.string.updating_information), Toast.LENGTH_LONG).show();
-                            Main.userInfo.fname = fname.getText().toString();
-                            Main.userInfo.lname = lname.getText().toString();
-                            Main.userInfo.email = email.getText().toString();
-                            Main.userInfo.dataSetModified = true;
+//                            Toast.makeText(SettingsProfileEdit.this, getString(R.string.updating_information), Toast.LENGTH_LONG).show();
+//                            Main.userInfo.fname = fname.getText().toString();
+//                            Main.userInfo.lname = lname.getText().toString();
+//                            Main.userInfo.email = email.getText().toString();
+//                            Main.userInfo.dataSetModified = true;
                         }
                         else
                         {
@@ -131,7 +132,7 @@ public class SettingsProfileEdit extends AppCompatActivity {
 
                 params.put("f_name", fname.getText().toString());
                 params.put("l_name", lname.getText().toString());
-                params.put("oldEmail", Main.userInfo.email);
+//                params.put("oldEmail", Main.userInfo.email);
                 params.put("newEmail", email.getText().toString());
 
                 return params;

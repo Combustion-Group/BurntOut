@@ -145,4 +145,6 @@
 
     <string name="error_message_while_saving">Un error acaba de ocurrir mientras se guardaban los cambios, asegurese de estar conectado al internet</string>
 
+    <string name="error_request">Se produjo un error mientras trabamos de realizar esta accion. Asegurese de estar connectado al internet o nuestros servidores estan pasadon por mantenimiento.</string>
+
 </resources>

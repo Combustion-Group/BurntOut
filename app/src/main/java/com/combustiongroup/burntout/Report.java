@@ -17,6 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.combustiongroup.burntout.network.BOAPI;
 
 import org.json.JSONObject;
 
@@ -311,8 +312,9 @@ public class Report extends AppCompatActivity {
 
                             if(res.key)
                             {
-                                Main.userInfo.reported = String.valueOf(Integer.parseInt(Main.userInfo.reported) + 1);
-                                Main.userInfo.dataSetModified = true;
+
+                                BOAPI.userStats.setReported(String.valueOf(Integer.parseInt(BOAPI.userStats.getReported()) + 1));
+                                Main.dataSetModified = true;
                                 finish();
                                 Toast.makeText(Report.this, getString(R.string.report_submitted), Toast.LENGTH_LONG).show();
                             }
@@ -340,7 +342,7 @@ public class Report extends AppCompatActivity {
             {
                 Map<String, String> params = new HashMap<>();
 
-                params.put("email", Main.userInfo.email);
+                params.put("email", BOAPI.userInfo.getEmail());
                 params.put("vehicle_type", String.valueOf(selected));
                 params.put("plate_state", state.getText().toString());
                 params.put("license_plate", plate.getText().toString());

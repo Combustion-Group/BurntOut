@@ -35,10 +35,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.combustiongroup.burntout.network.STApi;
-import com.combustiongroup.burntout.network.STResponse;
-import com.combustiongroup.burntout.network.dto.request.LoginRequest;
-import com.combustiongroup.burntout.network.dto.response.UserResponse;
+import com.combustiongroup.burntout.network.BOAPI;
+import com.combustiongroup.burntout.network.dto.response.LoginResponse;
+import com.combustiongroup.burntout.util.SpinnerAlert;
 import com.combustiongroup.burntout.util.StringUtils;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -72,6 +71,8 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 
+import static com.combustiongroup.burntout.network.BOAPI.loginResponse;
+
 public class Login extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     Intent main;
@@ -94,9 +95,10 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
     TextView mLoginButton;
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
-    private TextView mInformationTextView;
     private boolean isReceiverRegistered;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
+    private static final String TAG = "LoginActivity";
 
 
     @Override
@@ -175,7 +177,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
             @Override
             public void onSuccess(LoginResult loginResult) {
 
-                Log.w("#app", "FB success");
+                Log.w(TAG, "FB success");
 
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
@@ -183,7 +185,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
 
-                                Log.w("#app", response.getRawResponse());
+                                Log.w(TAG, response.getRawResponse());
                                 String email = "error";
                                 String id = "";
                                 String fname = "";
@@ -196,7 +198,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 } finally {
-                                    Log.w("#app", "user email: " + email);
+                                    Log.w(TAG, "user email: " + email);
                                     if (!email.equals("error")) {
                                         fbLogin(email, id, fname, lname);
                                     }
@@ -218,7 +220,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
             @Override
             public void onError(FacebookException error) {
 
-                Log.w("#app", "FB error");
+                Log.e(TAG, "FB error");
                 Toast.makeText(Login.this, getString(R.string.error_login_facebook), Toast.LENGTH_LONG).show();
                 error.printStackTrace();
             }
@@ -272,32 +274,37 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
     }//loginClicked
 
     private void login(String email, String password) {
-
-        STApi.service.login(new LoginRequest(email, password)).enqueue(new Callback<UserResponse>() {
+        SpinnerAlert.show(Login.this);
+        BOAPI.service.login(email, password, "Android", RegistrationIntentService.token).enqueue(new Callback<LoginResponse>() {
             @Override
-            public void onResponse(Call<UserResponse> call, retrofit2.Response<UserResponse> response) {
-//                STApi.userResponse = response.body().getData();
-//                STApi.status = STApi.userResponse.getStatus();
+            public void onResponse(Call<LoginResponse> call, retrofit2.Response<LoginResponse> response) {
+                // This is the LoginResponse object that we get from the API
+                loginResponse = response.body();
 
-//                if (STApi.status.equals("one")) {
-//                    main = new Intent(Login.this, Main.class);
-//                    main.putExtra("fname", STApi.userResponse.getFname());
-//                    main.putExtra("lname", STApi.userResponse.getLname());
-//                    main.putExtra("picture", STApi.userResponse.getPicture());
-//                    main.putExtra("email", STApi.userResponse.getEmail());
-//                    startActivity(main);
-//
-//                } else if (STApi.status.equals("two")) {
-//                    Toast.makeText(Login.this, getString(R.string.error_email_password_invalid), Toast.LENGTH_LONG).show();
-//                }
+                // Check if login was successful, if it was then we get the value "one" on the status field
+                if (loginResponse.getStatus().equals("one")) {
+                    main = new Intent(Login.this, Main.class);
+                    main.putExtra("fname", loginResponse.getFname());
+                    main.putExtra("lname", loginResponse.getLname());
+                    main.putExtra("picture", loginResponse.getPicture());
+                    main.putExtra("email", loginResponse.getEmail());
+                    startActivity(main);
 
-                Log.e("LoginActivity", "Logged in!");
-                Log.e("LoginActivity", response.body().getEmail());
+                    // Check if login was unsuccessful, if it was then we get the value "two" on the status field
+                } else if (loginResponse.getStatus().equals("two")) {
+                    // Show a Toast -Alert- that the email and password combination doesn't exits on the API
+                    Toast.makeText(Login.this, getString(R.string.error_email_password_invalid), Toast.LENGTH_LONG).show();
+                }
+                Log.i(TAG, "Logged in!");
+                Log.i(TAG, response.body().toString());
+                SpinnerAlert.dismiss(Login.this);
             }
 
             @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
-                Log.e("LoginActivity", "Failed to login.");
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Log.e(TAG, "Failed to login.");
+                Toast.makeText(Login.this, getString(R.string.error_request), Toast.LENGTH_LONG).show();
+
                 t.printStackTrace();
             }
         });
@@ -312,7 +319,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
                     @Override
                     public void onResponse(String response) {
 
-                        Log.w("#app", response);
+                        Log.w(TAG, response);
 //                        if (r.status.equals("one")) {
 //                            main = new Intent(Login.this, Main.class);
 //                            main.putExtra("fname", r.fname);
@@ -353,7 +360,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
     //user authenticated, geolocation given or denied
     void enterApp() {
         Net.singleton.finishHeavyTask();
-        Log.w("#app", "still live requests: " + Net.singleton.liveRequests);
+        Log.w(TAG, "still live requests: " + Net.singleton.liveRequests);
         startActivity(main);
         //can't back out to this anyway
         finish();
@@ -401,21 +408,21 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
                 final Status status = locationSettingsResult.getStatus();
                 switch (status.getStatusCode()) {
                     case LocationSettingsStatusCodes.SUCCESS:
-                        Log.w("#app", "location services enabled");
+                        Log.w(TAG, "location services enabled");
                         getGeoLocation();
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                         try {
-                            Log.w("#app", "request location service");
+                            Log.w(TAG, "request location service");
                             Net.singleton.finishHeavyTask();
                             status.startResolutionForResult(Login.this, REQUEST_CHECK_SETTINGS);
                         } catch (Exception e) {
-                            Log.w("#app", "error making request");
+                            Log.w(TAG, "error making request");
                             stopGeoListeners();
                         }
                         break;
                     default:
-                        Log.w("#app", "request for location service denied");
+                        Log.w(TAG, "request for location service denied");
                         stopGeoListeners();
                         break;
                 }
@@ -429,7 +436,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
             @Override
             public void onLocationChanged(Location location) {
 
-                Log.w("#app", "location given by gps");
+                Log.w(TAG, "location given by gps");
                 userLocation = location;
                 stopGeoListeners();
             }
@@ -453,7 +460,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
             @Override
             public void onLocationChanged(Location location) {
 
-                Log.w("#app", "location given by network");
+                Log.w(TAG, "location given by network");
                 userLocation = location;
                 stopGeoListeners();
             }
@@ -525,14 +532,14 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
             main.putExtra("latitude", String.valueOf(userLocation.getLatitude()));
             main.putExtra("longitude", String.valueOf(userLocation.getLongitude()));
 
-            Log.w("#app", "using location " + String.valueOf(userLocation));
+            Log.w(TAG, "using location " + String.valueOf(userLocation));
             enterApp();
         }
     }//stop geo listeners
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Log.w("#app", "connected to play services");
+        Log.w(TAG, "connected to play services");
         doLocationSettings();
     }//on connected
 
@@ -544,7 +551,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
-        Log.w("#app", "unable to connect to google services");
+        Log.w(TAG, "unable to connect to google services");
         stopGeoListeners();
     }//on connection failed
 
@@ -595,7 +602,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
                 apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
                         .show();
             } else {
-                Log.i("app", "This device is not supported.");
+                Log.i(TAG, "This device is not supported.");
                 finish();
             }
             return false;

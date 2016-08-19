@@ -1,4 +1,4 @@
-package com.combustiongroup.burntout;
+package com.combustiongroup.burntout.network.dto;
 
 import java.io.Serializable;
 

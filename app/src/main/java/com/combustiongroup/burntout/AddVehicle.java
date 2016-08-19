@@ -20,6 +20,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.combustiongroup.burntout.network.BOAPI;
+import com.combustiongroup.burntout.network.dto.Vehicle;
 
 import org.json.JSONObject;
 
@@ -156,10 +158,10 @@ public class AddVehicle extends AppCompatActivity {
         {
             ((Button) submit).setText(R.string.save_changes);
             Vehicle v = (Vehicle) getIntent().getSerializableExtra("vehicle");
-            plate.setText(v.plate);
-            model.setText(v.model);
-            state.setText(v.state);
-            vehicles.setCurrentItem( Vehicle.getTypeForResource( v.resource ) );
+            plate.setText(v.getPlateNumber());
+            model.setText(v.getCarModel());
+            state.setText(v.getPlateState());
+            vehicles.setCurrentItem( Vehicle.getTypeForResource( v.getResource() ) );
         }
     }//on create
 
@@ -228,7 +230,7 @@ public class AddVehicle extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
 
-                params.put("email", Main.userInfo.email);
+                params.put("email", BOAPI.userInfo.getEmail());
                 params.put("vehicle_type", ""+selected);
                 params.put("car_model", model.getText().toString());
                 params.put("plate_state", state.getText().toString());
@@ -247,7 +249,7 @@ public class AddVehicle extends AppCompatActivity {
                 plate.getText().toString(),
                 model.getText().toString(),
                 Vehicle.getResourceForVehicleType(String.valueOf(selected)),
-                ((Vehicle) getIntent().getSerializableExtra("vehicle")).id,
+                ((Vehicle) getIntent().getSerializableExtra("vehicle")).getVehicleId(),
                 state.getText().toString()
         );
 
@@ -280,12 +282,12 @@ public class AddVehicle extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
 
-                params.put("email", Main.userInfo.email);
-                params.put("vehicle_id", edited.id);
-                params.put("vehicle_type_id", String.valueOf(Vehicle.getTypeForResource(edited.resource)));
-                params.put("car_model", edited.model);
-                params.put("state", edited.state);
-                params.put("plate_number", edited.plate);
+                params.put("email", BOAPI.userInfo.getEmail());
+                params.put("vehicle_id", edited.getVehicleId());
+                params.put("vehicle_type_id", String.valueOf(Vehicle.getTypeForResource(edited.getResource())));
+                params.put("car_model", edited.getCarModel());
+                params.put("state", edited.getPlateState());
+                params.put("plate_number", edited.getPlateNumber());
 
                 return params;
             }
