@@ -273,9 +273,9 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
 
     private void login(String email, String password) {
 
-        STApi.service.login(new LoginRequest(email, password)).enqueue(new Callback<STResponse<UserResponse>>() {
+        STApi.service.login(new LoginRequest(email, password)).enqueue(new Callback<UserResponse>() {
             @Override
-            public void onResponse(Call<STResponse<UserResponse>> call, retrofit2.Response<STResponse<UserResponse>> response) {
+            public void onResponse(Call<UserResponse> call, retrofit2.Response<UserResponse> response) {
 //                STApi.userResponse = response.body().getData();
 //                STApi.status = STApi.userResponse.getStatus();
 
@@ -292,11 +292,11 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
 //                }
 
                 Log.e("LoginActivity", "Logged in!");
-                Log.e("LoginActivity", response.body().getData().toString());
+                Log.e("LoginActivity", response.body().getEmail());
             }
 
             @Override
-            public void onFailure(Call<STResponse<UserResponse>> call, Throwable t) {
+            public void onFailure(Call<UserResponse> call, Throwable t) {
                 Log.e("LoginActivity", "Failed to login.");
                 t.printStackTrace();
             }

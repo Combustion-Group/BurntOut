@@ -15,6 +15,6 @@ import retrofit2.http.POST;
 
 public interface STService {
 
-    @POST("login.php")
-    Call<STResponse<UserResponse>> login(@Body LoginRequest body);
+    @POST("login")
+    Call<UserResponse> login(@Body LoginRequest body);
 }
