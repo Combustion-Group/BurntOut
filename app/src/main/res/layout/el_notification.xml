@@ -32,7 +32,7 @@
                 android:id="@+id/report"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Firstname L has reported that your lights have burnt out."
+                android:text="Firstname L has notifier_reported_count that your lights_out have burnt out."
                 android:textColor="@android:color/white" />
         </ScrollView>
 
@@ -76,7 +76,7 @@
             android:background="@drawable/style_border_blue_rounded"/>
 
         <TextView
-            android:id="@+id/plate"
+            android:id="@+id/plate_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="PLATE#"
@@ -96,7 +96,7 @@
             app:layout_marginTopPercent="2%"
             android:layout_alignStart="@id/vehicle_background"
             android:layout_alignEnd="@id/vehicle_background"
-            android:layout_above="@id/plate">
+            android:layout_above="@id/plate_number">
 
 
         </RelativeLayout>
@@ -154,7 +154,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/photo"
                 android:layout_marginStart="16dp"
-                android:text="@string/reported"
+                android:text="@string/notifier_reported_count"
                 android:textColor="@android:color/white" />
 
             <TextView
@@ -163,7 +163,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/reported_label"
                 android:layout_centerHorizontal="true"
-                android:text="@string/ranking"
+                android:text="@string/theranking"
                 android:textColor="@android:color/white" />
 
             <TextView
@@ -173,7 +173,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignTop="@id/reported_label"
                 android:layout_marginEnd="16dp"
-                android:text="@string/received"
+                android:text="@string/notifier_reporter_count"
                 android:textColor="@android:color/white" />
 
             <TextView

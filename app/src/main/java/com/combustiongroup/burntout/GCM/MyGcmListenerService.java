@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.combustiongroup.burntout;
+package com.combustiongroup.burntout.GCM;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -26,6 +26,8 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.combustiongroup.burntout.Main;
+import com.combustiongroup.burntout.R;
 import com.google.android.gms.gcm.GcmListenerService;
 
 public class MyGcmListenerService extends GcmListenerService {
@@ -33,7 +35,7 @@ public class MyGcmListenerService extends GcmListenerService {
     private static final String TAG = "MyGcmListenerService";
 
     /**
-     * Called when message is received.
+     * Called when message is notifier_reporter_count.
      *
      * @param from SenderID of the sender.
      * @param data Data bundle containing message data as key/value pairs.
@@ -47,7 +49,7 @@ public class MyGcmListenerService extends GcmListenerService {
         Log.d(TAG, "Message: " + message);
 
         if (from.startsWith("/topics/")) {
-            // message received from some topic.
+            // message notifier_reporter_count from some topic.
         } else {
             // normal downstream message.
         }
@@ -62,7 +64,7 @@ public class MyGcmListenerService extends GcmListenerService {
 
         /**
          * In some cases it may be useful to show a notification indicating to the user
-         * that a message was received.
+         * that a message was notifier_reporter_count.
          */
         sendNotification(message);
         // [END_EXCLUDE]
@@ -70,9 +72,9 @@ public class MyGcmListenerService extends GcmListenerService {
     // [END receive_message]
 
     /**
-     * Create and show a simple notification containing the received GCM message.
+     * Create and show a simple notification containing the notifier_reporter_count GCM message.
      *
-     * @param message GCM message received.
+     * @param message GCM message notifier_reporter_count.
      */
     private void sendNotification(String message) {
         Intent intent = new Intent(this, Main.class);

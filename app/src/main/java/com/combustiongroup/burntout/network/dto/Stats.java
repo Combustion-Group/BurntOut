@@ -11,13 +11,13 @@ public class Stats {
     private String reported;
     private String reportee;
     private String ranking;
-    private String myRank;
+    private String my_rank;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
      * 
      * @return
-     *     The reported
+     *     The notifier_reported_count
      */
     public String getReported() {
         return reported;
@@ -26,7 +26,7 @@ public class Stats {
     /**
      * 
      * @param reported
-     *     The reported
+     *     The notifier_reported_count
      */
     public void setReported(String reported) {
         this.reported = reported;
@@ -53,7 +53,7 @@ public class Stats {
     /**
      * 
      * @return
-     *     The ranking
+     *     The theranking
      */
     public String getRanking() {
         return ranking;
@@ -62,7 +62,7 @@ public class Stats {
     /**
      * 
      * @param ranking
-     *     The ranking
+     *     The theranking
      */
     public void setRanking(String ranking) {
         this.ranking = ranking;
@@ -71,19 +71,19 @@ public class Stats {
     /**
      * 
      * @return
-     *     The myRank
+     *     The my_rank
      */
-    public String getMyRank() {
-        return myRank;
+    public String getMy_rank() {
+        return my_rank;
     }
 
     /**
      * 
-     * @param myRank
+     * @param my_rank
      *     The my_rank
      */
-    public void setMyRank(String myRank) {
-        this.myRank = myRank;
+    public void setMy_rank(String my_rank) {
+        this.my_rank = my_rank;
     }
 
     public Map<String, Object> getAdditionalProperties() {

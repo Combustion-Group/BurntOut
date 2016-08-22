@@ -12,98 +12,92 @@ import javax.annotation.Generated;
 @Generated("org.jsonschema2pojo")
 public class Vehicle implements Serializable {
 
-    private String vehicleTypeId;
-    private String carModel;
-    private String plateNumber;
-    private String plateState;
-    private String vehicleId;
+    private String vehicle_type_id;
+    private String car_model;
+    private String plate_number;
+    private String plate_state;
+    private String vehicle_id;
     private String created;
-    private int resource;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    //    public Vehicle(String plate, String model, int resource, String id, String state)
-    public Vehicle(String plate, String model, int resource, String id, String state)
-
+    //    public Vehicle(String plate_number, String model, int resource, String id, String state)
+    public Vehicle(String plate, String model,String vehicleTypeId, String state)
     {
-        this.plateNumber = plate;
-        this.carModel = model;
-        this.resource = resource;
-        this.vehicleId = id;
-        this.plateState = state;
+        this.plate_number = plate;
+        this.car_model = model;
+        this.vehicle_type_id = vehicleTypeId;
+        this.plate_state = state;
     }//Constructor
 
     /**
-     * @return The vehicleTypeId
+     * @return The vehicle_type_id
      */
-    public String getVehicleTypeId() {
-        return vehicleTypeId;
+    public String getVehicle_type_id() {
+        return vehicle_type_id;
     }
 
     /**
-     * @param vehicleTypeId The vehicle_type_id
+     * @param vehicle_type_id The vehicle_type_id
      */
-    public void setVehicleTypeId(String vehicleTypeId) {
-        this.vehicleTypeId = vehicleTypeId;
+    public void setVehicle_type_id(String vehicle_type_id) {
+        this.vehicle_type_id = vehicle_type_id;
     }
 
     /**
-     * @return The carModel
+     * @return The car_model
      */
-    public String getCarModel() {
-        return carModel;
+    public String getCar_model() {
+        return car_model;
     }
 
     /**
-     * @param carModel The car_model
+     * @param car_model The car_model
      */
-    public void setCarModel(String carModel) {
-        this.carModel = carModel;
+    public void setCar_model(String car_model) {
+        this.car_model = car_model;
     }
 
     /**
-     * @return The plateNumber
+     * @return The plate_number
      */
-    public String getPlateNumber() {
-        return plateNumber;
+    public String getPlate_number() {
+        return plate_number;
     }
 
     /**
-     * @param plateNumber The plate_number
+     * @param plate_number The plate_number
      */
-    public void setPlateNumber(String plateNumber) {
-        this.plateNumber = plateNumber;
+    public void setPlate_number(String plate_number) {
+        this.plate_number = plate_number;
     }
 
-    public int getResource() {
-        return resource;
+
+    /**
+     * @return The plate_state
+     */
+    public String getPlate_state() {
+        return plate_state;
     }
 
     /**
-     * @return The plateState
+     * @param plate_state The plate_state
      */
-    public String getPlateState() {
-        return plateState;
+    public void setPlate_state(String plate_state) {
+        this.plate_state = plate_state;
     }
 
     /**
-     * @param plateState The plate_state
+     * @return The vehicle_id
      */
-    public void setPlateState(String plateState) {
-        this.plateState = plateState;
+    public String getVehicle_id() {
+        return vehicle_id;
     }
 
     /**
-     * @return The vehicleId
+     * @param vehicle_id The vehicle_id
      */
-    public String getVehicleId() {
-        return vehicleId;
-    }
-
-    /**
-     * @param vehicleId The vehicle_id
-     */
-    public void setVehicleId(String vehicleId) {
-        this.vehicleId = vehicleId;
+    public void setVehicle_id(String vehicle_id) {
+        this.vehicle_id = vehicle_id;
     }
 
     /**
@@ -128,8 +122,8 @@ public class Vehicle implements Serializable {
         this.additionalProperties.put(name, value);
     }
 
-    public static int getResourceForVehicleType(final String vehicleType) {
-        switch (vehicleType) {
+    public int getResourceForVehicleType(String aVehicleTypeId) {
+        switch (aVehicleTypeId) {
             case "0":
                 return R.drawable.image_car_front;
             case "1":
@@ -143,8 +137,8 @@ public class Vehicle implements Serializable {
         return R.drawable.image_car_front;
     }//get resource for vehicle type
 
-    public static int getTypeForResource(int resource) {
-        switch (resource) {
+    public int getTypeForResource(int aResource) {
+        switch (aResource) {
             case R.drawable.image_car_front:
                 return 0;
             case R.drawable.image_bike_front:

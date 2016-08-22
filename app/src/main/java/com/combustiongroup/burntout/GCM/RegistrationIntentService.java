@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.combustiongroup.burntout;
+package com.combustiongroup.burntout.GCM;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -23,6 +23,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.combustiongroup.burntout.R;
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
@@ -63,7 +64,7 @@ public class RegistrationIntentService extends IntentService {
 
             // You should store a boolean that indicates whether the generated token has been
             // sent to your server. If the boolean is false, send the token to your server,
-            // otherwise your server should have already received the token.
+            // otherwise your server should have already notifier_reporter_count the token.
             sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, true).apply();
             // [END register_for_gcm]
         } catch (Exception e) {

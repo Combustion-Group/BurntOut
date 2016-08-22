@@ -8,18 +8,18 @@ import javax.annotation.Generated;
 @Generated("org.jsonschema2pojo")
 public class UserInfo {
 
-    private String userId;
+    private String user_id;
     private String username;
     private String email;
     private String picture;
-    private String userFname;
-    private String userLname;
-    private String userFBID;
-    private String userIsFB;
-    private String firstLogin;
-    private String lastLogin;
-    private String loginLng;
-    private String loginLat;
+    private String user_fname;
+    private String user_lname;
+    private String user_FBID;
+    private String user_isFB;
+    private String first_login;
+    private String last_login;
+    private String login_lng;
+    private String login_lat;
     private String theranking;
     private String created;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -27,19 +27,19 @@ public class UserInfo {
     /**
      * 
      * @return
-     *     The userId
+     *     The user_id
      */
-    public String getUserId() {
-        return userId;
+    public String getUser_id() {
+        return user_id;
     }
 
     /**
      * 
-     * @param userId
+     * @param user_id
      *     The user_id
      */
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
     /**
@@ -99,145 +99,145 @@ public class UserInfo {
     /**
      * 
      * @return
-     *     The userFname
-     */
-    public String getUserFname() {
-        return userFname;
-    }
-
-    /**
-     * 
-     * @param userFname
      *     The user_fname
      */
-    public void setUserFname(String userFname) {
-        this.userFname = userFname;
+    public String getUser_fname() {
+        return user_fname;
+    }
+
+    /**
+     * 
+     * @param user_fname
+     *     The user_fname
+     */
+    public void setUser_fname(String user_fname) {
+        this.user_fname = user_fname;
     }
 
     /**
      * 
      * @return
-     *     The userLname
-     */
-    public String getUserLname() {
-        return userLname;
-    }
-
-    /**
-     * 
-     * @param userLname
      *     The user_lname
      */
-    public void setUserLname(String userLname) {
-        this.userLname = userLname;
+    public String getUser_lname() {
+        return user_lname;
+    }
+
+    /**
+     * 
+     * @param user_lname
+     *     The user_lname
+     */
+    public void setUser_lname(String user_lname) {
+        this.user_lname = user_lname;
     }
 
     /**
      * 
      * @return
-     *     The userFBID
-     */
-    public String getUserFBID() {
-        return userFBID;
-    }
-
-    /**
-     * 
-     * @param userFBID
      *     The user_FBID
      */
-    public void setUserFBID(String userFBID) {
-        this.userFBID = userFBID;
+    public String getUser_FBID() {
+        return user_FBID;
+    }
+
+    /**
+     * 
+     * @param user_FBID
+     *     The user_FBID
+     */
+    public void setUser_FBID(String user_FBID) {
+        this.user_FBID = user_FBID;
     }
 
     /**
      * 
      * @return
-     *     The userIsFB
-     */
-    public String getUserIsFB() {
-        return userIsFB;
-    }
-
-    /**
-     * 
-     * @param userIsFB
      *     The user_isFB
      */
-    public void setUserIsFB(String userIsFB) {
-        this.userIsFB = userIsFB;
+    public String getUser_isFB() {
+        return user_isFB;
+    }
+
+    /**
+     * 
+     * @param user_isFB
+     *     The user_isFB
+     */
+    public void setUser_isFB(String user_isFB) {
+        this.user_isFB = user_isFB;
     }
 
     /**
      * 
      * @return
-     *     The firstLogin
-     */
-    public String getFirstLogin() {
-        return firstLogin;
-    }
-
-    /**
-     * 
-     * @param firstLogin
      *     The first_login
      */
-    public void setFirstLogin(String firstLogin) {
-        this.firstLogin = firstLogin;
+    public String getFirst_login() {
+        return first_login;
+    }
+
+    /**
+     * 
+     * @param first_login
+     *     The first_login
+     */
+    public void setFirst_login(String first_login) {
+        this.first_login = first_login;
     }
 
     /**
      * 
      * @return
-     *     The lastLogin
-     */
-    public String getLastLogin() {
-        return lastLogin;
-    }
-
-    /**
-     * 
-     * @param lastLogin
      *     The last_login
      */
-    public void setLastLogin(String lastLogin) {
-        this.lastLogin = lastLogin;
+    public String getLast_login() {
+        return last_login;
+    }
+
+    /**
+     * 
+     * @param last_login
+     *     The last_login
+     */
+    public void setLast_login(String last_login) {
+        this.last_login = last_login;
     }
 
     /**
      * 
      * @return
-     *     The loginLng
-     */
-    public String getLoginLng() {
-        return loginLng;
-    }
-
-    /**
-     * 
-     * @param loginLng
      *     The login_lng
      */
-    public void setLoginLng(String loginLng) {
-        this.loginLng = loginLng;
+    public String getLogin_lng() {
+        return login_lng;
+    }
+
+    /**
+     * 
+     * @param login_lng
+     *     The login_lng
+     */
+    public void setLogin_lng(String login_lng) {
+        this.login_lng = login_lng;
     }
 
     /**
      * 
      * @return
-     *     The loginLat
+     *     The login_lat
      */
-    public String getLoginLat() {
-        return loginLat;
+    public String getLogin_lat() {
+        return login_lat;
     }
 
     /**
      * 
-     * @param loginLat
+     * @param login_lat
      *     The login_lat
      */
-    public void setLoginLat(String loginLat) {
-        this.loginLat = loginLat;
+    public void setLogin_lat(String login_lat) {
+        this.login_lat = login_lat;
     }
 
     /**
@@ -287,18 +287,18 @@ public class UserInfo {
     @Override
     public String toString() {
         return "UserInfo{" +
-                "userId='" + userId + '\'' +
+                "user_id='" + user_id + '\'' +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", picture='" + picture + '\'' +
-                ", userFname='" + userFname + '\'' +
-                ", userLname='" + userLname + '\'' +
-                ", userFBID='" + userFBID + '\'' +
-                ", userIsFB='" + userIsFB + '\'' +
-                ", firstLogin='" + firstLogin + '\'' +
-                ", lastLogin='" + lastLogin + '\'' +
-                ", loginLng='" + loginLng + '\'' +
-                ", loginLat='" + loginLat + '\'' +
+                ", user_fname='" + user_fname + '\'' +
+                ", user_lname='" + user_lname + '\'' +
+                ", user_FBID='" + user_FBID + '\'' +
+                ", user_isFB='" + user_isFB + '\'' +
+                ", first_login='" + first_login + '\'' +
+                ", last_login='" + last_login + '\'' +
+                ", login_lng='" + login_lng + '\'' +
+                ", login_lat='" + login_lat + '\'' +
                 ", theranking='" + theranking + '\'' +
                 ", created='" + created + '\'' +
                 '}';

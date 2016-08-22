@@ -22,9 +22,9 @@
 
     <!--Main Screen-->
     <string name="pedestrian">Peaton</string>
-    <string name="reported">Reportado</string>
-    <string name="ranking">Clasificación</string>
-    <string name="received">Recibido</string>
+    <string name="notifier_reported_count">Reportado</string>
+    <string name="theranking">Clasificación</string>
+    <string name="notifier_reporter_count">Recibido</string>
     <string name="my_vehicles">Mis Vehículos</string>
     <string name="report_a_burnout">REPORTE FUSIBLE QUEMADO</string>
     <!--Success Messages-->

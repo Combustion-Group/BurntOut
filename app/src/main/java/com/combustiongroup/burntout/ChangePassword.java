@@ -3,35 +3,41 @@ package com.combustiongroup.burntout;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.combustiongroup.burntout.network.BOAPI;
+import com.combustiongroup.burntout.network.dto.response.StatusResponse;
+import com.combustiongroup.burntout.util.Functions;
+import com.combustiongroup.burntout.util.SpinnerAlert;
 
-import java.util.HashMap;
-import java.util.Map;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChangePassword extends AppCompatActivity {
 
-    EditText oldpass, newpass, confirmpass;
+    @BindView(R.id.password_old)
+    EditText oldpass;
+    @BindView(R.id.password)
+    EditText newpass;
+    @BindView(R.id.password_confirm)
+    EditText confirmpass;
+    @BindView(R.id.submit)
+    Button submit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
+        ButterKnife.bind(this);
 
-        oldpass = getElementForId(R.id.password_old);
-        newpass = getElementForId(R.id.password);
-        confirmpass = getElementForId(R.id.password_confirm);
 
         View prev = findViewById(R.id.prev);
-        if(prev != null)
-        {
+        if (prev != null) {
             prev.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -42,15 +48,13 @@ public class ChangePassword extends AppCompatActivity {
         }
 
         View submit = findViewById(R.id.submit);
-        if(submit != null)
-        {
+        if (submit != null) {
             submit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     Functions.closeSoftKeyboard(ChangePassword.this);
-                    if(preSubmit())
-                    {
+                    if (preSubmit()) {
                         updatePassword();
                     }
                 }
@@ -59,26 +63,19 @@ public class ChangePassword extends AppCompatActivity {
     }//on create
 
     //short experiment to see if certain warnings can be bypassed
-    EditText getElementForId(int id)
-    {
+    EditText getElementForId(int id) {
         return (EditText) findViewById(id);
     }//get element for id
 
-    boolean preSubmit()
-    {
+    boolean preSubmit() {
 
-        if(oldpass.getText().length() < 6)
-        {
+        if (oldpass.getText().length() < 6) {
             Toast.makeText(ChangePassword.this, getString(R.string.invalid_old_password), Toast.LENGTH_LONG).show();
             return false;
-        }
-        else if(newpass.getText().length() < 6)
-        {
+        } else if (newpass.getText().length() < 6) {
             Toast.makeText(ChangePassword.this, getString(R.string.invalid_new_password), Toast.LENGTH_LONG).show();
             return false;
-        }
-        else if(newpass.getText().toString().equals(confirmpass.getText().toString()) == false)
-        {
+        } else if (newpass.getText().toString().equals(confirmpass.getText().toString()) == false) {
             Toast.makeText(ChangePassword.this, getString(R.string.empty_passwords_dont_match), Toast.LENGTH_LONG).show();
             return false;
         }
@@ -86,45 +83,35 @@ public class ChangePassword extends AppCompatActivity {
         return true;
     }//pre submit
 
-    void updatePassword()
-    {
-        StringRequest req = new StringRequest(Request.Method.POST, Net.Urls.ChangePassword.value,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+    void updatePassword() {
+        SpinnerAlert.show(ChangePassword.this);
 
-                        String status = Main.getStatusFromSimple(response);
-                        if(status.equals("one"))
-                        {
-                            Toast.makeText(ChangePassword.this, getString(R.string.password_changed), Toast.LENGTH_LONG).show();
-                        }
-                        else
-                        {
-                            Toast.makeText(ChangePassword.this, getString(R.string.error_changing_password), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        Toast.makeText(ChangePassword.this, getString(R.string.error_while_chaning_password), Toast.LENGTH_LONG).show();
-                        error.printStackTrace();
-                    }
-                })
-        {
+        BOAPI.service.changePassword(
+                BOAPI.gUserInfo.getEmail(),
+                oldpass.getText().toString(),
+                newpass.getText().toString()).enqueue(new Callback<StatusResponse>() {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            public void onResponse(Call<StatusResponse> call, Response<StatusResponse> response) {
+                if (response.body().getStatus().equals("one")) {
+                    Toast.makeText(ChangePassword.this, getString(R.string.password_changed), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(ChangePassword.this, getString(R.string.error_changing_password), Toast.LENGTH_LONG).show();
+                }
+                SpinnerAlert.dismiss(ChangePassword.this);
+                finish();
 
-                Map<String, String> params = new HashMap<>();
-
-                params.put("email", BOAPI.userInfo.getEmail());
-                params.put("oldpassword", oldpass.getText().toString());
-                params.put("newpassword", newpass.getText().toString());
-
-                return params;
             }
-        };
-        Net.singleton.addRequest(ChangePassword.this, req);
+
+            @Override
+            public void onFailure(Call<StatusResponse> call, Throwable t) {
+                SpinnerAlert.dismiss(ChangePassword.this);
+                Toast.makeText(ChangePassword.this, getString(R.string.error_while_chaning_password), Toast.LENGTH_LONG).show();
+                t.printStackTrace();
+                finish();
+
+            }
+        });
+
+
     }//update password
 }//ChangePassword

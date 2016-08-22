@@ -9,17 +9,15 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+
 import com.combustiongroup.burntout.network.BOAPI;
+import com.combustiongroup.burntout.network.dto.response.StatusResponse;
+import com.combustiongroup.burntout.util.SpinnerAlert;
 
-import java.util.HashMap;
-import java.util.Map;
+import retrofit2.Call;
+import retrofit2.Callback;
 
-import static com.combustiongroup.burntout.network.BOAPI.userPreferences;
+import static com.combustiongroup.burntout.network.BOAPI.gUserPreferences;
 
 public class Settings extends AppCompatActivity {
 
@@ -36,13 +34,13 @@ public class Settings extends AppCompatActivity {
 //        View vehicles = findViewById(R.id.vehicles);
         View editInfo = findViewById(R.id.info);
 
-        assert      signout != null
-                &&  pushEnabledSwitch != null
-                &&  contact != null
-                &&  tos != null
-                &&  privacy != null
+        assert signout != null
+                && pushEnabledSwitch != null
+                && contact != null
+                && tos != null
+                && privacy != null
 //                &&  vehicles != null
-                &&  editInfo != null;
+                && editInfo != null;
 
         signout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,51 +103,36 @@ public class Settings extends AppCompatActivity {
             }
         });
 
-        pushEnabledSwitch.setChecked(userPreferences.getPushNotifications().equals("1"));
+        pushEnabledSwitch.setChecked(gUserPreferences.getPush_notifications().equals("1"));
         pushEnabledSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if (isChecked)
-                    userPreferences.setPushNotifications("1");
+                    gUserPreferences.setPush_notifications("1");
                 final String enabled = (isChecked) ? "1" : "0";
-                Log.w("#app", "switch: "+enabled);
-                StringRequest req = new StringRequest(Request.Method.POST, Net.Urls.EditPreferences.value,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
+                Log.w("#app", "switch: " + enabled);
+                SpinnerAlert.show(Settings.this);
+                BOAPI.service.pushSwitch(
+                        BOAPI.gUserInfo.getEmail(),
+                        enabled).enqueue(new Callback<StatusResponse>() {
+                    @Override
+                    public void onResponse(Call<StatusResponse> call, retrofit2.Response<StatusResponse> response) {
+                        SpinnerAlert.dismiss(Settings.this);
 
-                                Log.w("#app", response);
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-
-                                error.printStackTrace();
-                            }
-                        })
-                {
+                    }
 
                     @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-
-                        Map<String, String> params = new HashMap<String, String>();
-
-                        params.put("email", BOAPI.userInfo.getEmail());
-                        params.put("push_notifications", enabled);
-
-                        return params;
+                    public void onFailure(Call<StatusResponse> call, Throwable t) {
+                        SpinnerAlert.dismiss(Settings.this);
                     }
-                };
-                Net.singleton.addRequest(Settings.this, req);
+                });
             }
         });//push notifications switch
     }//on create
 
     //clear stack & present login screen
-    void logout()
-    {
+    void logout() {
         Intent i = new Intent(Settings.this, Login.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);

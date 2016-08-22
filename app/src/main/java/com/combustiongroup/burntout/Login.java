@@ -2,6 +2,7 @@ package com.combustiongroup.burntout;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -30,13 +31,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.combustiongroup.burntout.GCM.QuickstartPreferences;
+import com.combustiongroup.burntout.GCM.RegistrationIntentService;
 import com.combustiongroup.burntout.network.BOAPI;
 import com.combustiongroup.burntout.network.dto.response.LoginResponse;
+import com.combustiongroup.burntout.util.Functions;
 import com.combustiongroup.burntout.util.SpinnerAlert;
 import com.combustiongroup.burntout.util.StringUtils;
 import com.facebook.CallbackManager;
@@ -60,18 +59,15 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 
 import org.json.JSONObject;
-
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-import static com.combustiongroup.burntout.network.BOAPI.loginResponse;
+import static com.combustiongroup.burntout.network.BOAPI.gLoginResponse;
 
 public class Login extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -279,31 +275,32 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
             @Override
             public void onResponse(Call<LoginResponse> call, retrofit2.Response<LoginResponse> response) {
                 // This is the LoginResponse object that we get from the API
-                loginResponse = response.body();
+                gLoginResponse = response.body();
 
                 // Check if login was successful, if it was then we get the value "one" on the status field
-                if (loginResponse.getStatus().equals("one")) {
+                if (gLoginResponse.getStatus().equals("one")) {
                     main = new Intent(Login.this, Main.class);
-                    main.putExtra("fname", loginResponse.getFname());
-                    main.putExtra("lname", loginResponse.getLname());
-                    main.putExtra("picture", loginResponse.getPicture());
-                    main.putExtra("email", loginResponse.getEmail());
+                    main.putExtra("fname", gLoginResponse.getFname());
+                    main.putExtra("lname", gLoginResponse.getLname());
+                    main.putExtra("picture", gLoginResponse.getPicture());
+                    main.putExtra("email", gLoginResponse.getEmail());
                     startActivity(main);
 
                     // Check if login was unsuccessful, if it was then we get the value "two" on the status field
-                } else if (loginResponse.getStatus().equals("two")) {
+                } else if (gLoginResponse.getStatus().equals("two")) {
                     // Show a Toast -Alert- that the email and password combination doesn't exits on the API
                     Toast.makeText(Login.this, getString(R.string.error_email_password_invalid), Toast.LENGTH_LONG).show();
+                    SpinnerAlert.dismiss(Login.this);
                 }
                 Log.i(TAG, "Logged in!");
                 Log.i(TAG, response.body().toString());
-                SpinnerAlert.dismiss(Login.this);
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 Log.e(TAG, "Failed to login.");
                 Toast.makeText(Login.this, getString(R.string.error_request), Toast.LENGTH_LONG).show();
+                SpinnerAlert.dismiss(Login.this);
 
                 t.printStackTrace();
             }
@@ -313,54 +310,43 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
     }//login
 
     void fbLogin(final String email, final String id, final String fname, final String lname) {
-        //call to loginFB.php
-        StringRequest req = new StringRequest(Request.Method.POST, Net.Urls.FBLogin.value,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
 
-                        Log.w(TAG, response);
-//                        if (r.status.equals("one")) {
-//                            main = new Intent(Login.this, Main.class);
-//                            main.putExtra("fname", r.fname);
-//                            main.putExtra("lname", r.lname);
-//                            main.putExtra("picture", r.picture);
-//                            main.putExtra("email", r.email);
-//
-//                            Net.singleton.startHeavyTask(Login.this);
-//                            doSettings();
-//                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+        SpinnerAlert.show(Login.this);
 
-                        error.printStackTrace();
-                    }
-                }) {
+        BOAPI.service.facebookLogin(email, fname, lname, id).enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, retrofit2.Response<LoginResponse> response) {
+
+                Log.w(TAG, response.body().toString());
+                if (response.body().getStatus().equals("one")) {
+                    main = new Intent(Login.this, Main.class);
+                    main.putExtra("fname", response.body().getFname());
+                    main.putExtra("lname", response.body().getLname());
+                    main.putExtra("picture", response.body().getPicture());
+                    main.putExtra("email", response.body().getEmail());
+
+                    doSettings();
+                }else{
+                    SpinnerAlert.dismiss(Login.this);
+                    Toast.makeText(Login.this, getString(R.string.error_request), Toast.LENGTH_LONG).show();
+
+                }
+
+            }
 
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-
-                Map<String, String> params = new HashMap<>();
-
-                params.put("email", email);
-                params.put("fname", fname);
-                params.put("lname", lname);
-                params.put("fbid", id);
-
-                return params;
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                SpinnerAlert.dismiss(Login.this);
+                t.printStackTrace();
+//                  TODO add couldn't log in toast
             }
-        };
+        });
 
-        Net.singleton.addRequest(Login.this, req);
     }//fbLogin
 
     //user authenticated, geolocation given or denied
     void enterApp() {
-        Net.singleton.finishHeavyTask();
-        Log.w(TAG, "still live requests: " + Net.singleton.liveRequests);
+
         startActivity(main);
         //can't back out to this anyway
         finish();
@@ -414,7 +400,6 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                         try {
                             Log.w(TAG, "request location service");
-                            Net.singleton.finishHeavyTask();
                             status.startResolutionForResult(Login.this, REQUEST_CHECK_SETTINGS);
                         } catch (Exception e) {
                             Log.w(TAG, "error making request");
@@ -483,9 +468,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
 
         if (ContextCompat.checkSelfPermission(Login.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-            if (Net.singleton.liveRequests == 0) {
-                Net.singleton.startHeavyTask(Login.this);
-            }
+
 
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll_gps);
             lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, ll_net);

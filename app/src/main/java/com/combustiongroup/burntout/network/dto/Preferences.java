@@ -8,44 +8,44 @@ import javax.annotation.Generated;
 @Generated("org.jsonschema2pojo")
 public class Preferences {
 
-    private String pushNotifications;
-    private String facebookNotifications;
+    private String push_notifications;
+    private String facebook_notifications;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
      * 
      * @return
-     *     The pushNotifications
+     *     The push_notifications
      */
-    public String getPushNotifications() {
-        return pushNotifications;
+    public String getPush_notifications() {
+        return push_notifications;
     }
 
     /**
      * 
-     * @param pushNotifications
+     * @param push_notifications
      *     The push_notifications
      */
-    public void setPushNotifications(String pushNotifications) {
-        this.pushNotifications = pushNotifications;
+    public void setPush_notifications(String push_notifications) {
+        this.push_notifications = push_notifications;
     }
 
     /**
      * 
      * @return
-     *     The facebookNotifications
+     *     The facebook_notifications
      */
-    public String getFacebookNotifications() {
-        return facebookNotifications;
+    public String getFacebook_notifications() {
+        return facebook_notifications;
     }
 
     /**
      * 
-     * @param facebookNotifications
+     * @param facebook_notifications
      *     The facebook_notifications
      */
-    public void setFacebookNotifications(String facebookNotifications) {
-        this.facebookNotifications = facebookNotifications;
+    public void setFacebook_notifications(String facebook_notifications) {
+        this.facebook_notifications = facebook_notifications;
     }
 
     public Map<String, Object> getAdditionalProperties() {

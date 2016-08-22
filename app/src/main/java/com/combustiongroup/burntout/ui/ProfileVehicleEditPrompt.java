@@ -1,10 +1,12 @@
-package com.combustiongroup.burntout;
+package com.combustiongroup.burntout.ui;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import com.combustiongroup.burntout.R;
 
 public class ProfileVehicleEditPrompt extends AppCompatActivity {
 

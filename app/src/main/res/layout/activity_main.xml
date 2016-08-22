@@ -83,7 +83,7 @@
             android:layout_below="@id/rank_title_container"
             android:layout_marginTop="10dp"
             android:layout_marginStart="20dp"
-            android:text="@string/reported"
+            android:text="@string/notifier_reported_count"
             android:textColor="@android:color/white"
             android:textSize="16sp"/>
 
@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/reported_label"
             android:layout_centerHorizontal="true"
-            android:text="@string/ranking"
+            android:text="@string/theranking"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textAlignment="center"/>
@@ -105,7 +105,7 @@
             android:layout_alignTop="@id/reported_label"
             android:layout_marginEnd="20dp"
             android:layout_alignParentEnd="true"
-            android:text="@string/received"
+            android:text="@string/notifier_reporter_count"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textAlignment="textEnd"/>

@@ -23,6 +23,9 @@
 
     <uses-permission android:name="com.combustiongroup.burntout.permission.C2D_MESSAGE" />
 
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
+
     <!--android:name="util.AppController"-->
 
     <application
@@ -61,10 +64,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <!-- spinner -->
-        <activity
-            android:name=".Spinner"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Modal" />
         <!-- sign up -->
         <activity
             android:name=".Signup"
@@ -88,19 +87,15 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <!-- value picker list -->
         <activity
-            android:name=".ValuePickerList"
+            android:name=".ui.ValuePickerList"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Modal" />
         <!-- edit vehicle -->
         <activity
-            android:name=".ProfileVehicleEditPrompt"
+            android:name=".ui.ProfileVehicleEditPrompt"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Modal" />
         <!-- settings edit vehicles -->
-        <activity
-            android:name=".SettingsEditVehicles"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
         <!-- settings profile edit -->
         <activity
             android:name=".SettingsProfileEdit"
@@ -143,7 +138,7 @@
 
         <!-- [START gcm_listener] -->
         <service
-            android:name=".MyGcmListenerService"
+            android:name=".GCM.MyGcmListenerService"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
@@ -152,7 +147,7 @@
         <!-- [END gcm_listener] -->
         <!-- [START instanceId_listener] -->
         <service
-            android:name=".MyInstanceIDListenerService"
+            android:name=".GCM.MyInstanceIDListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID"/>
@@ -160,7 +155,7 @@
         </service>
         <!-- [END instanceId_listener] -->
         <service
-            android:name=".RegistrationIntentService"
+            android:name=".GCM.RegistrationIntentService"
             android:exported="false">
         </service>
     </application>

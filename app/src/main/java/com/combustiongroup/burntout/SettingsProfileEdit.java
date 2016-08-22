@@ -7,15 +7,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.combustiongroup.burntout.network.BOAPI;
+import com.combustiongroup.burntout.network.dto.response.StatusResponse;
+import com.combustiongroup.burntout.util.Functions;
+import com.combustiongroup.burntout.util.SpinnerAlert;
 
-import java.util.HashMap;
-import java.util.Map;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class SettingsProfileEdit extends AppCompatActivity {
 
@@ -38,15 +36,14 @@ public class SettingsProfileEdit extends AppCompatActivity {
 
         assert fname != null && lname != null && email != null && submit != null && changePassword != null;
 
-        fname.setText(BOAPI.userInfo.getUserFname());
-        lname.setText(BOAPI.userInfo.getUserLname());
-        email.setText(BOAPI.userInfo.getEmail());
+        fname.setText(BOAPI.gUserInfo.getUser_fname());
+        lname.setText(BOAPI.gUserInfo.getUser_lname());
+        email.setText(BOAPI.gUserInfo.getEmail());
 
         //test
-//        Main.userInfo.isFB = true;
+//        Main.gUserInfo.isFB = true;
 
-        if(BOAPI.userInfo.getUserFBID().equals("1"))
-        {
+        if (BOAPI.gUserInfo.getUser_FBID().equals("1")) {
             email.setVisibility(View.GONE);
             changePassword.setVisibility(View.GONE);
         }
@@ -55,8 +52,7 @@ public class SettingsProfileEdit extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(preSubmit())
-                {
+                if (preSubmit()) {
                     Functions.closeSoftKeyboard(SettingsProfileEdit.this);
                     updateUserInfo();
                 }
@@ -73,71 +69,55 @@ public class SettingsProfileEdit extends AppCompatActivity {
         });
     }//on create
 
-    boolean preSubmit()
-    {
+    boolean preSubmit() {
 
-        if(fname.getText().length() < 1)
-        {
+        if (fname.getText().length() < 1) {
             Toast.makeText(SettingsProfileEdit.this, getString(R.string.empty_firstname), Toast.LENGTH_LONG).show();
             return false;
-        }
-        else if(lname.getText().length() < 1)
-        {
+        } else if (lname.getText().length() < 1) {
             Toast.makeText(SettingsProfileEdit.this, getString(R.string.empty_lastname), Toast.LENGTH_LONG).show();
             return false;
-        }
-        else if(email.getText().length() < 1)
-        {
+        } else if (email.getText().length() < 1) {
             Toast.makeText(SettingsProfileEdit.this, getString(R.string.error_empty_email), Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
     }//pre submit
 
-    void updateUserInfo()
-    {
+    void updateUserInfo() {
+        SpinnerAlert.show(SettingsProfileEdit.this);
 
-        StringRequest req = new StringRequest(Request.Method.POST, Net.Urls.EditUserInfo.value,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        String status = Main.getStatusFromSimple(response);
-                        if(status.equals("one"))
-                        {
-//                            Toast.makeText(SettingsProfileEdit.this, getString(R.string.updating_information), Toast.LENGTH_LONG).show();
-//                            Main.userInfo.fname = fname.getText().toString();
-//                            Main.userInfo.lname = lname.getText().toString();
-//                            Main.userInfo.email = email.getText().toString();
-//                            Main.userInfo.dataSetModified = true;
-                        }
-                        else
-                        {
-                            Toast.makeText(SettingsProfileEdit.this, getString(R.string.error_message_while_saving), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        error.printStackTrace();
-                    }
-                })
-        {
+        BOAPI.service.editProfileInformation(
+                fname.getText().toString(),
+                lname.getText().toString(),
+                BOAPI.gUserInfo.getEmail(),
+                email.getText().toString()).enqueue(new Callback<StatusResponse>() {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            public void onResponse(Call<StatusResponse> call, retrofit2.Response<StatusResponse> response) {
+                if (response.body().getStatus().equals("one")) {
+                    Toast.makeText(SettingsProfileEdit.this, getString(R.string.updating_information), Toast.LENGTH_LONG).show();
+                    BOAPI.gUserInfo.setUser_fname(fname.getText().toString());
+                    BOAPI.gUserInfo.setUser_lname(lname.getText().toString());
+                    BOAPI.gUserInfo.setEmail(email.getText().toString());
 
-                Map<String, String> params = new HashMap<>();
+                    Main.dataSetModified = true;
+                    finish();
 
-                params.put("f_name", fname.getText().toString());
-                params.put("l_name", lname.getText().toString());
-//                params.put("oldEmail", Main.userInfo.email);
-                params.put("newEmail", email.getText().toString());
+                } else {
+                    Toast.makeText(SettingsProfileEdit.this, getString(R.string.error_message_while_saving), Toast.LENGTH_LONG).show();
+                    finish();
+                }
 
-                return params;
+                SpinnerAlert.dismiss(SettingsProfileEdit.this);
             }
-        };
-        Net.singleton.addRequest(SettingsProfileEdit.this, req);
+
+            @Override
+            public void onFailure(Call<StatusResponse> call, Throwable t) {
+                t.printStackTrace();
+                SpinnerAlert.dismiss(SettingsProfileEdit.this);
+                finish();
+            }
+        });
+
     }//update user info
 }//SettingsProfileEdit

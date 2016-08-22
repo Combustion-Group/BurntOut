@@ -132,7 +132,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/enter_a_message"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:textColor="@android:color/white"
         android:layout_toEndOf="@id/circled_step_3"
         android:layout_alignTop="@id/circled_step_3"

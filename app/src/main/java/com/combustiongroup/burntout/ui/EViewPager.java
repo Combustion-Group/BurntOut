@@ -1,4 +1,4 @@
-package com.combustiongroup.burntout;
+package com.combustiongroup.burntout.ui;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;

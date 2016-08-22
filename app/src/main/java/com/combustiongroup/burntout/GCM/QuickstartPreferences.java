@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.combustiongroup.burntout;
+package com.combustiongroup.burntout.GCM;
 
 public class QuickstartPreferences {
 

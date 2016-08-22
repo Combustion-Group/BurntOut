@@ -1,7 +1,7 @@
 
 package com.combustiongroup.burntout.network.dto.response;
 
-import com.combustiongroup.burntout.network.dto.ResultUserProfile;
+import com.combustiongroup.burntout.network.dto.ResultsUserProfile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,25 +12,25 @@ import javax.annotation.Generated;
 @Generated("org.jsonschema2pojo")
 public class UserProfileResponse {
 
-    private List<ResultUserProfile> resultUserProfiles = new ArrayList<ResultUserProfile>();
+    private List<ResultsUserProfile> results = new ArrayList<ResultsUserProfile>();
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
      * 
      * @return
-     *     The resultUserProfiles
+     *     The resultses
      */
-    public List<ResultUserProfile> getResultUserProfiles() {
-        return resultUserProfiles;
+    public List<ResultsUserProfile> getResults() {
+        return results;
     }
 
     /**
      * 
-     * @param resultUserProfiles
-     *     The resultUserProfiles
+     * @param resultses
+     *     The resultses
      */
-    public void setResultUserProfiles(List<ResultUserProfile> resultUserProfiles) {
-        this.resultUserProfiles = resultUserProfiles;
+    public void setResults(List<ResultsUserProfile> results) {
+        this.results = results;
     }
 
     public Map<String, Object> getAdditionalProperties() {
@@ -44,7 +44,7 @@ public class UserProfileResponse {
     @Override
     public String toString() {
         return "UserProfileResponse{" +
-                "resultUserProfiles=" + resultUserProfiles +
+                "resultses=" + results +
                 '}';
     }
 }

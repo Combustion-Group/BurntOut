@@ -22,9 +22,9 @@
 
     <!--Main Screen-->
     <string name="pedestrian">Pedestrian</string>
-    <string name="reported">Reported</string>
-    <string name="ranking">Ranking</string>
-    <string name="received">Received</string>
+    <string name="notifier_reported_count">Reported</string>
+    <string name="theranking">Ranking</string>
+    <string name="notifier_reporter_count">Received</string>
     <string name="my_vehicles">My Vehicles</string>
     <string name="report_a_burnout">REPORT A BURNOUT</string>
     <!--Success Messages-->
@@ -44,7 +44,7 @@
     <!--Report screen toast messages-->
     <string name="complete_step2">Please complete step 2</string>
     <string name="report_submitted">Report submitted</string>
-    <string name="error_submitting_report">Error submitting report, check if the license plate is register with burntout or you try to report to yourself</string>
+    <string name="error_submitting_report">Error submitting report, check if the license plate_number is register with burntout or you try to report to yourself</string>
     <string name="error_reporting_yourself">Cannot report yourself</string>
 
     <!--Add Vehicle Screen-->
@@ -132,7 +132,7 @@
     <!--Edit Vehicle toast messages-->
     <string name="error_removing_vehicle">Error removing vehicle</string>
 
-    <string name="license_empty">License plate cannot be empty</string>
+    <string name="license_empty">License plate_number cannot be empty</string>
     <string name="car_model_empty">Car model cannot be empty</string>
     <string name="license_already_register">License Plate already registered</string>
 

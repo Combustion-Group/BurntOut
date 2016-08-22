@@ -53,7 +53,7 @@
             android:textColor="@android:color/white"/>
 
         <TextView
-            android:id="@+id/plate"
+            android:id="@+id/plate_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/plate_number"

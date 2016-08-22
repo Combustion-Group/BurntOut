@@ -9,7 +9,7 @@
     android:orientation="vertical"
     android:padding="1dp"
     android:background="@android:color/darker_gray"
-    tools:context="com.combustiongroup.burntout.ProfileVehicleEditPrompt">
+    tools:context="com.combustiongroup.burntout.ui.ProfileVehicleEditPrompt">
 
     <TextView
         android:layout_width="match_parent"

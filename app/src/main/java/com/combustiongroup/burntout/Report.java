@@ -12,17 +12,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.combustiongroup.burntout.network.BOAPI;
+import com.combustiongroup.burntout.network.dto.response.ReportResponse;
+import com.combustiongroup.burntout.ui.ValuePickerList;
+import com.combustiongroup.burntout.util.SpinnerAlert;
 
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class Report extends AppCompatActivity {
 
@@ -148,7 +144,7 @@ public class Report extends AppCompatActivity {
                             R.color.yellow,
                             R.color.yellow,
                             R.color.yellow,
-                            R.color.yellow  ,
+                            R.color.yellow,
                             R.color.button_red,
                             R.color.button_red,
                             R.color.button_red,
@@ -203,7 +199,7 @@ public class Report extends AppCompatActivity {
 
                 View rootView = getLayoutInflater().inflate(lights[position].layout, container, false);
                 //using tags because getting children by index (for reset) occasionally gave the wrong view
-                rootView.setTag("n"+position);
+                rootView.setTag("n" + position);
 
                 lights[position].bind(rootView);
 
@@ -234,8 +230,8 @@ public class Report extends AppCompatActivity {
             public void onPageSelected(int position) {
 
                 selected = position;
-                Log.w("#app", "scrolled to page "+position);
-                lights[position].reset( vehiclePager.findViewWithTag("n"+position) );
+                Log.w("#app", "scrolled to page " + position);
+                lights[position].reset(vehiclePager.findViewWithTag("n" + position));
                 lights[position].buildReport();
             }
 
@@ -261,8 +257,7 @@ public class Report extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(preSubmit())
-                {
+                if (preSubmit()) {
                     reportBurnout();
                 }
             }
@@ -272,22 +267,17 @@ public class Report extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if(requestCode == IntentState && resultCode == RESULT_OK)
-        {
+        if (requestCode == IntentState && resultCode == RESULT_OK) {
             state.setText(data.getStringExtra("choice"));
         }
     }//on activity result
 
-    public boolean preSubmit()
-    {
+    public boolean preSubmit() {
 
-        if(plate.getText().length() < 1)
-        {
+        if (plate.getText().length() < 1) {
             Toast.makeText(Report.this, getString(R.string.license_empty), Toast.LENGTH_LONG).show();
             return false;
-        }
-        else if(details.length() < 1)
-        {
+        } else if (details.length() < 1) {
             Toast.makeText(Report.this, getString(R.string.complete_step2), Toast.LENGTH_LONG).show();
             return false;
         }
@@ -295,106 +285,68 @@ public class Report extends AppCompatActivity {
         return true;
     }//pre submit
 
-    void reportBurnout()
-    {
-        StringRequest req = new StringRequest(Request.Method.POST, Net.Urls.ReportBurnout.value,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+    void reportBurnout() {
+        SpinnerAlert.show(Report.this);
 
-                        Log.w("Report response", response.toString());
-
-//                        String status = Main.getStatusFromSimple(response);
-                        ReportResponse res = new ReportResponse(response);
-                        if(res.status.equals("one"))
-                        {
-                            Log.w("#app status: ", res.status);
-
-                            if(res.key)
-                            {
-
-                                BOAPI.userStats.setReported(String.valueOf(Integer.parseInt(BOAPI.userStats.getReported()) + 1));
-                                Main.dataSetModified = true;
-                                finish();
-                                Toast.makeText(Report.this, getString(R.string.report_submitted), Toast.LENGTH_LONG).show();
-                            }
-                            else
-                            {
-                                Toast.makeText(Report.this, getString(R.string.error_submitting_report), Toast.LENGTH_LONG).show();
-                            }
-                        }
-                        else
-                        {
-                            Toast.makeText(Report.this, getString(R.string.error_reporting_yourself), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        Toast.makeText(Report.this, getString(R.string.error_message_while_saving), Toast.LENGTH_LONG).show();
-                    }
-                })
-        {
+        BOAPI.service.reportVehicle(
+                BOAPI.gUserInfo.getEmail(),
+                String.valueOf(selected),
+                state.getText().toString(),
+                plate.getText().toString(),
+                details.getText().toString(),
+                message.getText().toString()).enqueue(new Callback<ReportResponse>() {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError
-            {
-                Map<String, String> params = new HashMap<>();
+            public void onResponse(Call<ReportResponse> call, retrofit2.Response<ReportResponse> response) {
 
-                params.put("email", BOAPI.userInfo.getEmail());
-                params.put("vehicle_type", String.valueOf(selected));
-                params.put("plate_state", state.getText().toString());
-                params.put("license_plate", plate.getText().toString());
-                params.put("lights_out", details.getText().toString());
-                params.put("special_message", message.getText().toString());
+                if (response.body().getStatus().equals("one")) {
+                        BOAPI.gUserStats.setReported(String.valueOf(Integer.parseInt(BOAPI.gUserStats.getReported()) + 1));
+                        Main.dataSetModified = true;
+                        finish();
+                        Toast.makeText(Report.this, getString(R.string.report_submitted), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(Report.this, getString(R.string.error_submitting_report), Toast.LENGTH_LONG).show();
+                }
 
-                Log.w("Report sent", params.toString());
-
-                return params;
+                SpinnerAlert.dismiss(Report.this);
             }
-        };
-        Net.singleton.addRequest(Report.this, req);
+            @Override
+            public void onFailure(Call<ReportResponse> call, Throwable t) {
+                SpinnerAlert.dismiss(Report.this);
+                t.printStackTrace();
+                Toast.makeText(Report.this, getString(R.string.error_message_while_saving), Toast.LENGTH_LONG).show();
+            }
+        });
     }//report burnout
 
-    class VehicleLights
-    {
+    class VehicleLights {
         int layout;
         public int[] ids;
         public int[] colors;
         public boolean[] active;
         public String[] issues;
 
-        public VehicleLights(int layout, int[] ids, int[] colors, String[] issues)
-        {
+        public VehicleLights(int layout, int[] ids, int[] colors, String[] issues) {
             this.layout = layout;
             this.ids = ids;
             this.colors = colors;
             this.issues = issues;
             this.active = new boolean[ids.length];
-            for(int i = 0;i < ids.length;i++)
-            {
+            for (int i = 0; i < ids.length; i++) {
                 active[i] = true;
             }
         }//Constructor
 
-        public void bind(View view)
-        {
+        public void bind(View view) {
 
-            for(int i = 0;i < active.length;i++)
-            {
+            for (int i = 0; i < active.length; i++) {
                 final int n = i;
 
                 final View l = view.findViewById(this.ids[i]);
-                if(l != null)
-                {
+                if (l != null) {
 
-                    if(active[n])
-                    {
+                    if (active[n]) {
                         l.setBackgroundResource(colors[i]);
-                    }
-                    else
-                    {
+                    } else {
                         l.setBackgroundResource(android.R.color.transparent);
                     }
 
@@ -403,12 +355,9 @@ public class Report extends AppCompatActivity {
                         public void onClick(View v) {
 
                             active[n] = !active[n];
-                            if(!active[n])
-                            {
+                            if (!active[n]) {
                                 l.setBackgroundResource(android.R.color.transparent);
-                            }
-                            else
-                            {
+                            } else {
                                 l.setBackgroundResource(colors[n]);
                             }
 
@@ -419,34 +368,25 @@ public class Report extends AppCompatActivity {
             }
         }//bind
 
-        public void reset(View view)
-        {
-            for(int i = 0;i < active.length;i++)
-            {
+        public void reset(View view) {
+            for (int i = 0; i < active.length; i++) {
                 active[i] = true;
                 View l = view.findViewById(ids[i]);
-                if(l != null)
-                {
+                if (l != null) {
                     l.setBackgroundResource(colors[i]);
                 }
             }
         }//reset
 
-        public void buildReport()
-        {
+        public void buildReport() {
             String report = "";
             boolean first = true;
 
-            for(int i = 0;i < active.length;i++)
-            {
-                if(!active[i])
-                {
-                    if(first)
-                    {
+            for (int i = 0; i < active.length; i++) {
+                if (!active[i]) {
+                    if (first) {
                         first = false;
-                    }
-                    else
-                    {
+                    } else {
                         report += ", ";
                     }
                     report += issues[i];
@@ -457,24 +397,4 @@ public class Report extends AppCompatActivity {
         }//build report
     }//VehicleLights
 
-    class ReportResponse
-    {
-        public String status;//one - it might have worked!
-        public boolean key;//true - it worked!
-        public ReportResponse(String raw)
-        {
-            try
-            {
-                JSONObject root = new JSONObject(raw);
-                //status one or two or whatever
-                status = root.getString("status");
-                //key is false or null
-                key = !root.isNull("key");
-            }
-            catch(Exception c)
-            {
-                status = "parse error";
-            }
-        }//Constructor
-    }//Report Response
 }//Report

@@ -1,4 +1,4 @@
-package com.combustiongroup.burntout;
+package com.combustiongroup.burntout.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.combustiongroup.burntout.R;
 
 public class ValuePickerList extends AppCompatActivity {
 

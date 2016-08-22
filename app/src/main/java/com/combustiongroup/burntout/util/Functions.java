@@ -1,4 +1,4 @@
-package com.combustiongroup.burntout;
+package com.combustiongroup.burntout.util;
 
 import android.app.Activity;
 import android.content.Context;
