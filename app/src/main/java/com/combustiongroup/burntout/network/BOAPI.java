@@ -56,7 +56,6 @@ public class BOAPI {
             .create(BOService.class);
 
 
-
     static class LoggingInterceptor implements Interceptor {
         @Override
         public Response intercept(Interceptor.Chain chain) throws IOException {

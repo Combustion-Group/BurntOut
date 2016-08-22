@@ -26,6 +26,7 @@ import com.combustiongroup.burntout.network.BOAPI;
  */
 
 public class NotificationAdapter extends PagerAdapter {
+    private static final String TAG = "NotificationAdapter";
     public static Activity activity;
 
 //    @BindView(R.id.report)
@@ -138,10 +139,10 @@ public class NotificationAdapter extends PagerAdapter {
                 && report != null && photo != null;
 
         //                populate all text views
-        timestamp.setText(BOAPI.gUserNotifications.get(n).created);
+        timestamp.setText(BOAPI.gUserNotifications.get(n).getCreated());
         Glide
                 .with(activity)
-                .load(BOAPI.gUserNotifications.get(n).picture)
+                .load(BOAPI.gUserNotifications.get(n).getPicture())
                 .asBitmap()
                 .override(80, 80)
                 .placeholder(R.drawable.image_icon_avatar)
@@ -241,6 +242,47 @@ public class NotificationAdapter extends PagerAdapter {
                 vehicleView.addView(bike);
                 break;
             case 2:
+
+            View truck = inflater.inflate(R.layout.el_truck, null);
+
+            new VehicleLights(
+                    R.layout.el_truck,
+                    new int[]{
+                            R.id.front_0,
+                            R.id.front_1,
+                            R.id.back_0,
+                            R.id.back_1,
+                            R.id.back_2,
+                            R.id.back_3,
+                            R.id.back_4,
+                            R.id.back_5,
+                            R.id.back_6
+                    },
+                    new int[]{
+                            R.color.yellow,
+                            R.color.yellow,
+                            R.color.button_red,
+                            R.color.button_red,
+                            R.color.button_red,
+                            R.color.button_red,
+                            R.color.button_red,
+                            R.color.button_red,
+                            R.color.button_red
+                    },
+                    new String[]{
+                            "Front Right Headlight",
+                            "Front Left Headlight",
+                            "Back Left Tail Light",
+                            "Back Left Brake Light",
+                            "Back Left Marker Light",
+                            "Back Center Marker Light",
+                            "Back Right Tail Light",
+                            "Back Right Brake Light",
+                            "Back Right Marker Light"
+                    }).showBurntouts(truck, BOAPI.gUserNotifications.get(n).getLights_out());
+            vehicleView.addView(truck);
+            break;
+            case 3:
                 View bus = inflater.inflate(R.layout.el_bus, null);
                 new VehicleLights(
                         R.layout.el_bus,
@@ -288,47 +330,6 @@ public class NotificationAdapter extends PagerAdapter {
                         }).showBurntouts(bus, BOAPI.gUserNotifications.get(n).getLights_out());
 
                 vehicleView.addView(bus);
-                break;
-            case 3:
-                View truck = inflater.inflate(R.layout.el_truck, null);
-
-
-                new VehicleLights(
-                        R.layout.el_truck,
-                        new int[]{
-                                R.id.front_0,
-                                R.id.front_1,
-                                R.id.back_0,
-                                R.id.back_1,
-                                R.id.back_2,
-                                R.id.back_3,
-                                R.id.back_4,
-                                R.id.back_5,
-                                R.id.back_6
-                        },
-                        new int[]{
-                                R.color.yellow,
-                                R.color.yellow,
-                                R.color.button_red,
-                                R.color.button_red,
-                                R.color.button_red,
-                                R.color.button_red,
-                                R.color.button_red,
-                                R.color.button_red,
-                                R.color.button_red
-                        },
-                        new String[]{
-                                "Front Right Headlight",
-                                "Front Left Headlight",
-                                "Back Left Tail Light",
-                                "Back Left Brake Light",
-                                "Back Left Marker Light",
-                                "Back Center Marker Light",
-                                "Back Right Tail Light",
-                                "Back Right Brake Light",
-                                "Back Right Marker Light"
-                        }).showBurntouts(truck, BOAPI.gUserNotifications.get(n).getLights_out());
-                vehicleView.addView(truck);
                 break;
         }
 

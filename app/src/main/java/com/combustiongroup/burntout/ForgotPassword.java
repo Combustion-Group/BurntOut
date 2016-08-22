@@ -30,6 +30,11 @@ public class ForgotPassword extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
 
+        email = (EditText) findViewById(R.id.email);
+        String incomingEmail = getIntent().getStringExtra("email");
+        if (incomingEmail != null)
+            email.setText(incomingEmail);
+
         View prev = findViewById(R.id.prev);
         assert prev != null;
         prev.setOnClickListener(new View.OnClickListener() {

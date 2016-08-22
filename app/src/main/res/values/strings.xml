@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">BurntOut</string>
-    <string name="facebook_app_id" translatable="false">797834753569041</string>
+    <string name="facebook_app_id" translatable="false">1323527311021596</string>
 
     <!--Login Screen-->
     <string name="SpanishEnglishToggle">Español</string>

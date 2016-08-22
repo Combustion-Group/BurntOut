@@ -40,7 +40,9 @@ public interface BOService {
             @Field("email") String email,
             @Field("fname") String firstName,
             @Field("lname") String lastName,
-            @Field("fbid") String facebookId);
+            @Field("fbid") String facebookId,
+            @Field("pushkey") String pushkey,
+            @Field("device") String device);
 
     //User Calls
     @FormUrlEncoded

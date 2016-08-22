@@ -2,11 +2,8 @@ package com.combustiongroup.burntout;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -21,7 +18,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -31,7 +27,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.combustiongroup.burntout.GCM.QuickstartPreferences;
 import com.combustiongroup.burntout.GCM.RegistrationIntentService;
 import com.combustiongroup.burntout.network.BOAPI;
 import com.combustiongroup.burntout.network.dto.response.LoginResponse;
@@ -47,7 +42,6 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -59,6 +53,7 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 
 import org.json.JSONObject;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -69,9 +64,10 @@ import retrofit2.Callback;
 
 import static com.combustiongroup.burntout.network.BOAPI.gLoginResponse;
 
+
 public class Login extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    Intent main;
+    static Intent main;
 
     LocationManager lm;
     LocationListener ll_gps, ll_net;
@@ -90,11 +86,10 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
     @BindView(R.id.loginbutton)
     TextView mLoginButton;
 
-    private BroadcastReceiver mRegistrationBroadcastReceiver;
-    private boolean isReceiverRegistered;
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private SharedPreferences sp;
 
     private static final String TAG = "LoginActivity";
+    public static Context mContext;
 
 
     @Override
@@ -102,6 +97,9 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        mContext = this;
+
+        sp = PreferenceManager.getDefaultSharedPreferences(this);
 
         final ToggleButton toggleLanguage = (ToggleButton) findViewById(R.id.toggleLanguages);
 
@@ -149,6 +147,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
             public void onClick(View v) {
 
                 Intent i = new Intent(Login.this, ForgotPassword.class);
+                i.putExtra("email", mEmail.getText().toString());
                 startActivity(i);
             }
         });
@@ -221,27 +220,8 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
                 error.printStackTrace();
             }
         });
-        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                SharedPreferences sharedPreferences =
-                        PreferenceManager.getDefaultSharedPreferences(context);
-                boolean sentToken = sharedPreferences
-                        .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
-                if (sentToken) {
-                } else {
-                }
-            }
-        };
 
-        // Registering BroadcastReceiver
-        registerReceiver();
 
-        if (checkPlayServices()) {
-            // Start IntentService to register this application with GCM.
-            Intent intent = new Intent(this, RegistrationIntentService.class);
-            startService(intent);
-        }
     }//on create
 
     // In this function we validating the login fields: Email and Password.
@@ -269,8 +249,8 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
 
     }//loginClicked
 
-    private void login(String email, String password) {
-        SpinnerAlert.show(Login.this);
+    public static void login(final String email, final String password) {
+        SpinnerAlert.show(mContext);
         BOAPI.service.login(email, password, "Android", RegistrationIntentService.token).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, retrofit2.Response<LoginResponse> response) {
@@ -279,18 +259,21 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
 
                 // Check if login was successful, if it was then we get the value "one" on the status field
                 if (gLoginResponse.getStatus().equals("one")) {
-                    main = new Intent(Login.this, Main.class);
+                    main = new Intent(mContext, Main.class);
                     main.putExtra("fname", gLoginResponse.getFname());
                     main.putExtra("lname", gLoginResponse.getLname());
                     main.putExtra("picture", gLoginResponse.getPicture());
                     main.putExtra("email", gLoginResponse.getEmail());
-                    startActivity(main);
+                    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
+                    sp.edit().putString("email",email).putString("password", password).apply();
+                    SpinnerAlert.dismiss(mContext);
+                    mContext.startActivity(main);
 
                     // Check if login was unsuccessful, if it was then we get the value "two" on the status field
                 } else if (gLoginResponse.getStatus().equals("two")) {
                     // Show a Toast -Alert- that the email and password combination doesn't exits on the API
-                    Toast.makeText(Login.this, getString(R.string.error_email_password_invalid), Toast.LENGTH_LONG).show();
-                    SpinnerAlert.dismiss(Login.this);
+                    Toast.makeText(mContext, mContext.getString(R.string.error_email_password_invalid), Toast.LENGTH_LONG).show();
+                    SpinnerAlert.dismiss(mContext);
                 }
                 Log.i(TAG, "Logged in!");
                 Log.i(TAG, response.body().toString());
@@ -299,8 +282,8 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 Log.e(TAG, "Failed to login.");
-                Toast.makeText(Login.this, getString(R.string.error_request), Toast.LENGTH_LONG).show();
-                SpinnerAlert.dismiss(Login.this);
+                Toast.makeText(mContext, mContext.getString(R.string.error_request), Toast.LENGTH_LONG).show();
+                SpinnerAlert.dismiss(mContext);
 
                 t.printStackTrace();
             }
@@ -313,17 +296,19 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
 
         SpinnerAlert.show(Login.this);
 
-        BOAPI.service.facebookLogin(email, fname, lname, id).enqueue(new Callback<LoginResponse>() {
+        BOAPI.service.facebookLogin(email, fname, lname, id, RegistrationIntentService.token, "Android").enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, retrofit2.Response<LoginResponse> response) {
-
+                // This is the LoginResponse object that we get from the API
+                gLoginResponse = response.body();
+                gLoginResponse.setPicture("https://graph.facebook.com/" + id + "/picture");
                 Log.w(TAG, response.body().toString());
                 if (response.body().getStatus().equals("one")) {
                     main = new Intent(Login.this, Main.class);
-                    main.putExtra("fname", response.body().getFname());
-                    main.putExtra("lname", response.body().getLname());
-                    main.putExtra("picture", response.body().getPicture());
-                    main.putExtra("email", response.body().getEmail());
+                    main.putExtra("fname", gLoginResponse.getFname());
+                    main.putExtra("lname", gLoginResponse.getLname());
+                    main.putExtra("picture", gLoginResponse.getPicture());
+                    main.putExtra("email", gLoginResponse.getEmail());
 
                     doSettings();
                 }else{
@@ -564,47 +549,26 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
         }
     }//on request permissions result
 
-    private void registerReceiver() {
-        if (!isReceiverRegistered) {
-            LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
-                    new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
-            isReceiverRegistered = true;
+    protected void onResume() {
+
+        super.onResume();
+        fillEditTexts();
+
+    }
+
+    private void fillEditTexts() {
+
+        String savedEmail = sp.getString("email", "");
+        String savedPassword = sp.getString("password", "");
+        mEmail.setText(savedEmail);
+        mPassword.setText(savedPassword);
+
+        String incomingEmail = getIntent().getStringExtra("email");
+        if (incomingEmail != null) {
+            mEmail.setText(incomingEmail);
         }
-    }
-
-    /**
-     * Check the device to make sure it has the Google Play Services APK. If
-     * it doesn't, display a dialog that allows users to download the APK from
-     * the Google Play Store or enable it in the device's system settings.
-     */
-    private boolean checkPlayServices() {
-        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (apiAvailability.isUserResolvableError(resultCode)) {
-                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
-                        .show();
-            } else {
-                Log.i(TAG, "This device is not supported.");
-                finish();
-            }
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        registerReceiver();
 
     }
 
-    @Override
-    protected void onPause() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
-        isReceiverRegistered = false;
-        super.onPause();
-    }
 
 }//Login

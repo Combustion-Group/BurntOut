@@ -8,6 +8,9 @@ package com.combustiongroup.burntout.network.dto.response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
@@ -28,6 +31,8 @@ public class LoginResponse {
     @SerializedName("picture")
     @Expose
     private String picture;
+
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
      * @return The status
@@ -98,6 +103,16 @@ public class LoginResponse {
     public void setPicture(String picture) {
         this.picture = picture;
     }
+
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+    }
+
+
 
     @Override
     public String toString() {

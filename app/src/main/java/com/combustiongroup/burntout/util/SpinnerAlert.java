@@ -67,9 +67,8 @@ public class SpinnerAlert {
     /**
      * Dismisses the spinner
      *
-     * @param context
      */
-    public static void dismiss(Context context) {
+    public static void dismiss() {
 
         timer = new CountDownTimer(250, 250) {
             @Override
@@ -87,5 +86,10 @@ public class SpinnerAlert {
             }
         };
         timer.start();
+    }
+
+    public static void dismiss(Context context) {
+        dismiss();
+
     }
 }

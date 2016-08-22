@@ -1,16 +1,11 @@
 package com.combustiongroup.burntout;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -36,8 +31,6 @@ import com.combustiongroup.burntout.util.FileUtils;
 import com.combustiongroup.burntout.util.SpinnerAlert;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,6 +40,8 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+
+import static com.bumptech.glide.Glide.with;
 
 public class Main extends AppCompatActivity {
 
@@ -81,7 +76,7 @@ public class Main extends AppCompatActivity {
     Button report;
 
     static boolean dataSetModified;
-    static boolean showAlert = false;
+    public static boolean showAlert = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,9 +99,10 @@ public class Main extends AppCompatActivity {
         });
 
         photo = (ImageView) findViewById(R.id.photo);
+
         Glide
                 .with(Main.this)
-                .load(getIntent().getStringExtra("picture"))
+                .load(BOAPI.gLoginResponse.getPicture())
                 .asBitmap()
                 .placeholder(R.drawable.image_icon_avatar)
                 .centerCrop()
@@ -176,8 +172,7 @@ public class Main extends AppCompatActivity {
 
             final Uri lImageFile = data.getData();
 
-            Glide
-                    .with(Main.this)
+            with(Main.this)
                     .load(lImageFile)
                     .asBitmap()
                     .centerCrop()
@@ -305,6 +300,7 @@ public class Main extends AppCompatActivity {
 
     void getUserInfo(final String email) {
         Log.w(TAG, "Getting user's profile information...");
+        SpinnerAlert.show(this);
 
         BOAPI.service.getUserProfile(email).enqueue(new Callback<UserProfileResponse>() {
             @Override
