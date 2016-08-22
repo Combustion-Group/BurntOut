@@ -1,6 +1,8 @@
 package com.combustiongroup.burntout;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +19,8 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.combustiongroup.burntout.Login.mContext;
 
 public class ChangePassword extends AppCompatActivity {
 
@@ -93,6 +97,10 @@ public class ChangePassword extends AppCompatActivity {
             @Override
             public void onResponse(Call<StatusResponse> call, Response<StatusResponse> response) {
                 if (response.body().getStatus().equals("one")) {
+                    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
+                    sp.edit().putString("email", BOAPI.gUserInfo.getEmail()).putString("password", newpass.getText().toString()).apply();
+                    SpinnerAlert.dismiss(mContext);
+
                     Toast.makeText(ChangePassword.this, getString(R.string.password_changed), Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(ChangePassword.this, getString(R.string.error_changing_password), Toast.LENGTH_LONG).show();

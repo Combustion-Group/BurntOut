@@ -131,7 +131,7 @@ public class NotificationAdapter extends PagerAdapter {
         TextView received = (TextView) rootView.findViewById(R.id.received_value);
         TextView ranking = (TextView) rootView.findViewById(R.id.ranking_value);
         TextView report = (TextView) rootView.findViewById(R.id.report);
-        ImageView photo = (ImageView) rootView.findViewById(R.id.photo);
+        final ImageView photo = (ImageView) rootView.findViewById(R.id.photo);
 
 
         assert timestamp != null && message != null && plate != null &&
@@ -140,8 +140,9 @@ public class NotificationAdapter extends PagerAdapter {
 
         //                populate all text views
         timestamp.setText(BOAPI.gUserNotifications.get(n).getCreated());
+        Log.e(TAG, BOAPI.gUserNotifications.get(n).getPicture());
         Glide
-                .with(activity)
+                .with(activity.getApplicationContext())
                 .load(BOAPI.gUserNotifications.get(n).getPicture())
                 .asBitmap()
                 .override(80, 80)
@@ -156,7 +157,7 @@ public class NotificationAdapter extends PagerAdapter {
                         RoundedBitmapDrawable c = RoundedBitmapDrawableFactory.create(
                                 activity.getResources(), resource);
                         c.setCircular(true);
-//                       photo.setImageDrawable(c);
+                       photo.setImageDrawable(c);
                     }
                 });
         message.setText(BOAPI.gUserNotifications.get(n).getMessage());

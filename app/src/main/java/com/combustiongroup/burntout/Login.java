@@ -274,6 +274,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
                     // Show a Toast -Alert- that the email and password combination doesn't exits on the API
                     Toast.makeText(mContext, mContext.getString(R.string.error_email_password_invalid), Toast.LENGTH_LONG).show();
                     SpinnerAlert.dismiss(mContext);
+
                 }
                 Log.i(TAG, "Logged in!");
                 Log.i(TAG, response.body().toString());
