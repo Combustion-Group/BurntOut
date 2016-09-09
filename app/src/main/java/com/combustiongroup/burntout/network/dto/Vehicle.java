@@ -129,9 +129,9 @@ public class Vehicle implements Serializable {
             case "1":
                 return R.drawable.image_bike_front;
             case "2":
-                return R.drawable.image_truck_front;
-            case "3":
                 return R.drawable.image_bus_front;
+            case "3":
+                return R.drawable.image_truck_front;
         }
 
         return R.drawable.image_car_front;
@@ -143,9 +143,9 @@ public class Vehicle implements Serializable {
                 return 0;
             case R.drawable.image_bike_front:
                 return 1;
-            case R.drawable.image_truck_front:
-                return 2;
             case R.drawable.image_bus_front:
+                return 2;
+            case R.drawable.image_truck_front:
                 return 3;
         }
 

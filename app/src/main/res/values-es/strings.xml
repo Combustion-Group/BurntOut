@@ -147,4 +147,11 @@
 
     <string name="error_request">Se produjo un error mientras trabamos de realizar esta accion. Asegurese de estar connectado al internet o nuestros servidores estan pasadon por mantenimiento.</string>
 
+    <string name="you_have_notification">Usted tiene un fusible quemado</string>
+    <string name="has_reported"> ha reportado que su</string>
+    <string name="not_working"> no estan trabajando bien.</string>
+
+
+    <string name="dont_text_and_drive">No Mandes Mensajes y Manejes al Mismo Tiempo.</string>
+
 </resources>

@@ -158,6 +158,10 @@
             android:name=".GCM.RegistrationIntentService"
             android:exported="false">
         </service>
+        <activity
+            android:name=".Spinner"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Modal" />
     </application>
 
 </manifest>

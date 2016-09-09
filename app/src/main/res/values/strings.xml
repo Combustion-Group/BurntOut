@@ -141,5 +141,10 @@
     <string name="error_registrating_account">Error registrating the account</string>
 
     <string name="error_request">There was an error while trying to peform this action make sure you are connected to the internet. Also, our servers might be down for maintance</string>
+    <string name="you_have_notification">You have a BurntOut</string>
+    <string name="has_reported"> has reported that your </string>
+    <string name="not_working"> are not working properly.</string>
+
+    <string name="dont_text_and_drive">Don\'t Text and Drive</string>
 
 </resources>

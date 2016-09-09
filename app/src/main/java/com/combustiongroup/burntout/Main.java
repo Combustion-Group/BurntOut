@@ -1,11 +1,16 @@
 package com.combustiongroup.burntout;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -19,29 +24,36 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.combustiongroup.burntout.network.BOAPI;
+import com.combustiongroup.burntout.network.Net;
 import com.combustiongroup.burntout.network.dto.Vehicle;
 import com.combustiongroup.burntout.network.dto.response.StatusResponse;
 import com.combustiongroup.burntout.network.dto.response.UserProfileResponse;
 import com.combustiongroup.burntout.ui.VehicleAdapter;
-import com.combustiongroup.burntout.util.FileUtils;
+import com.combustiongroup.burntout.util.PermissionUtils;
 import com.combustiongroup.burntout.util.SpinnerAlert;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 
 import static com.bumptech.glide.Glide.with;
+import static com.combustiongroup.burntout.util.PermissionUtils.PermissionsRequestCode;
 
 public class Main extends AppCompatActivity {
 
@@ -122,6 +134,7 @@ public class Main extends AppCompatActivity {
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                PermissionUtils.requestAppPermissions(Main.this);
 
                 addPhoto();
                 photo.setMinimumHeight(100);
@@ -162,13 +175,36 @@ public class Main extends AppCompatActivity {
         });
 
 
+        PermissionUtils.requestAppPermissions(this);
+
+
+
     }//on create
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PermissionsRequestCode: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Toast.makeText(Main.this, "You need to have the require permissions to access this app", Toast.LENGTH_LONG).show();
+
+                }
+                return;
+            }
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == IntentMedia && resultCode == Activity.RESULT_OK) {
-
 
             final Uri lImageFile = data.getData();
 
@@ -187,8 +223,7 @@ public class Main extends AppCompatActivity {
 
                             RoundedBitmapDrawable c = RoundedBitmapDrawableFactory.create(getResources(), resource);
                             c.setCircular(true);
-
-                            updateUserImage(lImageFile);
+                            updateUserImage(getBytesForBitmap(resource));
                             photo.setImageDrawable(c);
 
                         }
@@ -270,31 +305,31 @@ public class Main extends AppCompatActivity {
 
     //thank you, stack overflow
     private void addPhoto() {
-//        // Camera.
-//        final List<Intent> cameraIntents = new ArrayList<Intent>();
-//        final Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        final PackageManager packageManager = getPackageManager();
-//        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-//        for (ResolveInfo res : listCam) {
-//            final String packageName = res.activityInfo.packageName;
-//            final Intent intent = new Intent(captureIntent);
-//            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-//            intent.setPackage(packageName);
-//            intent.putExtra(MediaStore.MEDIA_IGNORE_FILENAME, ".nomedia");
-//
-//            cameraIntents.add(intent);
-//        }
+        // Camera.
+        final List<Intent> cameraIntents = new ArrayList<Intent>();
+        final Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        final PackageManager packageManager = getPackageManager();
+        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+        for (ResolveInfo res : listCam) {
+            final String packageName = res.activityInfo.packageName;
+            final Intent intent = new Intent(captureIntent);
+            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            intent.setPackage(packageName);
+            intent.putExtra(MediaStore.MEDIA_IGNORE_FILENAME, ".nomedia");
+
+            cameraIntents.add(intent);
+        }
 
         // Filesystem.
         final Intent galleryIntent = new Intent();
-        galleryIntent.setType("image/*");
+        galleryIntent.setType("image/jpeg");
         galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
 
         // Chooser of filesystem options.
         final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select an image");
 
         // Add the camera options.
-//        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
         startActivityForResult(chooserIntent, IntentMedia);
     }//add photo
 
@@ -343,31 +378,75 @@ public class Main extends AppCompatActivity {
         rankingValue.setText( BOAPI.gUserStats.getMy_rank());
     }//set user info
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void updateUserImage(Uri aImageFile) {
-        File file = FileUtils.getFile(this, aImageFile);
+//    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+//    public void updateUserImage(Uri aImageFile) {
+//        File file = FileUtils.getFile(this, aImageFile);
+//
+//        RequestBody reqFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
+//        MultipartBody.Part body = MultipartBody.Part.createFormData("filename", "picture_for_user_" +  BOAPI.gUserInfo.getUser_id() + ".jpg", reqFile);
+//        SpinnerAlert.show(Main.this);
+//        Log.e(TAG, file.getName());
+//        Log.e(TAG, file.getPath());
+//
+//        BOAPI.service.uploadProfilePicure(BOAPI.gUserInfo.getEmail(), body).enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+//
+//                Log.e(TAG, "Picture has been uploaded");
+//
+//                SpinnerAlert.dismiss(Main.this);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                t.printStackTrace();
+//                SpinnerAlert.dismiss(Main.this);
+//            }
+//        });
+//    }//update user image
 
-        RequestBody reqFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("filename", "picture_for_user_" +  BOAPI.gUserInfo.getUser_id() + ".jpg", reqFile);
-        SpinnerAlert.show(Main.this);
-        Log.e(TAG, file.getName());
-        Log.e(TAG, file.getPath());
+    public void updateUserImage(final byte[] imageData) {
+        VolleyMultipartRequest req = new VolleyMultipartRequest(Request.Method.POST, Net.Urls.SetProfileImage.value,
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
 
-        BOAPI.service.uploadProfilePicure(BOAPI.gUserInfo.getEmail(), body).enqueue(new Callback<ResponseBody>() {
+                        Log.w("#app update image", new String(response.data));
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        error.printStackTrace();
+                    }
+                }) {
             @Override
-            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+            protected Map<String, String> getParams() throws AuthFailureError {
 
-                Log.e(TAG, "Picture has been uploaded");
+                Map<String, String> params = new HashMap<>();
 
-                SpinnerAlert.dismiss(Main.this);
+                params.put("email", getIntent().getStringExtra("email"));
+
+                return params;
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                t.printStackTrace();
-                SpinnerAlert.dismiss(Main.this);
+            protected Map<String, DataPart> getByteData() throws AuthFailureError {
+
+                Map<String, DataPart> data = new HashMap<>();
+
+                data.put("filename", new DataPart(
+                        "picture_for_user_" + BOAPI.gUserInfo.getUser_id() + ".jpg",
+                        imageData,
+                        "image/jpeg"
+                ));
+
+                return data;
             }
-        });
+        };
+//        Net.singleton.requestQueue.add(req);
+        Net.singleton.addRequest(Main.this, req);
     }//update user image
 
     void deleteVehicle(final int position) {
@@ -422,5 +501,12 @@ public class Main extends AppCompatActivity {
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
     }//logout
+
+    public byte[] getBytesForBitmap(Bitmap b) {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        b.compress(Bitmap.CompressFormat.JPEG, 60, baos);
+        return baos.toByteArray();
+    }//get bytes for bitmap
 
 }//Main
