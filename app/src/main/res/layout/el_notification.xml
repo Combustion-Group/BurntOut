@@ -88,15 +88,12 @@
             android:layout_marginBottom="8dp"/>
         <RelativeLayout
             android:id="@+id/vehicle"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_width="30dp"
+            android:layout_width="60dp"
             android:layout_height="30dp"
             app:layout_aspectRatio="100%"
-            app:layout_marginTopPercent="2%"
-            android:layout_alignStart="@id/vehicle_background"
-            android:layout_alignEnd="@id/vehicle_background"
-            android:layout_above="@id/plate_number">
+            android:layout_above="@id/plate_number"
+            android:layout_alignTop="@+id/message"
+            android:layout_alignEnd="@+id/report_container">
 
 
         </RelativeLayout>

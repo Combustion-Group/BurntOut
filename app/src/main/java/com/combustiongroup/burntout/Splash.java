@@ -66,7 +66,7 @@ public class Splash extends AppCompatActivity {
         }
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.app_name))
-                .setMessage(getString(R.string.don_apos_t_have_an_account))
+                .setMessage(getString(R.string.dont_text_and_drive))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // continue with delete

@@ -2,7 +2,6 @@
 <android.support.percent.PercentRelativeLayout
     android:id="@+id/container_vehicle"
     app:layout_aspectRatio="100%"
-
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
@@ -11,41 +10,37 @@
 
     <android.support.percent.PercentRelativeLayout
         android:id="@+id/front"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_widthPercent="42%"
-        app:layout_aspectRatio="100%"
-        app:layout_marginStartPercent="4%"
-        app:layout_marginEndPercent="4%">
+        android:layout_width="60dp"
+        android:layout_height="40dp">
 
         <View
             android:id="@+id/front_0"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_widthPercent="15%"
+            app:layout_widthPercent="9%"
             app:layout_aspectRatio="100%"
             app:layout_marginTopPercent="46%"
-            app:layout_marginStartPercent="5%"
+            app:layout_marginStartPercent="20%"
             android:background="@color/yellow"/>
 
         <View
             android:id="@+id/front_1"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_widthPercent="14%"
+            app:layout_widthPercent="8%"
             app:layout_aspectRatio="100%"
             app:layout_marginTopPercent="60%"
-            app:layout_marginStartPercent="5%"
+            app:layout_marginStartPercent="20%"
             android:background="@color/yellow"/>
 
         <View
             android:id="@+id/front_2"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_widthPercent="15%"
+            app:layout_widthPercent="10%"
             app:layout_aspectRatio="100%"
             app:layout_marginTopPercent="46%"
-            app:layout_marginEndPercent="4%"
+            app:layout_marginEndPercent="19%"
             android:layout_alignParentEnd="true"
             android:background="@color/yellow"/>
 
@@ -53,10 +48,10 @@
             android:id="@+id/front_3"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_widthPercent="14%"
+            app:layout_widthPercent="8%"
             app:layout_aspectRatio="100%"
             app:layout_marginTopPercent="60%"
-            app:layout_marginEndPercent="4%"
+            app:layout_marginEndPercent="19%"
             android:layout_alignParentEnd="true"
             android:background="@color/yellow"/>
 
@@ -68,40 +63,36 @@
 
     <android.support.percent.PercentRelativeLayout
         android:id="@+id/back"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_widthPercent="42%"
-        app:layout_aspectRatio="100%"
-        android:layout_toEndOf="@id/front"
-        app:layout_marginStartPercent="4%">
+        android:layout_width="60dp"
+        android:layout_height="40dp">
 
         <View
             android:id="@+id/back_0"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_widthPercent="14%"
+            app:layout_widthPercent="7%"
             app:layout_aspectRatio="100%"
-            app:layout_marginTopPercent="58%"
-            app:layout_marginStartPercent="2%"
+            app:layout_marginTopPercent="60%"
+            app:layout_marginStartPercent="17%"
             android:background="@color/button_red"/>
 
         <View
             android:id="@+id/back_1"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_widthPercent="15%"
+            app:layout_widthPercent="10%"
             app:layout_aspectRatio="100%"
-            app:layout_marginTopPercent="45%"
-            app:layout_marginStartPercent="7.5%"
+            app:layout_marginTopPercent="44%"
+            app:layout_marginStartPercent="20%"
             android:background="@color/button_red"/>
 
         <View
             android:id="@+id/back_2"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_widthPercent="30%"
+            app:layout_widthPercent="15%"
             app:layout_aspectRatio="400%"
-            app:layout_marginTopPercent="3%"
+            app:layout_marginTopPercent="2%"
             android:layout_centerHorizontal="true"
             android:background="@color/button_red"/>
 
@@ -109,20 +100,20 @@
             android:id="@+id/back_3"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_widthPercent="33%"
+            app:layout_widthPercent="19%"
             app:layout_aspectRatio="360%"
-            app:layout_marginTopPercent="73%"
-            app:layout_marginStartPercent="35.5%"
+            app:layout_marginTopPercent="74%"
+            app:layout_marginStartPercent="42%"
             android:background="@color/button_red"/>
 
         <View
             android:id="@+id/back_4"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_widthPercent="15%"
+            app:layout_widthPercent="9%"
             app:layout_aspectRatio="100%"
             app:layout_marginTopPercent="45%"
-            app:layout_marginEndPercent="6%"
+            app:layout_marginEndPercent="22%"
             android:layout_alignParentEnd="true"
             android:background="@color/button_red"/>
 
@@ -130,10 +121,10 @@
             android:id="@+id/back_5"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_widthPercent="14%"
+            app:layout_widthPercent="8%"
             app:layout_aspectRatio="100%"
             app:layout_marginTopPercent="59%"
-            app:layout_marginEndPercent="0%"
+            app:layout_marginEndPercent="17%"
             android:layout_alignParentEnd="true"
             android:background="@color/button_red"/>
 

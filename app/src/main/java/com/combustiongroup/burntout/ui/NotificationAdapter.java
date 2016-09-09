@@ -170,16 +170,16 @@ public class NotificationAdapter extends PagerAdapter {
         received.setText(BOAPI.gUserNotifications.get(n).getNotifier_reporter_count());
         ranking.setText(BOAPI.gUserNotifications.get(n).getTheranking());
         report.setText(BOAPI.gUserNotifications.get(n).getUser_fname() + " " +
-                BOAPI.gUserNotifications.get(n).getUser_lname() + activity.getString(R.string.has_reported) +
-                BOAPI.gUserNotifications.get(n).getLights_out() + activity.getString(R.string.not_working));
+                BOAPI.gUserNotifications.get(n).getUser_lname() + " " + activity.getString(R.string.has_reported) +
+                BOAPI.gUserNotifications.get(n).getLights_out() + " " + activity.getString(R.string.not_working));
         RelativeLayout vehicleView = (RelativeLayout) rootView.findViewById(R.id.vehicle);
 
         int vehicleType = Integer.parseInt(BOAPI.gUserNotifications.get(n).getVehicle_type());
         switch (vehicleType) {
             case 0:
-                View car = inflater.inflate(R.layout.el_car, null);
+                View car = inflater.inflate(R.layout.el_car_notification, null);
                 new VehicleLights(
-                        R.layout.el_car,
+                        R.layout.el_car_notification,
                         new int[]{
                                 R.id.front_0,
                                 R.id.front_1,
@@ -219,10 +219,10 @@ public class NotificationAdapter extends PagerAdapter {
                 vehicleView.addView(car);
                 break;
             case 1:
-                View bike = inflater.inflate(R.layout.el_bike, null);
+                View bike = inflater.inflate(R.layout.el_bike_notification, null);
 
                 new VehicleLights(
-                        R.layout.el_bike,
+                        R.layout.el_bike_notification,
                         new int[]{
                                 R.id.front_0,
                                 R.id.back_0,
@@ -245,9 +245,9 @@ public class NotificationAdapter extends PagerAdapter {
                 break;
             case 2:
 
-                View bus = inflater.inflate(R.layout.el_bus, null);
+                View bus = inflater.inflate(R.layout.el_bus_notification, null);
                 new VehicleLights(
-                        R.layout.el_bus,
+                        R.layout.el_bus_notification,
                         new int[]{
                                 R.id.front_0,
                                 R.id.front_1,
@@ -295,10 +295,10 @@ public class NotificationAdapter extends PagerAdapter {
                 break;
             case 3:
 
-                View truck = inflater.inflate(R.layout.el_truck, null);
+                View truck = inflater.inflate(R.layout.el_truck_notification, null);
 
                 new VehicleLights(
-                        R.layout.el_truck,
+                        R.layout.el_truck_notification,
                         new int[]{
                                 R.id.front_0,
                                 R.id.front_1,
@@ -373,11 +373,11 @@ public class NotificationAdapter extends PagerAdapter {
 
         public void showBurntouts(final View view, String burntouts) {
             String[] result = burntouts.split(", ");
+            Log.e("Raw Lights", "s" + burntouts);
 
-            TextView lblFront = (TextView) view.findViewById(R.id.lbl_front);
-            lblFront.setVisibility(View.GONE);
-            TextView lblBack = (TextView) view.findViewById(R.id.lbl_back);
-            lblBack.setVisibility(View.GONE);
+            if (result[0].indexOf(" ") == 0) {
+                result[0] = result[0].substring(1);
+            }
 
             for (int i = 0; i < active.length; i++) {
                 final int n = i;
@@ -385,11 +385,10 @@ public class NotificationAdapter extends PagerAdapter {
                 final View l = view.findViewById(this.ids[i]);
                 l.setBackgroundResource(android.R.color.transparent);
                 if (l != null) {
-                    Log.w("This is one:", l.toString());
                     if (active[n]) {
                         for (int s = 0; s < result.length; s++) {
-                            Log.w("These are the lights ", result[s]);
-                            Log.w("These are the issues: ", issues[i]);
+                            Log.w("These are the lights", result[s]);
+                            Log.w("These are the issues", issues[i]);
                             if (result[s].equals(issues[i])) {
                                 l.setBackgroundResource(colors[i]);
                             }
@@ -402,18 +401,19 @@ public class NotificationAdapter extends PagerAdapter {
 
                 }
             }
-            final PercentRelativeLayout front = (PercentRelativeLayout) view.findViewById(R.id.front);
-            final PercentRelativeLayout back = (PercentRelativeLayout) view.findViewById(R.id.back);
+
+            final RelativeLayout front = (RelativeLayout) view.findViewById(R.id.front);
+            final RelativeLayout back = (RelativeLayout) view.findViewById(R.id.back);
             new CountDownTimer(600000, 3000) {
 
                 public void onTick(long millisUntilFinished) {
 
                     if (front.getVisibility() == View.VISIBLE) {
                         back.setVisibility(View.VISIBLE);
-                        front.setVisibility(View.INVISIBLE);
+                        front.setVisibility(View.GONE);
                     } else {
                         front.setVisibility(View.VISIBLE);
-                        back.setVisibility(View.INVISIBLE);
+                        back.setVisibility(View.GONE);
 
                         alternate = true;
                     }

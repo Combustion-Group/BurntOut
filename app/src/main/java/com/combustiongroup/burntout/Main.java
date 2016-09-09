@@ -335,7 +335,7 @@ public class Main extends AppCompatActivity {
 
     void getUserInfo(final String email) {
         Log.w(TAG, "Getting user's profile information...");
-        SpinnerAlert.show(this);
+        SpinnerAlert.show(Main.this);
 
         BOAPI.service.getUserProfile(email).enqueue(new Callback<UserProfileResponse>() {
             @Override

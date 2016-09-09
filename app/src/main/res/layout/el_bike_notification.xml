@@ -1,74 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.percent.PercentRelativeLayout
     android:id="@+id/container_vehicle"
+    app:layout_aspectRatio="100%"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/background_gray"
     android:layout_width="wrap_content"
-    app:layout_aspectRatio="100%"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/background_gray">
 
     <android.support.percent.PercentRelativeLayout
         android:id="@+id/front"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_widthPercent="42%"
-        app:layout_aspectRatio="100%"
-        app:layout_marginStartPercent="4%"
-        app:layout_marginEndPercent="4%">
+        android:layout_width="60dp"
+        android:layout_height="40dp">
 
         <View
             android:id="@+id/front_0"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_widthPercent="20%"
+            app:layout_widthPercent="10%"
             app:layout_aspectRatio="100%"
-            app:layout_marginTopPercent="6%"
-            android:layout_centerHorizontal="true"
+            app:layout_marginTopPercent="8%"
+            app:layout_marginStartPercent="46%"
             android:background="@color/yellow"/>
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/image_bike_front"/>
+
     </android.support.percent.PercentRelativeLayout>
     <android.support.percent.PercentRelativeLayout
         android:id="@+id/back"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_widthPercent="42%"
-        app:layout_aspectRatio="100%"
-        android:layout_toEndOf="@id/front"
-        app:layout_marginStartPercent="4%">
+        android:layout_width="60dp"
+        android:layout_height="40dp">
 
         <View
             android:id="@+id/back_0"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_widthPercent="10%"
+            app:layout_widthPercent="5%"
             app:layout_aspectRatio="100%"
-            app:layout_marginTopPercent="68%"
-            app:layout_marginStartPercent="28.5%"
+            app:layout_marginTopPercent="70%"
+            app:layout_marginStartPercent="37%"
             android:background="@android:color/holo_orange_light"/>
 
         <View
             android:id="@+id/back_1"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_widthPercent="20%"
+            app:layout_widthPercent="9%"
             app:layout_aspectRatio="140%"
-            app:layout_marginTopPercent="61%"
-            app:layout_marginStartPercent="41%"
+            app:layout_marginTopPercent="64%"
+            app:layout_marginStartPercent="46%"
             android:background="@color/button_red"/>
 
         <View
             android:id="@+id/back_2"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_widthPercent="10%"
+            app:layout_widthPercent="6%"
             app:layout_aspectRatio="100%"
             app:layout_marginTopPercent="68%"
-            app:layout_marginStartPercent="62%"
+            app:layout_marginStartPercent="59%"
             android:background="@android:color/holo_orange_light"/>
 
         <ImageView
