@@ -171,7 +171,7 @@ public class NotificationAdapter extends PagerAdapter {
         ranking.setText(BOAPI.gUserNotifications.get(n).getTheranking());
         report.setText(BOAPI.gUserNotifications.get(n).getUser_fname() + " " +
                 BOAPI.gUserNotifications.get(n).getUser_lname() + " " + activity.getString(R.string.has_reported) +
-                BOAPI.gUserNotifications.get(n).getLights_out() + " " + activity.getString(R.string.not_working));
+                BOAPI.gUserNotifications.get(n).getLights_out().replace("Front ", "").replace("Back ","") + " " + activity.getString(R.string.not_working));
         RelativeLayout vehicleView = (RelativeLayout) rootView.findViewById(R.id.vehicle);
 
         int vehicleType = Integer.parseInt(BOAPI.gUserNotifications.get(n).getVehicle_type());
@@ -205,16 +205,16 @@ public class NotificationAdapter extends PagerAdapter {
                                 R.color.button_red
                         },
                         new String[]{
-                                "Right Headlight",
-                                "Right Fog Light",
-                                "Left Headlight",
-                                "Left Fog Light",
-                                "Left Tail Light",
-                                "Left Brake Light",
-                                "Center Brake Light",
-                                "License Plate Light",
-                                "Right Brake Light",
-                                "Right Tail Light"
+                                "Front Right Headlight",
+                                "Front Right Fog Light",
+                                "Front Left Headlight",
+                                "Front Left Fog Light",
+                                "Back Left Tail Light",
+                                "Back Left Brake Light",
+                                "Back Center Brake Light",
+                                "Back License Plate Light",
+                                "Back Right Brake Light",
+                                "Back Right Tail Light"
                         }).showBurntouts(car, BOAPI.gUserNotifications.get(n).getLights_out());
                 vehicleView.addView(car);
                 break;
@@ -236,10 +236,10 @@ public class NotificationAdapter extends PagerAdapter {
                                 android.R.color.holo_orange_light
                         },
                         new String[]{
-                                "Headlight",
-                                "Left Turn Signal",
-                                "Brake Light",
-                                "Right Turn Signal"
+                                "Front Headlight",
+                                "Back Left Turn Signal",
+                                "Back Brake Light",
+                                "Back Right Turn Signal"
                         }).showBurntouts(bike, BOAPI.gUserNotifications.get(n).getLights_out());
                 vehicleView.addView(bike);
                 break;
@@ -277,18 +277,18 @@ public class NotificationAdapter extends PagerAdapter {
                                 R.color.button_red
                         },
                         new String[]{
-                                "Right Headlight",
-                                "Right Marker Light",
-                                "Left Marker Light",
-                                "Left Headlight",
-                                "Left Brake Light",
-                                "Left Marker Light",
-                                "Left Tail Light",
-                                "Center Marker Light",
-                                "Center Brake Light",
-                                "Right Tail Light",
-                                "Right Marker Light",
-                                "Right Brake Light"
+                                "Front Right Headlight",
+                                "Front Right Marker Light",
+                                "Front Left Marker Light",
+                                "Front Left Headlight",
+                                "Back Left Brake Light",
+                                "Back Left Marker Light",
+                                "Back Left Tail Light",
+                                "Back Center Marker Light",
+                                "Back Center Brake Light",
+                                "Back Right Tail Light",
+                                "Back Right Marker Light",
+                                "Back Right Brake Light"
                         }).showBurntouts(bus, BOAPI.gUserNotifications.get(n).getLights_out());
 
                 vehicleView.addView(bus);
@@ -322,15 +322,15 @@ public class NotificationAdapter extends PagerAdapter {
                                 R.color.button_red
                         },
                         new String[]{
-                                "Right Headlight",
-                                "Left Headlight",
-                                "Left Tail Light",
-                                "Left Brake Light",
-                                "Left Marker Light",
-                                "Center Marker Light",
-                                "Right Tail Light",
-                                "Right Brake Light",
-                                "Right Marker Light"
+                                "Front Right Headlight",
+                                "Front Left Headlight",
+                                "Back Left Tail Light",
+                                "Back Left Brake Light",
+                                "Back Left Marker Light",
+                                "Back Center Marker Light",
+                                "Back Right Tail Light",
+                                "Back Right Brake Light",
+                                "Back Right Marker Light"
                         }).showBurntouts(truck, BOAPI.gUserNotifications.get(n).getLights_out());
                 vehicleView.addView(truck);
                 break;
