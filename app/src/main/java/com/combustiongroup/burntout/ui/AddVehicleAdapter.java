@@ -1,7 +1,6 @@
 package com.combustiongroup.burntout.ui;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -10,10 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.combustiongroup.burntout.Main;
 import com.combustiongroup.burntout.R;
-
-import static com.combustiongroup.burntout.network.BOAPI.gUserVehicles;
 
 /**
  * Created by WarMachine on 8/19/16.
@@ -25,8 +21,8 @@ public class AddVehicleAdapter extends PagerAdapter {
     int[] images = new int[]{
             R.drawable.image_car_front,
             R.drawable.image_bike_front,
-            R.drawable.image_truck_front,
-            R.drawable.image_bus_front};
+            R.drawable.image_bus_front,
+            R.drawable.image_truck_front};
 
     public AddVehicleAdapter(Activity activity) {
         this.activity = activity;
@@ -46,8 +42,9 @@ public class AddVehicleAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         String[] names = new String[]{activity.getResources().getString(R.string.car),
-                activity.getResources().getString(R.string.bike), activity.getResources().getString(R.string.truck),
-                activity.getResources().getString(R.string.bus)};
+                activity.getResources().getString(R.string.bike),
+                activity.getResources().getString(R.string.bus),
+                activity.getResources().getString(R.string.truck)};
         LayoutInflater inflater = LayoutInflater.from(container.getContext());
 
         View rootView = inflater.inflate(R.layout.pager_image_label_bottom, container, false);

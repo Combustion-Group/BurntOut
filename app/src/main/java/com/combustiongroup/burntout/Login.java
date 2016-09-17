@@ -310,6 +310,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
                     main.putExtra("lname", gLoginResponse.getLname());
                     main.putExtra("picture", gLoginResponse.getPicture());
                     main.putExtra("email", gLoginResponse.getEmail());
+                    BOAPI.facebookUser = true;
 
                     doSettings();
                 }else{

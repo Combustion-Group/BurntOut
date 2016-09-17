@@ -169,9 +169,9 @@ public class NotificationAdapter extends PagerAdapter {
         reported.setText(BOAPI.gUserNotifications.get(n).getNotifier_reported_count());
         received.setText(BOAPI.gUserNotifications.get(n).getNotifier_reporter_count());
         ranking.setText(BOAPI.gUserNotifications.get(n).getTheranking());
-        report.setText(BOAPI.gUserNotifications.get(n).getUser_fname() + " " +
+        report.setText(BOAPI.gUserNotifications.get(n).getUser_fname() + "  " +
                 BOAPI.gUserNotifications.get(n).getUser_lname() + " " + activity.getString(R.string.has_reported) +
-                BOAPI.gUserNotifications.get(n).getLights_out().replace("Front ", "").replace("Back ","") + " " + activity.getString(R.string.not_working));
+                BOAPI.gUserNotifications.get(n).getLights_out().replace("Front ", " ").replace("Back "," ") + " " + activity.getString(R.string.not_working));
         RelativeLayout vehicleView = (RelativeLayout) rootView.findViewById(R.id.vehicle);
 
         int vehicleType = Integer.parseInt(BOAPI.gUserNotifications.get(n).getVehicle_type());

@@ -7,11 +7,9 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.support.annotation.RequiresApi;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.ViewPager;
@@ -52,13 +50,12 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-import static com.bumptech.glide.Glide.with;
 import static com.combustiongroup.burntout.util.PermissionUtils.PermissionsRequestCode;
 
 public class Main extends AppCompatActivity {
 
     public static final int IntentNone = -1;
-    public static final int IntentMedia = 0;
+    public static final int IntentMedia = 4;
     public static final int IntentAdd = 1;
     public static final int IntentEdit = 2;
     public static final int IntentEditVehicle = 3;
@@ -90,6 +87,8 @@ public class Main extends AppCompatActivity {
     static boolean dataSetModified;
     public static boolean showAlert = false;
 
+    private Uri outputFileUri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,8 +111,7 @@ public class Main extends AppCompatActivity {
 
         photo = (ImageView) findViewById(R.id.photo);
 
-        Glide
-                .with(Main.this)
+        Glide.with(Main.this)
                 .load(BOAPI.gLoginResponse.getPicture())
                 .asBitmap()
                 .placeholder(R.drawable.image_icon_avatar)
@@ -203,31 +201,85 @@ public class Main extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == IntentMedia && resultCode == Activity.RESULT_OK) {
 
-            final Uri lImageFile = data.getData();
+                Uri filepath = data.getData();
+//            Log.w("#app", filepath.toString());
 
-            with(Main.this)
-                    .load(lImageFile)
-                    .asBitmap()
-                    .centerCrop()
-                    .placeholder(R.drawable.image_icon_avatar)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(new BitmapImageViewTarget(photo) {
+                Glide
+                        .with(Main.this)
+                        .load(filepath)
+                        .asBitmap()
+                        .centerCrop()
+                        .placeholder(R.drawable.image_icon_avatar)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(new BitmapImageViewTarget(photo) {
 
-                        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                        @Override
-                        protected void setResource(Bitmap resource) {
+                            @Override
+                            protected void setResource(Bitmap resource) {
 
-                            RoundedBitmapDrawable c = RoundedBitmapDrawableFactory.create(getResources(), resource);
-                            c.setCircular(true);
-                            updateUserImage(getBytesForBitmap(resource));
-                            photo.setImageDrawable(c);
+                                RoundedBitmapDrawable c = RoundedBitmapDrawableFactory.create(getResources(), resource);
+                                c.setCircular(true);
+                                updateUserImage(getBytesForBitmap(resource));
+                                photo.setImageDrawable(c);
 
-                        }
-                    });
+                            }
+                        });
+//            final boolean isCamera;
+//            if (data == null) {
+//                isCamera = true;
+//                Log.e("onActivityResult","camera was use");
+//
+//            } else {
+//                final String action = data.getAction();
+//                if (action == null) {
+//                    Log.e("onActivityResult","camera was not use");
+//
+//                    isCamera = false;
+//                } else {
+//                    isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//                }
+//            }
+//
+//            Uri lImageFile;
+//            if (isCamera) {
+//                lImageFile = outputFileUri;
+//                Log.e("onActivityResult path",outputFileUri.getPath());
+//
+//
+//            } else {
+//                lImageFile = data == null ? null : data.getData();
+//            }
+//
+//            Log.e("onActivityResult","back from camera");
+//
+//            Glide.with(Main.this)
+//                    .load(lImageFile)
+//                    .asBitmap()
+//                    .centerCrop()
+//                    .placeholder(R.drawable.image_icon_avatar)
+//                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                    .skipMemoryCache(true)
+//                    .into(new BitmapImageViewTarget(photo) {
+//
+//                        @Override
+//                        protected void setResource(Bitmap resource) {
+//
+//                            RoundedBitmapDrawable c = RoundedBitmapDrawableFactory.create(getResources(), resource);
+//                            c.setCircular(true);
+//                            Log.e("onActivityResult","Before Execute");
+//
+//                            updateUserImage(getBytesForBitmap(resource));
+//                            photo.setImageDrawable(c);
+//
+//                        }
+//                    });
+//
+//            Log.e("onActivityResult","After everything");
+
         }//media intent
         else if (requestCode == IntentAdd && resultCode == Activity.RESULT_OK) {
             BOAPI.gUserVehicles.add(new Vehicle(
@@ -303,11 +355,48 @@ public class Main extends AppCompatActivity {
 
     }//on resume
 
-    //thank you, stack overflow
     private void addPhoto() {
+//
+//        // Determine Uri of camera image to save.
+//        final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "MyDir" + File.separator);
+//        root.mkdirs();
+//        final String fname = "img_"+ System.currentTimeMillis() + ".jpg";
+//        final File sdImageMainDirectory = new File(root, fname);
+//        outputFileUri = Uri.fromFile(sdImageMainDirectory);
+//
+//        // Camera.
+//        List<Intent> cameraIntents = new ArrayList<Intent>();
+//        Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        PackageManager packageManager = getPackageManager();
+//        List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+//        for (ResolveInfo res : listCam) {
+//            String packageName = res.activityInfo.packageName;
+//            Intent intent = new Intent(captureIntent);
+//            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+//            intent.setPackage(packageName);
+//
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+//
+//            cameraIntents.add(intent);
+//        }
+//
+//        // Filesystem.
+//        final Intent galleryIntent = new Intent();
+//        galleryIntent.setType("image/jpeg");
+//        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+//
+//        // Chooser of filesystem options.
+//        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select an image");
+//
+//        // Add the camera options.
+//        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
+//        if (captureIntent.resolveActivity(getPackageManager()) != null) {
+//
+//            startActivityForResult(chooserIntent, IntentMedia);
+//        }
         // Camera.
         final List<Intent> cameraIntents = new ArrayList<Intent>();
-        final Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         final PackageManager packageManager = getPackageManager();
         final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
         for (ResolveInfo res : listCam) {
@@ -322,7 +411,7 @@ public class Main extends AppCompatActivity {
 
         // Filesystem.
         final Intent galleryIntent = new Intent();
-        galleryIntent.setType("image/jpeg");
+        galleryIntent.setType("image/*");
         galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
 
         // Chooser of filesystem options.

@@ -43,6 +43,7 @@ public class BOAPI {
     public static Stats gUserStats;
     public static List<Vehicle> gUserVehicles;
     public static List<Notifications> gUserNotifications;
+    public static boolean facebookUser;
 
     private static OkHttpClient getClient(){
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new LoggingInterceptor()).build();

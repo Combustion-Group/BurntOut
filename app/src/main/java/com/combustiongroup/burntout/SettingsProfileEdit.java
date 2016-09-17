@@ -43,7 +43,7 @@ public class SettingsProfileEdit extends AppCompatActivity {
         //test
 //        Main.gUserInfo.isFB = true;
 
-        if (BOAPI.gUserInfo.getUser_FBID().equals("1")) {
+        if (BOAPI.gUserInfo.getUser_isFB().equals("1")) {
             email.setVisibility(View.GONE);
             changePassword.setVisibility(View.GONE);
         }
