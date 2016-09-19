@@ -7,7 +7,9 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
@@ -40,6 +42,7 @@ import com.combustiongroup.burntout.util.PermissionUtils;
 import com.combustiongroup.burntout.util.SpinnerAlert;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -88,6 +91,7 @@ public class Main extends AppCompatActivity {
     public static boolean showAlert = false;
 
     private Uri outputFileUri;
+    int currentapiVersion = android.os.Build.VERSION.SDK_INT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,6 +208,7 @@ public class Main extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == IntentMedia && resultCode == Activity.RESULT_OK) {
+            if (currentapiVersion < Build.VERSION_CODES.LOLLIPOP) {
 
                 Uri filepath = data.getData();
 //            Log.w("#app", filepath.toString());
@@ -228,58 +233,59 @@ public class Main extends AppCompatActivity {
 
                             }
                         });
-//            final boolean isCamera;
-//            if (data == null) {
-//                isCamera = true;
-//                Log.e("onActivityResult","camera was use");
-//
-//            } else {
-//                final String action = data.getAction();
-//                if (action == null) {
-//                    Log.e("onActivityResult","camera was not use");
-//
-//                    isCamera = false;
-//                } else {
-//                    isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-//                }
-//            }
-//
-//            Uri lImageFile;
-//            if (isCamera) {
-//                lImageFile = outputFileUri;
-//                Log.e("onActivityResult path",outputFileUri.getPath());
-//
-//
-//            } else {
-//                lImageFile = data == null ? null : data.getData();
-//            }
-//
-//            Log.e("onActivityResult","back from camera");
-//
-//            Glide.with(Main.this)
-//                    .load(lImageFile)
-//                    .asBitmap()
-//                    .centerCrop()
-//                    .placeholder(R.drawable.image_icon_avatar)
-//                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                    .skipMemoryCache(true)
-//                    .into(new BitmapImageViewTarget(photo) {
-//
-//                        @Override
-//                        protected void setResource(Bitmap resource) {
-//
-//                            RoundedBitmapDrawable c = RoundedBitmapDrawableFactory.create(getResources(), resource);
-//                            c.setCircular(true);
-//                            Log.e("onActivityResult","Before Execute");
-//
-//                            updateUserImage(getBytesForBitmap(resource));
-//                            photo.setImageDrawable(c);
-//
-//                        }
-//                    });
-//
-//            Log.e("onActivityResult","After everything");
+            }else {
+            final boolean isCamera;
+            if (data == null) {
+                isCamera = true;
+                Log.e("onActivityResult","camera was use");
 
+            } else {
+                final String action = data.getAction();
+                if (action == null) {
+                    Log.e("onActivityResult","camera was not use");
+
+                    isCamera = false;
+                } else {
+                    isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                }
+            }
+
+            Uri lImageFile;
+            if (isCamera) {
+                lImageFile = outputFileUri;
+                Log.e("onActivityResult path",outputFileUri.getPath());
+
+
+            } else {
+                lImageFile = data == null ? null : data.getData();
+            }
+
+            Log.e("onActivityResult","back from camera");
+
+            Glide.with(Main.this)
+                    .load(lImageFile)
+                    .asBitmap()
+                    .centerCrop()
+                    .placeholder(R.drawable.image_icon_avatar)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(new BitmapImageViewTarget(photo) {
+
+                        @Override
+                        protected void setResource(Bitmap resource) {
+
+                            RoundedBitmapDrawable c = RoundedBitmapDrawableFactory.create(getResources(), resource);
+                            c.setCircular(true);
+                            Log.e("onActivityResult","Before Execute");
+
+                            updateUserImage(getBytesForBitmap(resource));
+                            photo.setImageDrawable(c);
+
+                        }
+                    });
+
+            Log.e("onActivityResult","After everything");
+            }
         }//media intent
         else if (requestCode == IntentAdd && resultCode == Activity.RESULT_OK) {
             BOAPI.gUserVehicles.add(new Vehicle(
@@ -356,70 +362,74 @@ public class Main extends AppCompatActivity {
     }//on resume
 
     private void addPhoto() {
-//
-//        // Determine Uri of camera image to save.
-//        final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "MyDir" + File.separator);
-//        root.mkdirs();
-//        final String fname = "img_"+ System.currentTimeMillis() + ".jpg";
-//        final File sdImageMainDirectory = new File(root, fname);
-//        outputFileUri = Uri.fromFile(sdImageMainDirectory);
-//
-//        // Camera.
-//        List<Intent> cameraIntents = new ArrayList<Intent>();
-//        Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        PackageManager packageManager = getPackageManager();
-//        List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-//        for (ResolveInfo res : listCam) {
-//            String packageName = res.activityInfo.packageName;
-//            Intent intent = new Intent(captureIntent);
-//            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-//            intent.setPackage(packageName);
-//
-//            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-//
-//            cameraIntents.add(intent);
-//        }
-//
-//        // Filesystem.
-//        final Intent galleryIntent = new Intent();
-//        galleryIntent.setType("image/jpeg");
-//        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-//
-//        // Chooser of filesystem options.
-//        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select an image");
-//
-//        // Add the camera options.
-//        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
-//        if (captureIntent.resolveActivity(getPackageManager()) != null) {
-//
-//            startActivityForResult(chooserIntent, IntentMedia);
-//        }
-        // Camera.
-        final List<Intent> cameraIntents = new ArrayList<Intent>();
-        final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        final PackageManager packageManager = getPackageManager();
-        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-        for (ResolveInfo res : listCam) {
-            final String packageName = res.activityInfo.packageName;
-            final Intent intent = new Intent(captureIntent);
-            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-            intent.setPackage(packageName);
-            intent.putExtra(MediaStore.MEDIA_IGNORE_FILENAME, ".nomedia");
+        PermissionUtils.requestAppPermissions(Main.this);
+        if (currentapiVersion > Build.VERSION_CODES.LOLLIPOP) {
 
-            cameraIntents.add(intent);
+            // Determine Uri of camera image to save.
+            final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "MyDir" + File.separator);
+            root.mkdirs();
+            final String fname = "img_" + System.currentTimeMillis() + ".jpg";
+            final File sdImageMainDirectory = new File(root, fname);
+            outputFileUri = Uri.fromFile(sdImageMainDirectory);
+
+            // Camera.
+            List<Intent> cameraIntents = new ArrayList<Intent>();
+            Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            PackageManager packageManager = getPackageManager();
+            List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+            for (ResolveInfo res : listCam) {
+                String packageName = res.activityInfo.packageName;
+                Intent intent = new Intent(captureIntent);
+                intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+                intent.setPackage(packageName);
+
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+
+                cameraIntents.add(intent);
+            }
+
+            // Filesystem.
+            final Intent galleryIntent = new Intent();
+            galleryIntent.setType("image/jpeg");
+            galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+
+            // Chooser of filesystem options.
+            final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select an image");
+
+            // Add the camera options.
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
+            if (captureIntent.resolveActivity(getPackageManager()) != null) {
+
+                startActivityForResult(chooserIntent, IntentMedia);
+            }
+        }else {
+            // Camera.
+            final List<Intent> cameraIntents = new ArrayList<Intent>();
+            final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            final PackageManager packageManager = getPackageManager();
+            final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+            for (ResolveInfo res : listCam) {
+                final String packageName = res.activityInfo.packageName;
+                final Intent intent = new Intent(captureIntent);
+                intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+                intent.setPackage(packageName);
+                intent.putExtra(MediaStore.MEDIA_IGNORE_FILENAME, ".nomedia");
+
+                cameraIntents.add(intent);
+            }
+
+            // Filesystem.
+            final Intent galleryIntent = new Intent();
+            galleryIntent.setType("image/*");
+            galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+
+            // Chooser of filesystem options.
+            final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select an image");
+
+            // Add the camera options.
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
+            startActivityForResult(chooserIntent, IntentMedia);
         }
-
-        // Filesystem.
-        final Intent galleryIntent = new Intent();
-        galleryIntent.setType("image/*");
-        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-
-        // Chooser of filesystem options.
-        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select an image");
-
-        // Add the camera options.
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
-        startActivityForResult(chooserIntent, IntentMedia);
     }//add photo
 
     void getUserInfo(final String email) {
